@@ -1,16 +1,17 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  Router,
   Switch,
   Route
 } from 'react-router-dom';
+import history from './config/history';
 import Home from './components/Home/Home'
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
 
 export default function App() {
   return (
-    <Router>
+    <Router history={history}>
       <Switch>
         <Route path='/login'>
           <Login/>
