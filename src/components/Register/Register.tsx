@@ -1,23 +1,23 @@
 import React from 'react';
 import {Input, Button} from 'antd';
 import axios from '../../config/axios';
-import {Link} from 'react-router-dom';
-import './Register.less'
+import {Link, useHistory} from 'react-router-dom';
+import './Register.less';
 
 export default function () {
   const [account, setAccount] = React.useState();
   const [password, setPassword] = React.useState();
   const [passwordConfirmation, setPasswordConfirmation] = React.useState();
+  let history = useHistory();
 
   const onRegister = async () => {
     try {
-      console.log('run');
       await axios.post('sign_up/user', {
         account,
         password,
         password_confirmation: passwordConfirmation
       });
-      console.log('success');
+      history.push('/');
     } catch (e) {
       throw new Error(e);
     }
