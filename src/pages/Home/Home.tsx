@@ -2,8 +2,8 @@ import React from 'react';
 import {Dropdown, Menu, Icon} from 'antd';
 import history from '../../config/history';
 import axios from '../../config/axios';
-import Todos from '../../components/Todos/Todos'
-import './Home.less'
+import Todos from '../../components/Todos/Todos';
+import './Home.less';
 
 const onLogout = () => {
   localStorage.setItem('x-token', '');
@@ -33,7 +33,7 @@ export default function () {
       await getMe();
     };
     getHome();
-  },[]);
+  }, []);
 
   const getMe = async () => {
     try {
@@ -53,7 +53,9 @@ export default function () {
           </div>
         </Dropdown>
       </header>
-      <Todos/>
+      <main>
+        <Todos/>
+      </main>
     </div>
   );
 }
