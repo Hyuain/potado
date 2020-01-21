@@ -5,13 +5,19 @@ interface ITodoItemProps {
   id: number;
   description: string;
   completed: boolean;
+  editing: boolean;
   update: (id: number, params: any) => void;
+  toEditing: (id: number)=> void;
 }
 
 export default function (props: ITodoItemProps) {
 
   const update = (params: any) => {
     props.update(props.id, params);
+  };
+
+  const toEditing = () => {
+    props.toEditing(props.id);
   };
 
   return (
@@ -22,8 +28,11 @@ export default function (props: ITodoItemProps) {
           update({completed: e.target.checked});
         }}
       />
-      <span>{props.description}</span>
-
+      {
+        props.editing ?
+          <input type="text" value={props.description}/> :
+          <span onDoubleClick={toEditing}>{props.description}</span>
+      }
     </div>
   );
 }

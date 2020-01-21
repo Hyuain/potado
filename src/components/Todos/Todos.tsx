@@ -23,7 +23,8 @@ export default function () {
   const getTodos = async () => {
     try {
       const response = await axios.get('todos');
-      setTodos(response.data.resources);
+      const todos = response.data.resources.map((todo: any) => Object.assign({}, todo, {editing: false}));
+      setTodos(todos);
     } catch (e) {
     }
   };
@@ -35,12 +36,24 @@ export default function () {
         if (id === todo.id) {
           return response.data.resource;
         } else {
-          return todo
+          return todo;
         }
       });
       setTodos(newTodos);
     } catch (e) {
     }
+  };
+
+  const toEditing = (id: number) => {
+    const newTodos = todos.map(todo => {
+      if (id === todo.id) {
+        console.log(todo);
+        return Object.assign({}, todo, {editing: true});
+      } else {
+        return Object.assign({}, todo, {editing: false});
+      }
+    });
+    setTodos(newTodos)
   };
 
   return (
@@ -54,6 +67,7 @@ export default function () {
             <TodoItem
               key={todo.id} {...todo}
               update={updateTodo}
+              toEditing={toEditing}
             />
           ))
         }
