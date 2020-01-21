@@ -1,5 +1,7 @@
 import React from 'react';
 import {Checkbox, Icon} from 'antd';
+import classNames from 'classnames';
+import './TodoItem.less';
 
 interface ITodoItemProps {
   id: number;
@@ -28,8 +30,8 @@ export default function (props: ITodoItemProps) {
     }
   };
 
-  const Editing = (
-    <div className="editing">
+  const EditField = (
+    <div className="edit-filed">
       <input type="text"
              value={textContent}
              onChange={(e) => {
@@ -37,24 +39,34 @@ export default function (props: ITodoItemProps) {
              }}
              onKeyUp={onKeyup}
       />
-      <div className="iconWrapper">
-        <Icon type="enter"/>
+      <div className="icon-wrapper">
+        <Icon type="enter" onClick={() => {
+          update({description: textContent});
+        }}/>
         <Icon type="delete" theme="filled" onClick={() => update({deleted: true})}/>
       </div>
     </div>
   );
 
-  const Text = (<span onDoubleClick={toEditing}>{textContent}</span>);
+  const Text = (
+    <span className="text" onDoubleClick={toEditing}>{textContent}</span>
+  );
+
+  const todoItemClass = classNames({
+    'todo-item': true,
+    'editing': props.editing,
+    'completed': props.completed
+  });
 
   return (
-    <div className="todo-item">
+    <div className={todoItemClass}>
       <Checkbox
         checked={props.completed}
         onChange={(e) => {
           update({completed: e.target.checked});
         }}
       />
-      {props.editing ? Editing : Text}
+      {props.editing ? EditField : Text}
     </div>
   );
 }

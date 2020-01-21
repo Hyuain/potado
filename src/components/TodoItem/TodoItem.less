@@ -1,0 +1,43 @@
+.todo-item{
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  &:hover{
+    background: #f9f9f9;
+  }
+  &.editing{
+    background: #fff3d2;
+  }
+  &.completed{
+    .text{
+      text-decoration: line-through;
+      color: #a9a9a9;
+    }
+  }
+  .edit-filed,.text{
+    padding-left: 8px;
+    flex: 1;
+  }
+  .edit-filed{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    input{
+      background: inherit;
+      width: 100%;
+      border: none;
+      outline: none;
+    }
+    .icon-wrapper{
+      flex-shrink: 0;
+      i{
+        margin-left: 4px;
+        color: #a9a9a9;
+      }
+    }
+  }
+  .text{
+    display: flex;
+  }
+}
