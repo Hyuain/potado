@@ -47,7 +47,6 @@ export default function () {
   const toEditing = (id: number) => {
     const newTodos = todos.map(todo => {
       if (id === todo.id) {
-        console.log(todo);
         return Object.assign({}, todo, {editing: true});
       } else {
         return Object.assign({}, todo, {editing: false});
