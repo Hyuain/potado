@@ -6,12 +6,25 @@ import './Todos.less';
 
 export default function () {
 
+  const [todos, setTodos] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    getTodos();
+  }, []);
+
   const addTodo = async (params: any) => {
     try {
       const response = await axios.post('todos', params);
-      console.log(response.data);
+      setTodos([response.data.resource, ...todos]);
     } catch (e) {
-      throw new Error(e);
+    }
+  };
+
+  const getTodos = async () => {
+    try {
+      const response = await axios.get('todos');
+      setTodos(response.data.resources);
+    } catch (e) {
     }
   };
 
@@ -20,6 +33,13 @@ export default function () {
       <TodoInput addTodo={(params: any) => {
         addTodo(params);
       }}/>
+      <main>
+        {
+          todos.map(todo => {
+            return <div key={todo.id}>{todo.description}</div>;
+          })
+        }
+      </main>
     </div>
   );
 }

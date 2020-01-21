@@ -29,10 +29,7 @@ export default function () {
   const [user, setUser] = React.useState<any>({});
 
   React.useEffect(() => {
-    const getHome = async () => {
-      await getMe();
-    };
-    getHome();
+    getMe();
   }, []);
 
   const getMe = async () => {
