@@ -1,8 +1,8 @@
 import React from 'react';
-import TodoInput from '../TodoInput/TodoInput';
 import axios from '../../config/axios';
 import './Todos.less';
-
+import TodoInput from '../TodoInput/TodoInput';
+import TodoItem from '../TodoItem/TodoItem'
 
 export default function () {
 
@@ -36,7 +36,7 @@ export default function () {
       <main>
         {
           todos.map(todo => {
-            return <div key={todo.id}>{todo.description}</div>;
+            return <TodoItem key={todo.id} {...todo}/>;
           })
         }
       </main>
