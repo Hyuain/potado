@@ -2,7 +2,7 @@ import React from 'react';
 import axios from '../../config/axios';
 import './Todos.less';
 import TodoInput from '../TodoInput/TodoInput';
-import TodoItem from '../TodoItem/TodoItem'
+import TodoItem from '../TodoItem/TodoItem';
 
 export default function () {
 
@@ -28,6 +28,21 @@ export default function () {
     }
   };
 
+  const updateTodo = async (id: number, params: any) => {
+    try {
+      const response = await axios.put(`todos/${id}`, params);
+      const newTodos = todos.map(todo => {
+        if (id === todo.id) {
+          return response.data.resource;
+        } else {
+          return todo
+        }
+      });
+      setTodos(newTodos);
+    } catch (e) {
+    }
+  };
+
   return (
     <div className="todos">
       <TodoInput addTodo={(params: any) => {
@@ -35,9 +50,12 @@ export default function () {
       }}/>
       <main>
         {
-          todos.map(todo => {
-            return <TodoItem key={todo.id} {...todo}/>;
-          })
+          todos.map(todo => (
+            <TodoItem
+              key={todo.id} {...todo}
+              update={updateTodo}
+            />
+          ))
         }
       </main>
     </div>
