@@ -14,7 +14,10 @@ export default function () {
 
 
   React.useEffect(() => {
-    getTodos();
+    const x = async () => {
+      await getTodos();
+    };
+    x();
   });
 
   const resetTodos = (newTodos: any) => {
@@ -67,7 +70,7 @@ export default function () {
         return Object.assign({}, todo, {editing: false});
       }
     });
-    resetTodos(newTodos)
+    resetTodos(newTodos);
   };
 
   return (
