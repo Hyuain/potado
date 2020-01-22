@@ -14,11 +14,16 @@ export default function () {
 
 
   React.useEffect(() => {
-    const x = async () => {
-      await getTodos();
+    const getTodos = async () => {
+      try {
+        const response = await axios.get('todos');
+        const todos = response.data.resources.map((todo: any) => Object.assign({}, todo, {editing: false}));
+        resetTodos(todos);
+      } catch (e) {
+      }
     };
-    x();
-  });
+    getTodos();
+  },[]);
 
   const resetTodos = (newTodos: any) => {
     const unDeletedTodos = newTodos.filter((todo: any) => !todo.deleted);
@@ -35,17 +40,11 @@ export default function () {
       const response = await axios.post('todos', params);
       resetTodos([response.data.resource, ...todos]);
     } catch (e) {
+      console.error(e)
     }
   };
 
-  const getTodos = async () => {
-    try {
-      const response = await axios.get('todos');
-      const todos = response.data.resources.map((todo: any) => Object.assign({}, todo, {editing: false}));
-      resetTodos(todos);
-    } catch (e) {
-    }
-  };
+
 
   const updateTodo = async (id: number, params: any) => {
     try {
