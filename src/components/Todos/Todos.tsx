@@ -77,7 +77,7 @@ export default function () {
       <TodoInput addTodo={(params: any) => {
         addTodo(params);
       }}/>
-      <main>
+      <div className="todo-list">
         {
           unCompletedTodos.map(todo => (
             <TodoItem
@@ -96,7 +96,7 @@ export default function () {
             />
           ))
         }
-      </main>
+      </div>
     </div>
   );
 }
