@@ -1,10 +1,13 @@
 import React from 'react';
 import axios from '../../config/axios';
+import {connect} from 'react-redux';
+import {addTodo} from '../../redux/actions';
+
 import './Todos.less';
 import TodoInput from '../TodoInput/TodoInput';
 import TodoItem from '../TodoItem/TodoItem';
 
-export default function () {
+const Todos = () => {
 
   const [todos, setTodos] = React.useState<any[]>([]);
   // eslint-disable-next-line
@@ -23,7 +26,7 @@ export default function () {
       }
     };
     getTodos();
-  },[]);
+  }, []);
 
   const resetTodos = (newTodos: any) => {
     const unDeletedTodos = newTodos.filter((todo: any) => !todo.deleted);
@@ -40,10 +43,9 @@ export default function () {
       const response = await axios.post('todos', params);
       resetTodos([response.data.resource, ...todos]);
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   };
-
 
 
   const updateTodo = async (id: number, params: any) => {
@@ -74,9 +76,7 @@ export default function () {
 
   return (
     <div className="todos">
-      <TodoInput addTodo={(params: any) => {
-        addTodo(params);
-      }}/>
+      <TodoInput/>
       <div className="todo-list">
         {
           unCompletedTodos.map(todo => (
@@ -99,4 +99,18 @@ export default function () {
       </div>
     </div>
   );
-}
+};
+
+const mapStateToProps = (state:any, ownProps:any) => ({
+  todos: state.todos,
+  ...ownProps
+});
+
+const mapDispatchToProps = {
+  addTodo
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Todos);
