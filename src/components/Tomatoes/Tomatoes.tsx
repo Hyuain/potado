@@ -1,11 +1,13 @@
 import React from 'react';
-import axios from '../../config/axios';
+import TomatoAction from './TomatoAction/TomatoAction';
 
 import './Tomatoes.less'
 
 const Tomatoes = () => {
   return (
-    <div className="tomatoes"></div>
+    <div className="tomatoes">
+      <TomatoAction/>
+    </div>
   );
 };
 

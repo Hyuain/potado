@@ -1,7 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {addTodo} from '../../../redux/actions';
 import axios from '../../../config/axios';
+
+import {connect} from 'react-redux';
+import actions from '../../../redux/actions/index';
 
 import {Input, Icon} from 'antd';
 import './TodoInput.less';
@@ -51,7 +52,7 @@ const mapStateToProps = (state: any, ownProps: any) => ({
 });
 
 const mapDispatchToProps = {
-  addTodo
+  addTodo: actions.addTodo
 };
 
 export default connect(

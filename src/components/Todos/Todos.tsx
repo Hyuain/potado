@@ -1,13 +1,14 @@
 import React from 'react';
 import axios from '../../config/axios';
+
 import {connect} from 'react-redux';
-import {initTodos, updateTodo} from '../../redux/actions';
+import actions from '../../redux/actions/index';
 import {TODO_FILTERS} from '../../constants';
 import {getTodosByFilter} from '../../redux/selectors';
 
-import './Todos.less';
 import TodoInput from './TodoInput/TodoInput';
 import TodoItem from './TodoItem/TodoItem';
+import './Todos.less';
 
 
 const Todos = (props: any) => {
@@ -61,8 +62,8 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-  initTodos,
-  updateTodo
+  initTodos: actions.initTodos,
+  updateTodo: actions.updateTodo
 };
 
 export default connect(

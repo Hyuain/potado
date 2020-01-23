@@ -1,8 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {editTodo, updateTodo} from '../../../redux/actions';
-import classNames from 'classnames';
 import axios from '../../../config/axios';
+import classNames from 'classnames';
+
+import {connect} from 'react-redux';
+import actions from '../../../redux/actions/index';
 
 import {Checkbox, Icon} from 'antd';
 import './TodoItem.less';
@@ -12,8 +13,8 @@ interface ITodoItemProps {
   description: string;
   completed: boolean;
   editing: boolean;
-  updateTodo: (payload:any)=>any;
-  editTodo:(id:number)=>any;
+  updateTodo: (payload: any) => any;
+  editTodo: (id: number) => any;
 }
 
 const TodoItem = (props: ITodoItemProps) => {
@@ -79,13 +80,13 @@ const TodoItem = (props: ITodoItemProps) => {
   );
 };
 
-const mapStateToProps = (state:any, ownProps:any) => ({
+const mapStateToProps = (state: any, ownProps: any) => ({
   ...ownProps
 });
 
 const mapDispatchToProps = {
-  editTodo,
-  updateTodo
+  editTodo: actions.editTodo,
+  updateTodo: actions.updateTodo
 };
 
 export default connect(
