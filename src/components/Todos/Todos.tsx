@@ -6,8 +6,8 @@ import {TODO_FILTERS} from '../../constants';
 import {getTodosByFilter} from '../../redux/selectors';
 
 import './Todos.less';
-import TodoInput from '../TodoInput/TodoInput';
-import TodoItem from '../TodoItem/TodoItem';
+import TodoInput from './TodoInput/TodoInput';
+import TodoItem from './TodoItem/TodoItem';
 
 
 const Todos = (props: any) => {

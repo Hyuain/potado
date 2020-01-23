@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {editTodo, updateTodo} from '../../redux/actions';
+import {editTodo, updateTodo} from '../../../redux/actions';
 import classNames from 'classnames';
+import axios from '../../../config/axios';
 
 import {Checkbox, Icon} from 'antd';
 import './TodoItem.less';
-import axios from '../../config/axios';
 
 interface ITodoItemProps {
   id: number;

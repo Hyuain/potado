@@ -2,7 +2,10 @@ import React from 'react';
 import {Dropdown, Menu, Icon} from 'antd';
 import history from '../../config/history';
 import axios from '../../config/axios';
+
 import Todos from '../../components/Todos/Todos';
+import Tomatoes from '../../components/Tomatoes/Tomatoes';
+
 import './Home.less';
 
 const onLogout = () => {
@@ -51,6 +54,7 @@ export default function () {
         </Dropdown>
       </header>
       <main>
+        <Tomatoes/>
         <Todos/>
       </main>
     </div>

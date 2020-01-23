@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {addTodo} from '../../redux/actions';
-import axios from '../../config/axios';
+import {addTodo} from '../../../redux/actions';
+import axios from '../../../config/axios';
 
 import {Input, Icon} from 'antd';
 import './TodoInput.less';
