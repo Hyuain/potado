@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from '../../config/axios';
 import {connect} from 'react-redux';
-import {initTodos,updateTodo,editTodo} from '../../redux/actions';
+import {initTodos,updateTodo} from '../../redux/actions';
 import {TODO_FILTERS} from '../../constants';
 import {getTodosByFilter} from '../../redux/selectors';
 
@@ -30,17 +30,6 @@ const Todos = (props:any) => {
     getTodos();
   }, []);
 
-  const updateTodo = async (id: number, params: any) => {
-    try {
-      const response = await axios.put(`todos/${id}`, params);
-      props.updateTodo(response.data.resource);
-    } catch (e) {
-    }
-  };
-
-  const toEditing = (id: number) => {
-     props.editTodo(id)
-  };
 
   return (
     <div className="todos">
@@ -50,8 +39,6 @@ const Todos = (props:any) => {
           props.incompleteTodos.map((todo:any) => (
             <TodoItem
               key={todo.id} {...todo}
-              update={updateTodo}
-              toEditing={toEditing}
             />
           ))
         }
@@ -59,8 +46,6 @@ const Todos = (props:any) => {
           props.completedTodos.map((todo:any) => (
             <TodoItem
               key={todo.id} {...todo}
-              update={updateTodo}
-              toEditing={toEditing}
             />
           ))
         }
@@ -82,8 +67,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = {
   initTodos,
-  updateTodo,
-  editTodo
+  updateTodo
 };
 
 export default connect(

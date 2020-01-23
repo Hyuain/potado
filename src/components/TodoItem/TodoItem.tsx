@@ -1,32 +1,40 @@
 import React from 'react';
-import {Checkbox, Icon} from 'antd';
+import {connect} from 'react-redux';
+import {editTodo, updateTodo} from '../../redux/actions';
 import classNames from 'classnames';
+
+import {Checkbox, Icon} from 'antd';
 import './TodoItem.less';
+import axios from '../../config/axios';
 
 interface ITodoItemProps {
   id: number;
   description: string;
   completed: boolean;
   editing: boolean;
-  update: (id: number, params: any) => void;
-  toEditing: (id: number) => void;
+  updateTodo: (payload:any)=>any;
+  editTodo:(id:number)=>any;
 }
 
-export default function (props: ITodoItemProps) {
+const TodoItem = (props: ITodoItemProps) => {
 
   const [textContent, setTextContent] = React.useState(props.description);
 
-  const update = (params: any) => {
-    props.update(props.id, params);
+  const updateTodo = async (params: any) => {
+    try {
+      const response = await axios.put(`todos/${props.id}`, params);
+      props.updateTodo(response.data.resource);
+    } catch (e) {
+    }
   };
 
-  const toEditing = () => {
-    props.toEditing(props.id);
+  const editTodo = () => {
+    props.editTodo(props.id);
   };
 
   const onKeyup = (e: any) => {
     if (e.keyCode === 13 && textContent !== '') {
-      update({description: textContent});
+      updateTodo({description: textContent});
     }
   };
 
@@ -41,15 +49,15 @@ export default function (props: ITodoItemProps) {
       />
       <div className="icon-wrapper">
         <Icon type="enter" onClick={() => {
-          update({description: textContent});
+          updateTodo({description: textContent});
         }}/>
-        <Icon type="delete" theme="filled" onClick={() => update({deleted: true})}/>
+        <Icon type="delete" theme="filled" onClick={() => updateTodo({deleted: true})}/>
       </div>
     </div>
   );
 
   const Text = (
-    <span className="text" onDoubleClick={toEditing}>{textContent}</span>
+    <span className="text" onDoubleClick={editTodo}>{textContent}</span>
   );
 
   const todoItemClass = classNames({
@@ -63,10 +71,24 @@ export default function (props: ITodoItemProps) {
       <Checkbox
         checked={props.completed}
         onChange={(e) => {
-          update({completed: e.target.checked});
+          updateTodo({completed: e.target.checked});
         }}
       />
       {props.editing ? EditField : Text}
     </div>
   );
-}
+};
+
+const mapStateToProps = (state:any, ownProps:any) => ({
+  ...ownProps
+});
+
+const mapDispatchToProps = {
+  editTodo,
+  updateTodo
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoItem);
