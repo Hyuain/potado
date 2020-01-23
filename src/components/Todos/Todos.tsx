@@ -1,77 +1,45 @@
 import React from 'react';
 import axios from '../../config/axios';
 import {connect} from 'react-redux';
-import {addTodo} from '../../redux/actions';
+import {initTodos,updateTodo,editTodo} from '../../redux/actions';
+import {TODO_FILTERS} from '../../constants';
+import {getTodosByFilter} from '../../redux/selectors';
 
 import './Todos.less';
 import TodoInput from '../TodoInput/TodoInput';
 import TodoItem from '../TodoItem/TodoItem';
 
-const Todos = () => {
 
-  const [todos, setTodos] = React.useState<any[]>([]);
-  // eslint-disable-next-line
-  const [unDeletedTodos, setUnDeletedTodos] = React.useState<any[]>([]);
-  const [unCompletedTodos, setUnCompletedTodos] = React.useState<any[]>([]);
-  const [completedTodos, setCompletedTodos] = React.useState<any[]>([]);
+const Todos = (props:any) => {
 
+  console.log('---');
+  console.log(props.todos);
+  console.log(props.completedTodos);
+  console.log(props.incompleteTodos);
+  console.log('---');
 
   React.useEffect(() => {
     const getTodos = async () => {
       try {
         const response = await axios.get('todos');
         const todos = response.data.resources.map((todo: any) => Object.assign({}, todo, {editing: false}));
-        resetTodos(todos);
+        props.initTodos(todos);
       } catch (e) {
       }
     };
     getTodos();
   }, []);
 
-  const resetTodos = (newTodos: any) => {
-    const unDeletedTodos = newTodos.filter((todo: any) => !todo.deleted);
-    const unCompletedTodos = unDeletedTodos.filter((todo: any) => !todo.completed);
-    const completeTodos = unDeletedTodos.filter((todo: any) => todo.completed);
-    setTodos(newTodos);
-    setUnDeletedTodos(unDeletedTodos);
-    setUnCompletedTodos(unCompletedTodos);
-    setCompletedTodos(completeTodos);
-  };
-
-  const addTodo = async (params: any) => {
-    try {
-      const response = await axios.post('todos', params);
-      resetTodos([response.data.resource, ...todos]);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-
   const updateTodo = async (id: number, params: any) => {
     try {
       const response = await axios.put(`todos/${id}`, params);
-      const newTodos = todos.map(todo => {
-        if (id === todo.id) {
-          return response.data.resource;
-        } else {
-          return todo;
-        }
-      });
-      resetTodos(newTodos);
+      props.updateTodo(response.data.resource);
     } catch (e) {
     }
   };
 
   const toEditing = (id: number) => {
-    const newTodos = todos.map(todo => {
-      if (id === todo.id) {
-        return Object.assign({}, todo, {editing: true});
-      } else {
-        return Object.assign({}, todo, {editing: false});
-      }
-    });
-    resetTodos(newTodos);
+     props.editTodo(id)
   };
 
   return (
@@ -79,7 +47,7 @@ const Todos = () => {
       <TodoInput/>
       <div className="todo-list">
         {
-          unCompletedTodos.map(todo => (
+          props.incompleteTodos.map((todo:any) => (
             <TodoItem
               key={todo.id} {...todo}
               update={updateTodo}
@@ -88,7 +56,7 @@ const Todos = () => {
           ))
         }
         {
-          completedTodos.map(todo => (
+          props.completedTodos.map((todo:any) => (
             <TodoItem
               key={todo.id} {...todo}
               update={updateTodo}
@@ -101,13 +69,21 @@ const Todos = () => {
   );
 };
 
-const mapStateToProps = (state:any, ownProps:any) => ({
-  todos: state.todos,
-  ...ownProps
-});
+const mapStateToProps = (state: any, ownProps: any) => {
+  const todos = state.todos;
+  const completedTodos = getTodosByFilter(state, TODO_FILTERS.COMPLETED);
+  const incompleteTodos = getTodosByFilter(state, TODO_FILTERS.INCOMPLETE);
+  return {
+    todos,
+    completedTodos,
+    incompleteTodos,
+    ...ownProps};
+};
 
 const mapDispatchToProps = {
-  addTodo
+  initTodos,
+  updateTodo,
+  editTodo
 };
 
 export default connect(
