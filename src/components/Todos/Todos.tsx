@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from '../../config/axios';
 import {connect} from 'react-redux';
-import {initTodos,updateTodo} from '../../redux/actions';
+import {initTodos, updateTodo} from '../../redux/actions';
 import {TODO_FILTERS} from '../../constants';
 import {getTodosByFilter} from '../../redux/selectors';
 
@@ -10,13 +10,7 @@ import TodoInput from '../TodoInput/TodoInput';
 import TodoItem from '../TodoItem/TodoItem';
 
 
-const Todos = (props:any) => {
-
-  console.log('---');
-  console.log(props.todos);
-  console.log(props.completedTodos);
-  console.log(props.incompleteTodos);
-  console.log('---');
+const Todos = (props: any) => {
 
   React.useEffect(() => {
     const getTodos = async () => {
@@ -28,6 +22,7 @@ const Todos = (props:any) => {
       }
     };
     getTodos();
+    // eslint-disable-next-line
   }, []);
 
 
@@ -36,14 +31,14 @@ const Todos = (props:any) => {
       <TodoInput/>
       <div className="todo-list">
         {
-          props.incompleteTodos.map((todo:any) => (
+          props.incompleteTodos.map((todo: any) => (
             <TodoItem
               key={todo.id} {...todo}
             />
           ))
         }
         {
-          props.completedTodos.map((todo:any) => (
+          props.completedTodos.map((todo: any) => (
             <TodoItem
               key={todo.id} {...todo}
             />
@@ -54,15 +49,15 @@ const Todos = (props:any) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
+const mapStateToProps = (state: any) => {
   const todos = state.todos;
   const completedTodos = getTodosByFilter(state, TODO_FILTERS.COMPLETED);
   const incompleteTodos = getTodosByFilter(state, TODO_FILTERS.INCOMPLETE);
   return {
     todos,
     completedTodos,
-    incompleteTodos,
-    ...ownProps};
+    incompleteTodos
+  };
 };
 
 const mapDispatchToProps = {
