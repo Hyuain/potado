@@ -3,3 +3,9 @@ export const TODO_FILTERS = {
   COMPLETED: 'completed',
   INCOMPLETE: 'incomplete'
 };
+
+export const TOMATO_FILTERS = {
+  ALL: 'all',
+  FINISHED: 'finished',
+  UNFINISHED: 'unfinished'
+};
