@@ -2,7 +2,7 @@ import React from 'react';
 import axios from '../../config/axios';
 
 import {connect} from 'react-redux';
-import actions from '../../redux/actions/index';
+import actions from '../../redux/actions';
 import {TODO_FILTERS} from '../../constants';
 import {getTodosByFilter} from '../../redux/selectors';
 

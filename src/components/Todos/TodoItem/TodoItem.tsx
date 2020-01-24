@@ -3,7 +3,7 @@ import axios from '../../../config/axios';
 import classNames from 'classnames';
 
 import {connect} from 'react-redux';
-import actions from '../../../redux/actions/index';
+import actions from '../../../redux/actions';
 
 import {Checkbox, Icon} from 'antd';
 import './TodoItem.less';
