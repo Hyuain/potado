@@ -13,6 +13,7 @@ interface ITomatoesProps {
   tomatoes: any[],
   addTomato: (payload: any) => any,
   initTomatoes: (payload: any) => any,
+  updateTomato: (payload: any) => any,
   unfinishedTomato: any
 }
 
@@ -42,7 +43,11 @@ const Tomatoes = (props: ITomatoesProps) => {
 
   return (
     <div className="tomatoes">
-      <TomatoAction startTomato={startTomato} unfinishedTomato={props.unfinishedTomato}/>
+      <TomatoAction
+        startTomato={startTomato}
+        updateTomato={props.updateTomato}
+        unfinishedTomato={props.unfinishedTomato}
+      />
     </div>
   );
 };
@@ -58,6 +63,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
   addTomato: actions.addTomato,
+  updateTomato: actions.updateTomato,
   initTomatoes: actions.initTomatoes
 };
 

@@ -3,11 +3,12 @@ import axios from '../../../config/axios';
 
 import CountDown from '../CountDown/CountDown';
 
-import {Button, Input} from 'antd';
+import {Button, Icon, Input} from 'antd';
 import './TomatoAction.less';
 
 interface ITomatoActionProps {
   startTomato: () => void,
+  updateTomato: (payload: any) => any,
   unfinishedTomato: any
 }
 
@@ -29,6 +30,7 @@ const TomatoAction = (props: ITomatoActionProps) => {
         description,
         ended_at: new Date()
       });
+      props.updateTomato(response.data.resources);
       setDescription('');
       console.log(response);
     } catch (e) {
@@ -53,6 +55,7 @@ const TomatoAction = (props: ITomatoActionProps) => {
             }}
             onKeyUp={onKeyup}
           />
+          <Icon type="close-circle"/>
         </div>
       );
     } else {
