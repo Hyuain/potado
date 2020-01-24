@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from '../../../config/axios';
 
+import CountDown from '../CountDown/CountDown';
+
 import {Button, Input} from 'antd';
 import './TomatoAction.less';
 
@@ -23,7 +25,10 @@ const TomatoAction = (props: ITomatoActionProps) => {
 
   const addDescription = async () => {
     try {
-      const response = await axios.put(`tomatoes/${props.unfinishedTomato.id}`, {description});
+      const response = await axios.put(`tomatoes/${props.unfinishedTomato.id}`, {
+        description,
+        ended_at: new Date()
+      });
       setDescription('');
       console.log(response);
     } catch (e) {
@@ -34,7 +39,7 @@ const TomatoAction = (props: ITomatoActionProps) => {
   if (props.unfinishedTomato === undefined) {
     html = <Button className="start-button" onClick={props.startTomato}>开始番茄</Button>;
   } else {
-    const startAt = Date.parse(props.unfinishedTomato.start_at);
+    const startAt = Date.parse(props.unfinishedTomato.started_at);
     const duration = props.unfinishedTomato.duration;
     const timeNow = new Date().getTime();
     if (timeNow - startAt > duration) {
@@ -42,6 +47,7 @@ const TomatoAction = (props: ITomatoActionProps) => {
         <div>
           <Input
             value={description}
+            placeholder="请输入刚刚完成的任务"
             onChange={(e) => {
               setDescription(e.target.value);
             }}
@@ -50,7 +56,7 @@ const TomatoAction = (props: ITomatoActionProps) => {
         </div>
       );
     } else {
-      html = <div>倒计时</div>;
+      html = <CountDown/>;
     }
   }
 
