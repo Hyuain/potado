@@ -30,7 +30,7 @@ const TomatoAction = (props: ITomatoActionProps) => {
         description,
         ended_at: new Date()
       });
-      props.updateTomato(response.data.resources);
+      props.updateTomato(response.data.resource);
       setDescription('');
       console.log(response);
     } catch (e) {
@@ -59,7 +59,8 @@ const TomatoAction = (props: ITomatoActionProps) => {
         </div>
       );
     } else {
-      html = <CountDown/>;
+      const timer = duration - timeNow + startAt;
+      html = <CountDown timer={timer}/>;
     }
   }
 
