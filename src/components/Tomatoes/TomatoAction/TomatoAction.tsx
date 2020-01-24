@@ -34,7 +34,6 @@ const TomatoAction = (props: ITomatoActionProps) => {
       setDescription('');
       console.log(response);
     } catch (e) {
-
     }
   };
 
