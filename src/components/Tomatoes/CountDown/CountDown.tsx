@@ -1,14 +1,14 @@
 import React from 'react';
+import './CountDown.less'
 
 interface ICountDownProps {
-  timer: number,
+  wholeTime: number,
+  duration: number,
   onFinish: () => void
 }
 
 interface IContDownStates {
-  over: boolean,
-  minutes: number,
-  seconds: number
+  restTime: number
 }
 
 let timerID: NodeJS.Timeout;
@@ -18,44 +18,24 @@ class CountDown extends React.Component <ICountDownProps, IContDownStates> {
   constructor(props: ICountDownProps) {
     super(props);
     this.state = {
-      over: false,
-      minutes: Math.floor(props.timer / (1000 * 60)),
-      seconds: Math.floor(props.timer / 1000 % 60)
+      restTime: this.props.wholeTime
     };
   }
 
   get countDown() {
-    return `${this.state.minutes.toString().padStart(2, '0')}:${this.state.seconds.toString().padStart(2, '0')}`;
-  };
-
-  tick = () => {
-    const {over, minutes, seconds} = this.state;
-    if (over) {
-      return;
-    }
-    if (minutes === 0 && seconds === 0) {
-      this.setState({over: true});
-    } else if (seconds === 0) {
-      this.setState({
-        minutes: minutes - 1,
-        seconds: 59
-      });
-    } else {
-      this.setState({
-        minutes: minutes,
-        seconds: seconds - 1
-      });
-    }
+    const minutes = Math.floor(this.state.restTime / 1000 / 60);
+    const seconds = Math.floor(this.state.restTime / 1000 % 60);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
   componentDidMount(): void {
     timerID = setInterval(() => {
-      this.tick();
+      const restTime = this.state.restTime;
+      this.setState({restTime: restTime - 1000});
       document.title = `${this.countDown} - 有一个番茄正在进行`;
-      if (this.state.over) {
+      if (restTime < 1000) {
         this.props.onFinish();
         clearInterval(timerID);
-        document.title = `Potado - 你的番茄土豆`;
       }
     }, 1000);
   }
@@ -66,10 +46,11 @@ class CountDown extends React.Component <ICountDownProps, IContDownStates> {
   }
 
   public render() {
+    const percent = 1 - this.state.restTime / this.props.duration;
     return (
       <div className="count-down">
-        {this.countDown}
-        <div className="process"></div>
+        <span>{this.countDown}</span>
+        <div className="progress-bar" style={{width: `${percent * 100}%`}}></div>
       </div>
     );
   }

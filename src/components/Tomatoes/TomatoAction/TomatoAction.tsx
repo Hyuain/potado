@@ -31,34 +31,45 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
     }
   };
 
-  addDescription = async () => {
+  addDescription = () => {
+    this.updateTomato({
+      description: this.state.description,
+      ended_at: new Date()
+    });
+    this.setState({description: ''});
+  };
+
+  abortTomato = () => {
+    this.updateTomato({
+      aborted: true
+    });
+    document.title = 'Potado - 你的番茄土豆';
+  };
+
+  updateTomato = async (params: any) => {
     try {
-      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, {
-        description: this.state.description,
-        ended_at: new Date()
-      });
+      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, params);
       this.props.updateTomato(response.data.resource);
-      this.setState({description: ''});
     } catch (e) {
     }
   };
 
-  onFinish = () =>{
+  onFinish = () => {
     this.forceUpdate();
-    document.title = '番茄闹钟';
+    document.title = 'Potado - 你的番茄土豆';
   };
 
   public render() {
     let html = <div/>;
     if (this.props.unfinishedTomato === undefined) {
-      html = <Button className="start-button" onClick={this.props.startTomato}>开始番茄</Button>;
+      html = <Button className="start-button" onClick={this.props.startTomato}>开始一个番茄</Button>;
     } else {
       const startAt = Date.parse(this.props.unfinishedTomato.started_at);
       const duration = this.props.unfinishedTomato.duration;
       const timeNow = new Date().getTime();
       if (timeNow - startAt > duration) {
         html = (
-          <div>
+          <div className="input-wrapper">
             <Input
               value={this.state.description}
               placeholder="请输入刚刚完成的任务"
@@ -67,12 +78,29 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
               }}
               onKeyUp={this.onKeyup}
             />
-            <Icon type="close-circle"/>
+            <Icon
+              type="close-circle"
+              className="abort"
+              onClick={this.abortTomato}
+            />
           </div>
         );
       } else {
-        const timer = duration - timeNow + startAt;
-        html = <CountDown timer={timer} onFinish={this.onFinish}/>;
+        const wholeTime = duration - timeNow + startAt;
+        html = (
+          <div className="count-down-wrapper">
+            <CountDown
+              wholeTime={wholeTime}
+              duration={duration}
+              onFinish={this.onFinish}
+            />
+            <Icon
+              type="close-circle"
+              className="abort"
+              onClick={this.abortTomato}
+            />
+          </div>
+        );
       }
     }
     return (
