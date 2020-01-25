@@ -24,15 +24,14 @@ class CountDown extends React.Component <ICountDownProps, IContDownStates> {
     };
   }
 
-  get countDown () {
+  get countDown() {
     return `${this.state.minutes.toString().padStart(2, '0')}:${this.state.seconds.toString().padStart(2, '0')}`;
   };
 
   tick = () => {
     const {over, minutes, seconds} = this.state;
     if (over) {
-      this.props.onFinish();
-      clearInterval(timerID);
+      return;
     }
     if (minutes === 0 && seconds === 0) {
       this.setState({over: true});
@@ -53,18 +52,24 @@ class CountDown extends React.Component <ICountDownProps, IContDownStates> {
     timerID = setInterval(() => {
       this.tick();
       document.title = `${this.countDown} - 有一个番茄正在进行`;
+      if (this.state.over) {
+        this.props.onFinish();
+        clearInterval(timerID);
+        document.title = `Potado - 你的番茄土豆`;
+      }
     }, 1000);
   }
 
   componentWillUnmount(): void {
     this.props.onFinish();
-    clearInterval(timerID)
+    clearInterval(timerID);
   }
 
   public render() {
     return (
       <div className="count-down">
         {this.countDown}
+        <div className="process"></div>
       </div>
     );
   }
