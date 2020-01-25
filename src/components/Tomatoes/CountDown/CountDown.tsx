@@ -2,55 +2,72 @@ import React from 'react';
 
 interface ICountDownProps {
   timer: number,
+  onFinish: () => void
 }
 
-const CountDown = (props: ICountDownProps) => {
+interface IContDownStates {
+  over: boolean,
+  minutes: number,
+  seconds: number
+}
 
-  const [over, setOver] = React.useState<boolean>(false);
+let timerID: NodeJS.Timeout;
 
-  const [time, setTime] = React.useState<any>({
-    minutes: Math.floor(props.timer / (1000 * 60)),
-    seconds: Math.floor(props.timer / 1000 % 60)
-  });
+class CountDown extends React.Component <ICountDownProps, IContDownStates> {
 
-  const getTime = (minutes: number, seconds: number) => {
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  constructor(props: ICountDownProps) {
+    super(props);
+    this.state = {
+      over: false,
+      minutes: Math.floor(props.timer / (1000 * 60)),
+      seconds: Math.floor(props.timer / 1000 % 60)
+    };
+  }
+
+  get countDown () {
+    return `${this.state.minutes.toString().padStart(2, '0')}:${this.state.seconds.toString().padStart(2, '0')}`;
   };
 
-  const tick = (timerID: NodeJS.Timeout) => {
+  tick = () => {
+    const {over, minutes, seconds} = this.state;
     if (over) {
+      this.props.onFinish();
       clearInterval(timerID);
     }
-    if (time.minutes === 0 && time.seconds === 0) {
-      setOver(true);
-    } else if (time.seconds === 0) {
-      setTime({
-        minutes: time.minutes - 1,
+    if (minutes === 0 && seconds === 0) {
+      this.setState({over: true});
+    } else if (seconds === 0) {
+      this.setState({
+        minutes: minutes - 1,
         seconds: 59
       });
     } else {
-      setTime({
-        minutes: time.minutes,
-        seconds: time.seconds - 1
+      this.setState({
+        minutes: minutes,
+        seconds: seconds - 1
       });
     }
-
   };
 
-  React.useEffect(() => {
-    const timerID = setInterval(() => {
-      tick(timerID);
+  componentDidMount(): void {
+    timerID = setInterval(() => {
+      this.tick();
+      document.title = `${this.countDown} - 有一个番茄正在进行`;
     }, 1000);
-    document.title = `${getTime(time.minutes, time.seconds)} - 有一个番茄进行中`;
-    return () => clearInterval(timerID);
-  });
+  }
 
+  componentWillUnmount(): void {
+    this.props.onFinish();
+    clearInterval(timerID)
+  }
 
-  return (
-    <div className="count-down">
-      {getTime(time.minutes, time.seconds)}
-    </div>
-  );
-};
+  public render() {
+    return (
+      <div className="count-down">
+        {this.countDown}
+      </div>
+    );
+  }
+}
 
 export default CountDown;

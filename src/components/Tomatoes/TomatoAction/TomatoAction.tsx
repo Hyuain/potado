@@ -12,63 +12,75 @@ interface ITomatoActionProps {
   unfinishedTomato: any
 }
 
-const TomatoAction = (props: ITomatoActionProps) => {
+interface ITomatoActionState {
+  description: string
+}
 
-  const [description, setDescription] = React.useState<string>('');
+class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionState> {
 
-  let html = <div/>;
+  constructor(props: ITomatoActionProps) {
+    super(props);
+    this.state = {
+      description: ''
+    };
+  }
 
-  const onKeyup = (e: any) => {
-    if (e.keyCode === 13 && description !== '') {
-      addDescription();
+  onKeyup = (e: any) => {
+    if (e.keyCode === 13 && this.state.description !== '') {
+      this.addDescription();
     }
   };
 
-  const addDescription = async () => {
+  addDescription = async () => {
     try {
-      const response = await axios.put(`tomatoes/${props.unfinishedTomato.id}`, {
-        description,
+      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, {
+        description: this.state.description,
         ended_at: new Date()
       });
-      props.updateTomato(response.data.resource);
-      setDescription('');
-      console.log(response);
+      this.props.updateTomato(response.data.resource);
+      this.setState({description: ''});
     } catch (e) {
     }
   };
 
-  if (props.unfinishedTomato === undefined) {
-    html = <Button className="start-button" onClick={props.startTomato}>开始番茄</Button>;
-  } else {
-    const startAt = Date.parse(props.unfinishedTomato.started_at);
-    const duration = props.unfinishedTomato.duration;
-    const timeNow = new Date().getTime();
-    if (timeNow - startAt > duration) {
-      html = (
-        <div>
-          <Input
-            value={description}
-            placeholder="请输入刚刚完成的任务"
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-            onKeyUp={onKeyup}
-          />
-          <Icon type="close-circle"/>
-        </div>
-      );
+  onFinish = () =>{
+    this.forceUpdate();
+    document.title = '番茄闹钟';
+  };
+
+  public render() {
+    let html = <div/>;
+    if (this.props.unfinishedTomato === undefined) {
+      html = <Button className="start-button" onClick={this.props.startTomato}>开始番茄</Button>;
     } else {
-      const timer = duration - timeNow + startAt;
-      html = <CountDown timer={timer}/>;
+      const startAt = Date.parse(this.props.unfinishedTomato.started_at);
+      const duration = this.props.unfinishedTomato.duration;
+      const timeNow = new Date().getTime();
+      if (timeNow - startAt > duration) {
+        html = (
+          <div>
+            <Input
+              value={this.state.description}
+              placeholder="请输入刚刚完成的任务"
+              onChange={(e) => {
+                this.setState({description: e.target.value});
+              }}
+              onKeyUp={this.onKeyup}
+            />
+            <Icon type="close-circle"/>
+          </div>
+        );
+      } else {
+        const timer = duration - timeNow + startAt;
+        html = <CountDown timer={timer} onFinish={this.onFinish}/>;
+      }
     }
+    return (
+      <div className="tomato-action">
+        {html}
+      </div>
+    );
   }
-
-
-  return (
-    <div className="tomato-action">
-      {html}
-    </div>
-  );
-};
+}
 
 export default TomatoAction;
