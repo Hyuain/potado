@@ -31,19 +31,10 @@ const Tomatoes = (props: ITomatoesProps) => {
     // eslint-disable-next-line
   }, []);
 
-  const startTomato = async () => {
-    try {
-      const response = await axios.post('tomatoes', {duration: 10 * 60 * 1000});
-      props.addTomato(response.data.resource);
-    } catch (e) {
-
-    }
-  };
-
   return (
     <div className="tomatoes">
       <TomatoAction
-        startTomato={startTomato}
+        addTomato={props.addTomato}
         updateTomato={props.updateTomato}
         unfinishedTomato={props.unfinishedTomato}
       />

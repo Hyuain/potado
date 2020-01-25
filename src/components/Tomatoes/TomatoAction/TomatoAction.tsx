@@ -6,8 +6,10 @@ import CountDown from '../CountDown/CountDown';
 import {Button, Icon, Input, Modal} from 'antd';
 import './TomatoAction.less';
 
+const {confirm} = Modal;
+
 interface ITomatoActionProps {
-  startTomato: () => void,
+  addTomato: (payload: any) => any,
   updateTomato: (payload: any) => any,
   unfinishedTomato: any
 }
@@ -15,8 +17,6 @@ interface ITomatoActionProps {
 interface ITomatoActionState {
   description: string
 }
-
-const { confirm } = Modal;
 
 class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionState> {
 
@@ -33,12 +33,21 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
     }
   };
 
-  addDescription = () => {
-    this.updateTomato({
-      description: this.state.description,
-      ended_at: new Date()
-    });
-    this.setState({description: ''});
+  startTomato = async () => {
+    try {
+      const response = await axios.post('tomatoes', {duration: 10 * 60 * 1000});
+      this.props.addTomato(response.data.resource);
+    } catch (e) {
+
+    }
+  };
+
+  updateTomato = async (params: any) => {
+    try {
+      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, params);
+      this.props.updateTomato(response.data.resource);
+    } catch (e) {
+    }
   };
 
   abortTomato = () => {
@@ -53,21 +62,13 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
       title: '您确定要放弃这个番茄吗？',
       okText: '确认',
       cancelText: '关闭',
-      onOk: ()=>{
-        this.abortTomato()
+      onOk: () => {
+        this.abortTomato();
       },
-      onCancel(){
+      onCancel() {
 
       }
-    })
-  };
-
-  updateTomato = async (params: any) => {
-    try {
-      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, params);
-      this.props.updateTomato(response.data.resource);
-    } catch (e) {
-    }
+    });
   };
 
   onFinish = () => {
@@ -75,10 +76,18 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
     document.title = 'Potado - 你的番茄土豆';
   };
 
+  addDescription = () => {
+    this.updateTomato({
+      description: this.state.description,
+      ended_at: new Date()
+    });
+    this.setState({description: ''});
+  };
+
   public render() {
     let html = <div/>;
     if (this.props.unfinishedTomato === undefined) {
-      html = <Button className="start-button" onClick={this.props.startTomato}>开始一个番茄</Button>;
+      html = <Button className="start-button" onClick={this.startTomato}>开始一个番茄</Button>;
     } else {
       const startAt = Date.parse(this.props.unfinishedTomato.started_at);
       const duration = this.props.unfinishedTomato.duration;
