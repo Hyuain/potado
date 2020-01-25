@@ -33,7 +33,7 @@ const Tomatoes = (props: ITomatoesProps) => {
 
   const startTomato = async () => {
     try {
-      const response = await axios.post('tomatoes', {duration: 10* 60 * 1000});
+      const response = await axios.post('tomatoes', {duration: 10 * 60 * 1000});
       props.addTomato(response.data.resource);
     } catch (e) {
 

@@ -3,7 +3,7 @@ import axios from '../../../config/axios';
 
 import CountDown from '../CountDown/CountDown';
 
-import {Button, Icon, Input} from 'antd';
+import {Button, Icon, Input, Modal} from 'antd';
 import './TomatoAction.less';
 
 interface ITomatoActionProps {
@@ -15,6 +15,8 @@ interface ITomatoActionProps {
 interface ITomatoActionState {
   description: string
 }
+
+const { confirm } = Modal;
 
 class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionState> {
 
@@ -44,6 +46,20 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
       aborted: true
     });
     document.title = 'Potado - 你的番茄土豆';
+  };
+
+  showConfirm = () => {
+    confirm({
+      title: '您确定要放弃这个番茄吗？',
+      okText: '确认',
+      cancelText: '关闭',
+      onOk: ()=>{
+        this.abortTomato()
+      },
+      onCancel(){
+
+      }
+    })
   };
 
   updateTomato = async (params: any) => {
@@ -81,7 +97,7 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
             <Icon
               type="close-circle"
               className="abort"
-              onClick={this.abortTomato}
+              onClick={this.showConfirm}
             />
           </div>
         );
@@ -97,7 +113,7 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
             <Icon
               type="close-circle"
               className="abort"
-              onClick={this.abortTomato}
+              onClick={this.showConfirm}
             />
           </div>
         );
