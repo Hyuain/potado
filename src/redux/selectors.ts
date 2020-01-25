@@ -25,7 +25,7 @@ export const getTomatoesByFilter = (store: any, tomatoFilter: any) => {
   const allTomatoes = getTomatoes(store);
   switch (tomatoFilter) {
     case TOMATO_FILTERS.FINISHED:
-      return tomatoFilter;
+      return allTomatoes.filter((tomato: any) => (tomato.description && tomato.ended_at && !tomato.aborted));
     case TOMATO_FILTERS.UNFINISHED:
       return allTomatoes.filter((tomato: any) => (!tomato.description && !tomato.ended_at && !tomato.aborted))[0];
     default:
