@@ -13,6 +13,8 @@ export const getTodosByFilter = (store: any, todoFilter: any) => {
   const allTodos = getTodos(store);
   const notDeletedTodos = getNotDeletedTodos(store);
   switch (todoFilter) {
+    case TODO_FILTERS.DELETED:
+      return allTodos.filter((todo: any) => (todo.deleted));
     case TODO_FILTERS.COMPLETED:
       return notDeletedTodos.filter((todo: any) => (todo.completed));
     case TODO_FILTERS.INCOMPLETE:

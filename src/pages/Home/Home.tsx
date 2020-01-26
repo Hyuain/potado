@@ -5,8 +5,8 @@ import axios from '../../config/axios';
 import {connect} from 'react-redux';
 import actions from '../../redux/actions';
 
-import Todos from '../../components/Todos/Todos';
-import Tomatoes from '../../components/Tomatoes/Tomatoes';
+// import Todos from '../../components/Todos/Todos';
+// import Tomatoes from '../../components/Tomatoes/Tomatoes';
 import Statistics from '../../components/Statistics/Statistics';
 
 import {Dropdown, Menu, Icon} from 'antd';
@@ -81,8 +81,8 @@ const Home = (props: IHomeProps) => {
         </Dropdown>
       </header>
       <main>
-        <Tomatoes/>
-        <Todos/>
+        {/*<Tomatoes/>*/}
+        {/*<Todos/>*/}
       </main>
       <Statistics/>
     </div>

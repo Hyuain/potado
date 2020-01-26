@@ -1,4 +1,5 @@
 import React from 'react';
+import {format} from 'date-fns';
 
 interface IGraphProps {
   data: any,
@@ -9,14 +10,12 @@ interface IGraphProps {
 
 const Graph = (props: IGraphProps) => {
 
-  console.log(props);
-
   const genPoints = (width: number, height: number) => {
-    const dates = Object.keys(props.data).sort((a, b) => Date.parse(b) - Date.parse(a));
+    const dates = Object.keys(props.data).sort((a, b) => Date.parse(a) - Date.parse(b));
     console.log(dates);
     const firstDay = dates[0];
     if (firstDay) {
-      const lastDay = dates[dates.length - 1];
+      const lastDay = format(new Date(),'yyyy-MM-dd');
       const range = Date.parse(lastDay) - Date.parse(firstDay);
       let finishedCount = 0;
       const pointArray = dates.map(date => {

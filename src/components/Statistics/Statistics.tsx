@@ -4,6 +4,7 @@ import {TODO_FILTERS} from '../../constants';
 import {getTodosByFilter, groupByDay} from '../../redux/selectors';
 
 import Graph from './Graph/Graph';
+import TodoHistory from './TodoHistory/TodoHistory';
 
 import './Statistics.less';
 
