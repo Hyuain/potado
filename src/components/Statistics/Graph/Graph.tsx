@@ -12,7 +12,6 @@ const Graph = (props: IGraphProps) => {
 
   const genPoints = (width: number, height: number) => {
     const dates = Object.keys(props.data).sort((a, b) => Date.parse(a) - Date.parse(b));
-    console.log(dates);
     const firstDay = dates[0];
     if (firstDay) {
       const lastDay = format(new Date(), 'yyyy-MM-dd');

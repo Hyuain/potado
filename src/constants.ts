@@ -8,5 +8,6 @@ export const TODO_FILTERS = {
 export const TOMATO_FILTERS = {
   ALL: 'all',
   FINISHED: 'finished',
-  UNFINISHED: 'unfinished'
+  UNFINISHED: 'unfinished',
+  ABORTED: 'aborted'
 };

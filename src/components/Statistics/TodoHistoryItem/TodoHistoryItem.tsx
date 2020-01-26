@@ -29,9 +29,9 @@ class TodoHistoryItem extends React.Component<ITodoHistoryItemProps, any> {
   render() {
     let time = null;
     if (this.props.type === 'completed') {
-      time = (<span className="time">{format(parseISO(this.props.todo.created_at), 'HH:mm')}</span>);
+      time = (<span className="time">{format(parseISO(this.props.todo.completed_at), 'HH:mm')}</span>);
     } else if (this.props.type === 'deleted') {
-      time = (<span className="time">{format(parseISO(this.props.todo.completed_at), 'M月dd日')}</span>);
+      time = (<span className="time">{format(parseISO(this.props.todo.created_at), 'M月dd日')}</span>);
     }
 
     let action = null;

@@ -77,6 +77,9 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
   };
 
   addDescription = () => {
+    if(this.state.description === ''){
+      this.setState({description: '这是一个没有描述的番茄'})
+    }
     this.updateTomato({
       description: this.state.description,
       ended_at: new Date()
