@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from '../../config/axios';
 
 import {connect} from 'react-redux';
 import actions from '../../redux/actions';
@@ -12,20 +11,6 @@ import './Todos.less';
 
 
 const Todos = (props: any) => {
-
-  React.useEffect(() => {
-    const getTodos = async () => {
-      try {
-        const response = await axios.get('todos');
-        const todos = response.data.resources.map((todo: any) => Object.assign({}, todo, {editing: false}));
-        props.initTodos(todos);
-      } catch (e) {
-      }
-    };
-    getTodos();
-    // eslint-disable-next-line
-  }, []);
-
 
   return (
     <div className="todos">
@@ -43,19 +28,19 @@ const Todos = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: any, ownProps: any) => {
   const todos = state.todos;
   const completedTodos = getTodosByFilter(state, TODO_FILTERS.COMPLETED);
   const incompleteTodos = getTodosByFilter(state, TODO_FILTERS.INCOMPLETE);
   return {
     todos,
     completedTodos,
-    incompleteTodos
+    incompleteTodos,
+    ...ownProps
   };
 };
 
 const mapDispatchToProps = {
-  initTodos: actions.initTodos,
   updateTodo: actions.updateTodo
 };
 

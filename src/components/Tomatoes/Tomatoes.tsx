@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from '../../config/axios';
 import _ from 'lodash';
 import {format, parseISO} from 'date-fns';
 import TomatoAction from './TomatoAction/TomatoAction';
@@ -16,7 +15,6 @@ import './Tomatoes.less';
 interface ITomatoesProps {
   tomatoes: any[],
   addTomato: (payload: any) => any,
-  initTomatoes: (payload: any) => any,
   updateTomato: (payload: any) => any,
   unfinishedTomato: any,
   finishedTomatoes: any[],
@@ -24,18 +22,6 @@ interface ITomatoesProps {
 }
 
 const Tomatoes = (props: ITomatoesProps) => {
-
-  React.useEffect(() => {
-    const getTomatoes = async () => {
-      try {
-        const response = await axios.get('tomatoes');
-        props.initTomatoes(response.data.resources);
-      } catch (e) {
-      }
-    };
-    getTomatoes();
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <div className="tomatoes">
@@ -69,7 +55,6 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {
   addTomato: actions.addTomato,
   updateTomato: actions.updateTomato,
-  initTomatoes: actions.initTomatoes
 };
 
 export default connect(
