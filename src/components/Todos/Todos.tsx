@@ -38,13 +38,6 @@ const Todos = (props: any) => {
             />
           ))
         }
-        {
-          props.completedTodos.map((todo: any) => (
-            <TodoItem
-              key={todo.id} {...todo}
-            />
-          ))
-        }
       </div>
     </div>
   );

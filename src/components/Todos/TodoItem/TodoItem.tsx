@@ -22,6 +22,9 @@ const TodoItem = (props: ITodoItemProps) => {
   const [textContent, setTextContent] = React.useState(props.description);
 
   const updateTodo = async (params: any) => {
+    if(params.completed){
+      params.completed_at = new Date()
+    }
     try {
       const response = await axios.put(`todos/${props.id}`, params);
       props.updateTodo(response.data.resource);
