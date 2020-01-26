@@ -1,13 +1,16 @@
+import _ from 'lodash';
+import {format, parseISO} from 'date-fns';
 import {TODO_FILTERS, TOMATO_FILTERS} from '../constants';
 
-export const getTodos = (store: any) => (store.todos);
+const getTodos = (store: any) => (store.todos);
 
-export const getNotDeletedTodos = (store: any) => {
+const getNotDeletedTodos = (store: any) => {
   const allTodos = getTodos(store);
   return allTodos.filter((todo: any) => (!todo.deleted));
 };
 
 export const getTodosByFilter = (store: any, todoFilter: any) => {
+  const allTodos = getTodos(store);
   const notDeletedTodos = getNotDeletedTodos(store);
   switch (todoFilter) {
     case TODO_FILTERS.COMPLETED:
@@ -19,7 +22,7 @@ export const getTodosByFilter = (store: any, todoFilter: any) => {
   }
 };
 
-export const getTomatoes = (store: any) => (store.tomatoes);
+const getTomatoes = (store: any) => (store.tomatoes);
 
 export const getTomatoesByFilter = (store: any, tomatoFilter: any) => {
   const allTomatoes = getTomatoes(store);
@@ -31,4 +34,10 @@ export const getTomatoesByFilter = (store: any, tomatoFilter: any) => {
     default:
       return tomatoFilter;
   }
+};
+
+export const groupByDay = (dataBeforeGroup: any, keyOfTime: string) => {
+  return _.groupBy(dataBeforeGroup, (item) => {
+    return (format(parseISO(item[keyOfTime]), 'yyyy-MM-dd'));
+  });
 };

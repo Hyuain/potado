@@ -1,13 +1,11 @@
 import React from 'react';
-import _ from 'lodash';
-import {format, parseISO} from 'date-fns';
 import TomatoAction from './TomatoAction/TomatoAction';
 import TomatoList from './TomatoList/TomatoList';
 
 import actions from '../../redux/actions';
 import {connect} from 'react-redux';
 import {TOMATO_FILTERS} from '../../constants';
-import {getTomatoesByFilter} from '../../redux/selectors';
+import {getTomatoesByFilter, groupByDay} from '../../redux/selectors';
 
 
 import './Tomatoes.less';
@@ -18,7 +16,7 @@ interface ITomatoesProps {
   updateTomato: (payload: any) => any,
   unfinishedTomato: any,
   finishedTomatoes: any[],
-  finishedTomatoesByGroup: any
+  finishedTomatoesByDay: any
 }
 
 const Tomatoes = (props: ITomatoesProps) => {
@@ -31,7 +29,7 @@ const Tomatoes = (props: ITomatoesProps) => {
         unfinishedTomato={props.unfinishedTomato}
       />
       <TomatoList
-        finishedTomatoes={props.finishedTomatoesByGroup}
+        finishedTomatoes={props.finishedTomatoesByDay}
       />
     </div>
   );
@@ -41,14 +39,12 @@ const mapStateToProps = (state: any) => {
   const tomatoes = state.tomatoes;
   const finishedTomatoes = getTomatoesByFilter(state, TOMATO_FILTERS.FINISHED);
   const unfinishedTomato = getTomatoesByFilter(state, TOMATO_FILTERS.UNFINISHED);
-  const finishedTomatoesByGroup = _.groupBy(finishedTomatoes, (tomato) => {
-    return (format(parseISO(tomato.started_at), 'yyyy-MM-dd'));
-  });
+  const finishedTomatoesByDay = groupByDay(finishedTomatoes, 'started_at');
   return {
     tomatoes,
     finishedTomatoes,
     unfinishedTomato,
-    finishedTomatoesByGroup
+    finishedTomatoesByDay
   };
 };
 
