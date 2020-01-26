@@ -39,7 +39,7 @@ class Statistics extends React.Component<IStatisticsProps, any> {
 const mapStateToProps = (state: any, ownProps: any) => {
   const todos = state.todos;
   const completedTodos = getTodosByFilter(state, TODO_FILTERS.COMPLETED);
-  const completedTodosByDay = groupByDay(completedTodos, 'updated_at');
+  const completedTodosByDay = groupByDay(completedTodos, 'completed_at');
   return {
     todos,
     completedTodos,
