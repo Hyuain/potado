@@ -5,6 +5,7 @@ import {getTodosByFilter, groupByDay} from '../../redux/selectors';
 
 import Graph from './Graph/Graph';
 import TodoHistory from './TodoHistory/TodoHistory';
+import TomatoHistory from './TomatoHistory/TomatoHistory';
 
 import './Statistics.less';
 
@@ -31,6 +32,7 @@ class Statistics extends React.Component<IStatisticsProps, any> {
           </li>
         </ul>
         <TodoHistory/>
+        <TomatoHistory/>
       </div>
     );
   }

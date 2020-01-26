@@ -15,11 +15,14 @@ const Graph = (props: IGraphProps) => {
     console.log(dates);
     const firstDay = dates[0];
     if (firstDay) {
-      const lastDay = format(new Date(),'yyyy-MM-dd');
+      const lastDay = format(new Date(), 'yyyy-MM-dd');
       const range = Date.parse(lastDay) - Date.parse(firstDay);
       let finishedCount = 0;
       const pointArray = dates.map(date => {
-        const x = (Date.parse(date) - Date.parse(firstDay)) / range * width;
+        let x = (Date.parse(date) - Date.parse(firstDay)) / range * width;
+        if (range === 0) {
+          x = width;
+        }
         finishedCount += props.data[date].length;
         const y = (1 - finishedCount / props.totalFinishCount) * height;
         return `${x},${y}`;
@@ -31,7 +34,7 @@ const Graph = (props: IGraphProps) => {
   };
 
   return (
-    <div className="Polygon">
+    <div className="Graph">
       <svg>
         <polygon fill="rgba(215,78,78,.1)" stroke="rgba(215,78,78,.5)" strokeWidth="1"
                  points={genPoints(props.width, props.height)}/>
