@@ -9,7 +9,7 @@ import {TOMATO_FILTERS} from '../../../constants';
 
 import TomatoHistoryItem from '../TomatoHistoryItem/TomatoHistoryItem';
 
-import {Tabs, Pagination, DatePicker, Modal, Input, Button, Popover} from 'antd';
+import {Tabs, DatePicker, Modal, Input, Button, Popover} from 'antd';
 import './TomatoHistory.less';
 
 const {TabPane} = Tabs;

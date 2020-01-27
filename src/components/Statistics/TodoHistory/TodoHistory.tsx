@@ -1,5 +1,4 @@
 import React from 'react';
-import {format, parseISO} from 'date-fns';
 import {getFriendlyDate} from '../../../utils/helpers';
 
 import {connect} from 'react-redux';
@@ -57,7 +56,7 @@ class TodoHistory extends React.Component<ITodoHistoryProps, any> {
         </div>
       );
     });
-    
+
     return (
       <div className="todo-history">
         <Tabs className="todo-history-tabs" type="card">
