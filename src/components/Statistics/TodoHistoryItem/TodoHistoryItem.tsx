@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from '../../../config/axios';
 import {format, parseISO} from 'date-fns';
+import {getFriendlyDate} from '../../../utils/helpers';
 
 import {connect} from 'react-redux';
 import actions from '../../../redux/actions';
@@ -31,7 +32,7 @@ class TodoHistoryItem extends React.Component<ITodoHistoryItemProps, any> {
     if (this.props.type === 'completed') {
       time = (<span className="time">{format(parseISO(this.props.todo.completed_at), 'HH:mm')}</span>);
     } else if (this.props.type === 'deleted') {
-      time = (<span className="time">{format(parseISO(this.props.todo.created_at), 'M月dd日')}</span>);
+      time = (<span className="time">{getFriendlyDate(this.props.todo.created_at,'monthAndDay')}</span>);
     }
 
     let action = null;

@@ -6,6 +6,7 @@ import {format, parseISO} from 'date-fns';
 import TomatoHistoryItem from '../TomatoHistoryItem/TomatoHistoryItem';
 import {Tabs} from 'antd';
 import './TomatoHistory.less'
+import {getFriendlyDate} from '../../../utils/helpers';
 const {TabPane} = Tabs;
 
 interface ITomatoHistoryProps {
@@ -41,8 +42,8 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
         <div key={date} className="daily-tomatoes">
           <div className="title">
             <p className="date">
-              <span className="date-time">{format(parseISO(date), 'M月dd日')}</span>
-              <span className="week-time">周五</span>
+              <span className="date-time">{getFriendlyDate(date,'monthAndDay')}</span>
+              <span className="week-time">{getFriendlyDate(date,'dayOfWeek')}</span>
             </p>
             <p className="finished-count">完成了 {tomatoes.length} 个番茄</p>
             <p className="total-time">总计{this.getFriendlyTime(totalTime)}</p>
@@ -56,7 +57,6 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
       );
     });
 
-    console.log(this.props.abortedTomatoes);
     const abortedList = this.props.abortedTomatoes.map((tomato) => {
       return (
         <div key={tomato.id}>

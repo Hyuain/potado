@@ -1,5 +1,7 @@
 import React from 'react';
 import {format, parseISO} from 'date-fns';
+import {getFriendlyDate} from '../../../utils/helpers';
+
 import {connect} from 'react-redux';
 import {getTodosByFilter, groupByDay} from '../../../redux/selectors';
 import {TODO_FILTERS} from '../../../constants';
@@ -10,6 +12,7 @@ import {Tabs} from 'antd';
 import './TodoHistory.less';
 
 const {TabPane} = Tabs;
+
 
 interface ITodoHistoryProps {
   todos: any[],
@@ -26,14 +29,15 @@ class TodoHistory extends React.Component<ITodoHistoryProps, any> {
   }
 
   public render() {
-    const completedList = this.completedDates.map((date) => {
+
+    const CompletedList = this.completedDates.map((date) => {
       const todos = this.props.completedTodosByDay[date];
       return (
         <div key={date} className="daily-todos">
           <div className="title">
             <p className="date">
-              <span className="date-time">{format(parseISO(date), 'M月dd日')}</span>
-              <span className="week-time">周五</span>
+              <span className="date-time">{getFriendlyDate(date,'monthAndDay')}</span>
+              <span className="week-time">{getFriendlyDate(date,'dayOfWeek')}</span>
             </p>
             <span className="finished-count">完成了 {todos.length} 个任务</span>
           </div>
@@ -45,24 +49,26 @@ class TodoHistory extends React.Component<ITodoHistoryProps, any> {
         </div>
       );
     });
-    const deletedList = this.props.deletedTodos.map((todo) => {
+
+    const DeletedList = this.props.deletedTodos.map((todo) => {
       return (
         <div key={todo.id}>
           <TodoHistoryItem key={todo.id} todo={todo} type="deleted"/>
         </div>
       );
     });
+    
     return (
       <div className="todo-history">
         <Tabs className="todo-history-tabs" type="card">
           <TabPane className="todo-history-tab-pane" tab="已完成的任务" key="1">
             {
-              completedList
+              CompletedList
             }
           </TabPane>
           <TabPane className="todo-history-tab-pane" tab="已删除的任务" key="2">
             {
-              deletedList
+              DeletedList
             }
           </TabPane>
         </Tabs>

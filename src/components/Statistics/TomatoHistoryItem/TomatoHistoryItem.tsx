@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import actions from '../../../redux/actions';
 
 import './TomatoHistoryItem.less';
+import {getFriendlyDate} from '../../../utils/helpers';
 
 interface ITomatoHistoryItemProps {
   type: string,
@@ -72,7 +73,7 @@ class TomatoHistoryItem extends React.Component<ITomatoHistoryItemProps, any> {
         </span>)
       ;
     } else if (this.props.type === 'aborted') {
-      Time = (<span className="time">{format(parseISO(this.props.tomato.started_at), 'M月dd日')}</span>);
+      Time = (<span className="time">{getFriendlyDate(this.props.tomato.started_at,'monthAndDay')}</span>);
     }
 
     let Action = null;
