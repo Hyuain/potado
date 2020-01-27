@@ -62,7 +62,6 @@ class TodoHistoryItem extends React.Component<ITodoHistoryItemProps, any> {
           {
             action
           }
-
         </div>
       </div>
     );
