@@ -35,14 +35,13 @@ class Statistics extends React.Component<IStatisticsProps, any> {
 
   public render() {
 
-    let detailStatistics = <div/>;
-
+    let DetailStatistics = null;
     switch (this.state.currentIndex) {
       case '1':
-        detailStatistics = <TomatoHistory/>;
+        DetailStatistics = <TomatoHistory/>;
         break;
       case '2':
-        detailStatistics = <TodoHistory/>;
+        DetailStatistics = <TodoHistory/>;
     }
 
     return (
@@ -77,7 +76,9 @@ class Statistics extends React.Component<IStatisticsProps, any> {
               height={60}/>
           </li>
         </ul>
-        {detailStatistics}
+        <div className="detail-statistics">
+          {DetailStatistics}
+        </div>
       </div>
     );
   }
