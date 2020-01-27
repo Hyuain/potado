@@ -103,7 +103,7 @@ class TomatoHistoryItem extends React.Component<ITomatoHistoryItemProps, any> {
 
     return (
       <div>
-        <div className="tomato-history-item">
+        <div className={`tomato-history-item ${this.state.editing ? 'editing' : '' }`}>
           <div className="text">
             {
               Time

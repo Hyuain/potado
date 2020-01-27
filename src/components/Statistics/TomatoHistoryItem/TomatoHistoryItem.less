@@ -3,11 +3,29 @@
   font-size: 14px;
   display: flex;
   justify-content: space-between;
-
+align-items: center;
   .text {
+    display: flex;
+    align-items: center;
+    flex: 1;
     .time {
+      flex-shrink: 0;
       color: #999;
       margin-right: 8px;
+    }
+
+    .edit-filed {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 6px 4px;
+      flex: 1;
+      input {
+        background: inherit;
+        width: 100%;
+        border: none;
+        outline: none;
+      }
     }
 
     .description {
@@ -16,18 +34,17 @@
   }
 
   .action {
+    flex-shrink: 0;
     display: none;
 
     span {
       color: #1890ff;
 
-      &:first-child {
-        margin-right: 4px;
-      }
+      margin-left: 4px;
     }
   }
 
-  &:hover {
+  &:hover, &.editing {
     background: #f4f4f4;
 
     .action {
