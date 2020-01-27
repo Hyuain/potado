@@ -35,7 +35,7 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
 
   startTomato = async () => {
     try {
-      const response = await axios.post('tomatoes', {duration: 10 * 1000});
+      const response = await axios.post('tomatoes', {duration: 25 * 60 * 1000});
       this.props.addTomato(response.data.resource);
     } catch (e) {
 

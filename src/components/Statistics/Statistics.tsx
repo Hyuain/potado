@@ -48,19 +48,33 @@ class Statistics extends React.Component<IStatisticsProps, any> {
     return (
       <div className="statistics">
         <ul>
-          <li className={`statistics-item ${this.state.currentIndex === '1' ? 'active' : ''}`} onClick={this.onClick}
-              data-index="1">
-            番茄历史
-            累计完成：{this.props.finishedTomatoes.length}个任务
-            <Graph data={this.props.finishedTomatoesByDay} totalFinishCount={this.props.finishedTomatoes.length}
-                   width={240} height={60}/>
+          <li
+            className={`statistics-item ${this.state.currentIndex === '1' ? 'active' : ''}`}
+            onClick={this.onClick}
+            data-index="1">
+            <div className="text">
+              <p>番茄历史</p>
+              <p>累计完成番茄</p>
+              <p>{this.props.finishedTomatoes.length}</p>
+            </div>
+            <Graph
+              data={this.props.finishedTomatoesByDay}
+              totalFinishCount={this.props.finishedTomatoes.length}
+              width={240} height={60}/>
           </li>
-          <li className={`statistics-item ${this.state.currentIndex === '2' ? 'active' : ''}`} onClick={this.onClick}
-              data-index="2">
-            任务历史
-            累计完成：{this.props.completedTodos.length}个任务
-            <Graph data={this.props.completedTodosByDay} totalFinishCount={this.props.completedTodos.length} width={240}
-                   height={60}/>
+          <li
+            className={`statistics-item ${this.state.currentIndex === '2' ? 'active' : ''}`}
+            onClick={this.onClick}
+            data-index="2">
+            <div className="text">
+              <p>任务历史</p>
+              <p>累计完成任务</p>
+              <p>{this.props.completedTodos.length}</p>
+            </div>
+            <Graph
+              data={this.props.completedTodosByDay}
+              totalFinishCount={this.props.completedTodos.length} width={240}
+              height={60}/>
           </li>
         </ul>
         {detailStatistics}
