@@ -1,6 +1,28 @@
+.add-model-item {
+  margin: 0 16px;
+  display: flex;
+  align-items: center;
+
+  + .add-model-item {
+    margin-top: 8px;
+  }
+
+  input {
+    flex: 1;
+  }
+}
+
 .tomato-history {
   .tomato-history-tabs {
     .tomato-history-tab-pane {
+      position: relative;
+
+      button {
+        position: absolute;
+        right: 0;
+        top: -52px;
+      }
+
       .daily-tomatoes {
         padding: 16px;
         border: 1px solid #ddd;
@@ -29,7 +51,7 @@
             color: #888;
           }
 
-          .total-time{
+          .total-time {
 
           }
         }

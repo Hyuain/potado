@@ -1,26 +1,71 @@
 import React from 'react';
+import axios from '../../../config/axios';
+import {getFriendlyDate} from '../../../utils/helpers';
+
 import {connect} from 'react-redux';
 import {getTomatoesByFilter, groupByDay} from '../../../redux/selectors';
+import actions from '../../../redux/actions';
 import {TOMATO_FILTERS} from '../../../constants';
-import {format, parseISO} from 'date-fns';
+
 import TomatoHistoryItem from '../TomatoHistoryItem/TomatoHistoryItem';
-import {Tabs} from 'antd';
-import './TomatoHistory.less'
-import {getFriendlyDate} from '../../../utils/helpers';
+
+import {Tabs, Pagination, DatePicker, Modal, Input, Button, Popover} from 'antd';
+import './TomatoHistory.less';
+
 const {TabPane} = Tabs;
 
 interface ITomatoHistoryProps {
   tomatoes: any[],
   finishedTomatoes: any[],
   finishedTomatoesByDay: any,
-  abortedTomatoes: any[]
+  abortedTomatoes: any[],
+  addTomato: (payload: any) => any,
 }
 
 class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
 
+  constructor(props: ITomatoHistoryProps) {
+    super(props);
+    this.state = {
+      addModel: false,
+      startedAt: new Date(),
+      description: ''
+    };
+  }
+
+  addTomato = async () => {
+    if (this.state.description === '') {
+      this.setState({description: '这是一个没有描述的番茄'});
+    }
+    const endedAt = new Date(Date.parse(this.state.startedAt._d) + 25 * 60 * 1000);
+    try {
+      const response = await axios.post('tomatoes', {
+        started_at: this.state.startedAt,
+        ended_at: endedAt,
+        description: this.state.description,
+        manually_created: true
+      });
+      this.props.addTomato(response.data.resource);
+      console.log(response);
+      this.setState({addModel: false});
+    } catch (e) {
+
+    }
+  };
+
+  onKeyup = (e: any) => {
+    if (e.keyCode === 13) {
+      this.addTomato();
+    }
+  };
+
   get finishedDates() {
     const dates = Object.keys(this.props.finishedTomatoesByDay);
     return dates.sort((a, b) => (Date.parse(b) - Date.parse(a)));
+  }
+
+  get finishedTotalPages() {
+    return Math.ceil(this.finishedDates.length / 5);
   }
 
   getFriendlyTime = (time: number) => {
@@ -33,6 +78,7 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
   };
 
   render() {
+
     const finishedList = this.finishedDates.map((date) => {
       const tomatoes = this.props.finishedTomatoesByDay[date];
       const totalTime = tomatoes.reduce((totalTime: number, tomato: any) => {
@@ -42,8 +88,8 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
         <div key={date} className="daily-tomatoes">
           <div className="title">
             <p className="date">
-              <span className="date-time">{getFriendlyDate(date,'monthAndDay')}</span>
-              <span className="week-time">{getFriendlyDate(date,'dayOfWeek')}</span>
+              <span className="date-time">{getFriendlyDate(date, 'monthAndDay')}</span>
+              <span className="week-time">{getFriendlyDate(date, 'dayOfWeek')}</span>
             </p>
             <p className="finished-count">完成了 {tomatoes.length} 个番茄</p>
             <p className="total-time">总计{this.getFriendlyTime(totalTime)}</p>
@@ -64,10 +110,44 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
         </div>
       );
     });
+
+    const AddModel = (
+      <Modal
+        title="补记一个番茄"
+        visible={this.state.addModel}
+        onOk={this.addTomato}
+        onCancel={() => this.setState({addModel: false})}
+      >
+        <div className="add-model-item">
+          <span>番茄的开始时间：</span>
+          <DatePicker
+            placeholder=""
+            showTime
+            onOk={(value) => this.setState({startedAt: value})}
+            onChange={(value) => this.setState({startedAt: value})}
+          />
+        </div>
+        <div className="add-model-item">
+          <span>番茄描述：</span>
+          <Input
+            type="text"
+            onChange={(e) => this.setState({description: e.target.value})}
+            onKeyUp={this.onKeyup}
+          />
+        </div>
+      </Modal>
+    );
+
     return (
       <div className="tomato-history">
+        {
+          AddModel
+        }
         <Tabs className="tomato-history-tabs" type="card">
           <TabPane className="tomato-history-tab-pane" tab="完成的番茄" key="1">
+            <Popover content="补记番茄">
+              <Button onClick={() => this.setState({addModel: true})} icon="plus"/>
+            </Popover>,
             {
               finishedList
             }
@@ -88,7 +168,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const finishedTomatoes = getTomatoesByFilter(state, TOMATO_FILTERS.FINISHED);
   const abortedTomatoes = getTomatoesByFilter(state, TOMATO_FILTERS.ABORTED);
   const finishedTomatoesByDay = groupByDay(finishedTomatoes, 'started_at');
-
   return {
     tomatoes,
     finishedTomatoes,
@@ -98,4 +177,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
-export default connect(mapStateToProps)(TomatoHistory);
+const mapDispatchToProps = {
+  addTomato: actions.addTomato,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TomatoHistory);
