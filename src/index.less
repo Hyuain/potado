@@ -1,27 +1,9 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import "../src/assests/style/reset.less";
+@import "../src/assests/style/helper";
 
-*::before,*::after{
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #fdfdfd;
-}
-
-p{
-  margin: 0;
-  padding: 0;
-}
-
-li {
-  list-style: none;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+  height: 100vh;
+  overflow: hidden;
+  background-color: @color-background;
+  font-size: 16px;
 }

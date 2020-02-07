@@ -1,9 +1,9 @@
 import React from 'react';
-import history from '../../config/history';
 import axios from '../../config/axios';
 
 import {connect} from 'react-redux';
 import actions from '../../redux/actions';
+import {useHistory} from 'react-router-dom';
 
 import Todos from '../../components/Todos/Todos';
 import Tomatoes from '../../components/Tomatoes/Tomatoes';
@@ -17,28 +17,9 @@ interface IHomeProps {
   initTomatoes: (payload: any)=>any,
 }
 
-const onLogout = () => {
-  localStorage.setItem('x-token', '');
-  history.push('/login');
-};
-
-const menu = () => {
-  return (
-    <Menu>
-      <Menu.Item key="1">
-        <Icon type="user"/>
-        个人设置
-      </Menu.Item>
-      <Menu.Item key="2" onClick={onLogout}>
-        <Icon type="logout"/>
-        注销
-      </Menu.Item>
-    </Menu>
-  );
-};
-
 const Home = (props: IHomeProps) => {
   const [user, setUser] = React.useState<any>({});
+  let history = useHistory();
 
   React.useEffect(() => {
     const getMe = async () => {
@@ -69,6 +50,25 @@ const Home = (props: IHomeProps) => {
     // eslint-disable-next-line
   }, []);
 
+  const onLogout = () => {
+    localStorage.setItem('x-token', '');
+    history.push('/login');
+  };
+
+  const menu = () => {
+    return (
+      <Menu>
+        <Menu.Item key="1">
+          <Icon type="user"/>
+          个人设置
+        </Menu.Item>
+        <Menu.Item key="2" onClick={onLogout}>
+          <Icon type="logout"/>
+          注销
+        </Menu.Item>
+      </Menu>
+    );
+  };
 
   return (
     <div id="home">
