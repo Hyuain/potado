@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/potado/static/css/main.744a6d52.chunk.css",
-    "main.js": "/potado/static/js/main.1850d7df.chunk.js",
-    "main.js.map": "/potado/static/js/main.1850d7df.chunk.js.map",
+    "main.js": "/potado/static/js/main.d5d90678.chunk.js",
+    "main.js.map": "/potado/static/js/main.d5d90678.chunk.js.map",
     "runtime-main.js": "/potado/static/js/runtime-main.934bb581.js",
     "runtime-main.js.map": "/potado/static/js/runtime-main.934bb581.js.map",
     "static/css/2.86b79581.chunk.css": "/potado/static/css/2.86b79581.chunk.css",
-    "static/js/2.2f4065d7.chunk.js": "/potado/static/js/2.2f4065d7.chunk.js",
-    "static/js/2.2f4065d7.chunk.js.map": "/potado/static/js/2.2f4065d7.chunk.js.map",
+    "static/js/2.ce161d9d.chunk.js": "/potado/static/js/2.ce161d9d.chunk.js",
+    "static/js/2.ce161d9d.chunk.js.map": "/potado/static/js/2.ce161d9d.chunk.js.map",
     "index.html": "/potado/index.html",
-    "precache-manifest.26187d6ab35b11846b4d5ab1cbcd0989.js": "/potado/precache-manifest.26187d6ab35b11846b4d5ab1cbcd0989.js",
+    "precache-manifest.552a843d6585cbd58380f8071cf4ec3e.js": "/potado/precache-manifest.552a843d6585cbd58380f8071cf4ec3e.js",
     "service-worker.js": "/potado/service-worker.js",
     "static/css/2.86b79581.chunk.css.map": "/potado/static/css/2.86b79581.chunk.css.map",
     "static/css/main.744a6d52.chunk.css.map": "/potado/static/css/main.744a6d52.chunk.css.map",
-    "static/js/2.2f4065d7.chunk.js.LICENSE": "/potado/static/js/2.2f4065d7.chunk.js.LICENSE"
+    "static/js/2.ce161d9d.chunk.js.LICENSE": "/potado/static/js/2.ce161d9d.chunk.js.LICENSE"
   },
   "entrypoints": [
     "static/js/runtime-main.934bb581.js",
     "static/css/2.86b79581.chunk.css",
-    "static/js/2.2f4065d7.chunk.js",
+    "static/js/2.ce161d9d.chunk.js",
     "static/css/main.744a6d52.chunk.css",
-    "static/js/main.1850d7df.chunk.js"
+    "static/js/main.d5d90678.chunk.js"
   ]
 }
