@@ -1,9 +1,8 @@
 import React from 'react';
-import axios from '../../config/axios';
-
+import {useHistory} from 'react-router-dom';
 import {connect} from 'react-redux';
 import actions from '../../redux/actions';
-import {useHistory} from 'react-router-dom';
+import axios from '../../config/axios';
 
 import Todos from '../../components/Todos/Todos';
 import Tomatoes from '../../components/Tomatoes/Tomatoes';
@@ -11,10 +10,11 @@ import Statistics from '../../components/Statistics/Statistics';
 
 import {Dropdown, Menu, Icon} from 'antd';
 import './Home.less';
+import logo from '../../assets/images/logo.png'
 
 interface IHomeProps {
-  initTodos: (payload: any)=>any,
-  initTomatoes: (payload: any)=>any,
+  initTodos: (payload: any) => any,
+  initTomatoes: (payload: any) => any,
 }
 
 const Home = (props: IHomeProps) => {
@@ -47,8 +47,7 @@ const Home = (props: IHomeProps) => {
     getMe();
     getTodos();
     getTomatoes();
-    // eslint-disable-next-line
-  }, []);
+  }, [props]);
 
   const onLogout = () => {
     localStorage.setItem('x-token', '');
@@ -58,11 +57,7 @@ const Home = (props: IHomeProps) => {
   const menu = () => {
     return (
       <Menu>
-        <Menu.Item key="1">
-          <Icon type="user"/>
-          个人设置
-        </Menu.Item>
-        <Menu.Item key="2" onClick={onLogout}>
+        <Menu.Item key="1" onClick={onLogout}>
           <Icon type="logout"/>
           注销
         </Menu.Item>
@@ -73,10 +68,12 @@ const Home = (props: IHomeProps) => {
   return (
     <div id="home">
       <header>
-        <span className="logo">LOGO</span>
+        <div className="logo">
+          <img src={logo} alt="logo"/>
+        </div>
         <Dropdown overlay={menu}>
           <div>
-            <span>{user && user.account}</span> <Icon type="down"/>
+            <span className="user">{user && user.account}</span> <Icon type="down"/>
           </div>
         </Dropdown>
       </header>
