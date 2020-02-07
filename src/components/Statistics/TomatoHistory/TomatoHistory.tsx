@@ -46,7 +46,6 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
         manually_created: true
       });
       this.props.addTomato(response.data.resource);
-      console.log(response);
       this.setState({addModel: false});
     } catch (e) {
 

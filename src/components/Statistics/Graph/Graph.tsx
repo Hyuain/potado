@@ -11,7 +11,6 @@ const Graph = (props: IGraphProps) => {
 
   const genPoints = (width: number, height: number) => {
     const dates = Object.keys(props.data).sort((a, b) => Date.parse(a) - Date.parse(b));
-    console.log(dates);
     const firstDay = Date.parse(dates[0]) - 24 * 60 * 60 * 1000;
     if (firstDay) {
       const lastDay = new Date().getTime();
@@ -22,8 +21,6 @@ const Graph = (props: IGraphProps) => {
         if (range === 0) {
           x = width;
         }
-        console.log(date);
-        console.log(x);
         finishedCount += props.data[date].length;
         const y = (1 - finishedCount / props.totalFinishCount) * height;
         return `${x},${y}`;
