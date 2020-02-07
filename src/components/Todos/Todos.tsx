@@ -9,8 +9,11 @@ import TodoInput from './TodoInput/TodoInput';
 import TodoItem from './TodoItem/TodoItem';
 import './Todos.less';
 
+interface ITodosProps {
+  incompleteTodos: any
+}
 
-const Todos = (props: any) => {
+const Todos = (props: ITodosProps) => {
 
   return (
     <div className="todos">
@@ -29,12 +32,8 @@ const Todos = (props: any) => {
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  const todos = state.todos;
-  const completedTodos = getTodosByFilter(state, TODO_FILTERS.COMPLETED);
   const incompleteTodos = getTodosByFilter(state, TODO_FILTERS.INCOMPLETE);
   return {
-    todos,
-    completedTodos,
     incompleteTodos,
     ...ownProps
   };

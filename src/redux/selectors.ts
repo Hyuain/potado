@@ -9,7 +9,7 @@ const getNotDeletedTodos = (store: any) => {
   return allTodos.filter((todo: any) => (!todo.deleted));
 };
 
-export const getTodosByFilter = (store: any, todoFilter: any) => {
+export const getTodosByFilter = (store: any, todoFilter: string) => {
   const allTodos = getTodos(store);
   const notDeletedTodos = getNotDeletedTodos(store);
   switch (todoFilter) {
@@ -26,7 +26,7 @@ export const getTodosByFilter = (store: any, todoFilter: any) => {
 
 const getTomatoes = (store: any) => (store.tomatoes);
 
-export const getTomatoesByFilter = (store: any, tomatoFilter: any) => {
+export const getTomatoesByFilter = (store: any, tomatoFilter: string) => {
   const allTomatoes = getTomatoes(store);
   switch (tomatoFilter) {
     case TOMATO_FILTERS.FINISHED:

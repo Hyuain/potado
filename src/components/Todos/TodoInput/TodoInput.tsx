@@ -4,7 +4,7 @@ import axios from '../../../config/axios';
 import {connect} from 'react-redux';
 import actions from '../../../redux/actions/index';
 
-import {Input, Icon} from 'antd';
+import {Input, Icon, message} from 'antd';
 import './TodoInput.less';
 
 interface ITodoInputProps {
@@ -14,34 +14,50 @@ interface ITodoInputProps {
 const TodoInput = (props: ITodoInputProps) => {
   const [description, setDescription] = React.useState('');
 
-  const onKeyup = (e: any) => {
-    if (e.keyCode === 13 && description !== '') {
-      postTodo();
+  const onKeyUp = (e: any) => {
+    if (e.keyCode === 13) {
+      if (inputCheck()) {
+        addTodo();
+      }
     }
   };
 
-  const postTodo = async () => {
+  const onClick = () => {
+    if (inputCheck()) {
+      addTodo();
+    }
+  };
+
+  const inputCheck = () => {
+    if (description === '') {
+      message.warning('还是说点儿什么吧');
+      return false;
+    }
+    return true;
+  };
+
+  const addTodo = async () => {
     try {
       const response = await axios.post('todos', {description});
+      setDescription('');
       props.addTodo(response.data.resource);
     } catch (e) {
-
+      message.error('网络好像有点不太好哦，一会儿再试吧');
     }
-    setDescription('');
   };
 
-  const suffix = description ? <Icon type="enter" onClick={postTodo}/> : <span/>;
+  const EnterIcon = description ? <Icon type="enter" onClick={onClick}/> : <span/>;
 
   return (
     <div className="todo-input">
       <Input
         placeholder="添加新任务"
-        suffix={suffix}
+        suffix={EnterIcon}
         value={description}
         onChange={e => {
           setDescription(e.target.value);
         }}
-        onKeyUp={onKeyup}
+        onKeyUp={onKeyUp}
       />
     </div>
   );

@@ -8,7 +8,7 @@ import Todos from '../../components/Todos/Todos';
 import Tomatoes from '../../components/Tomatoes/Tomatoes';
 import Statistics from '../../components/Statistics/Statistics';
 
-import {Dropdown, Menu, Icon} from 'antd';
+import {Dropdown, Menu, Icon, message} from 'antd';
 import './Home.less';
 import logo from '../../assets/images/logo.png'
 
@@ -27,6 +27,7 @@ const Home = (props: IHomeProps) => {
         const response = await axios.get('me');
         setUser(response.data);
       } catch (e) {
+        message.error('网络好像有点不太好哦，一会儿再试吧');
       }
     };
     const getTodos = async () => {
@@ -35,6 +36,7 @@ const Home = (props: IHomeProps) => {
         const todos = response.data.resources.map((todo: any) => Object.assign({}, todo, {editing: false}));
         props.initTodos(todos);
       } catch (e) {
+        message.error('网络好像有点不太好哦，一会儿再试吧');
       }
     };
     const getTomatoes = async () => {
@@ -42,6 +44,7 @@ const Home = (props: IHomeProps) => {
         const response = await axios.get('tomatoes');
         props.initTomatoes(response.data.resources);
       } catch (e) {
+        message.error('网络好像有点不太好哦，一会儿再试吧');
       }
     };
     getMe();
