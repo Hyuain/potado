@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/patado/static/css/main.744a6d52.chunk.css",
-    "main.js": "/patado/static/js/main.c28973c4.chunk.js",
-    "main.js.map": "/patado/static/js/main.c28973c4.chunk.js.map",
-    "runtime-main.js": "/patado/static/js/runtime-main.7754890a.js",
-    "runtime-main.js.map": "/patado/static/js/runtime-main.7754890a.js.map",
-    "static/css/2.86b79581.chunk.css": "/patado/static/css/2.86b79581.chunk.css",
-    "static/js/2.f590e40a.chunk.js": "/patado/static/js/2.f590e40a.chunk.js",
-    "static/js/2.f590e40a.chunk.js.map": "/patado/static/js/2.f590e40a.chunk.js.map",
-    "index.html": "/patado/index.html",
-    "precache-manifest.a8f20cfc3c0f6d6d02e537f5aafccc83.js": "/patado/precache-manifest.a8f20cfc3c0f6d6d02e537f5aafccc83.js",
-    "service-worker.js": "/patado/service-worker.js",
-    "static/css/2.86b79581.chunk.css.map": "/patado/static/css/2.86b79581.chunk.css.map",
-    "static/css/main.744a6d52.chunk.css.map": "/patado/static/css/main.744a6d52.chunk.css.map",
-    "static/js/2.f590e40a.chunk.js.LICENSE": "/patado/static/js/2.f590e40a.chunk.js.LICENSE"
+    "main.css": "/potado/static/css/main.744a6d52.chunk.css",
+    "main.js": "/potado/static/js/main.1850d7df.chunk.js",
+    "main.js.map": "/potado/static/js/main.1850d7df.chunk.js.map",
+    "runtime-main.js": "/potado/static/js/runtime-main.934bb581.js",
+    "runtime-main.js.map": "/potado/static/js/runtime-main.934bb581.js.map",
+    "static/css/2.86b79581.chunk.css": "/potado/static/css/2.86b79581.chunk.css",
+    "static/js/2.2f4065d7.chunk.js": "/potado/static/js/2.2f4065d7.chunk.js",
+    "static/js/2.2f4065d7.chunk.js.map": "/potado/static/js/2.2f4065d7.chunk.js.map",
+    "index.html": "/potado/index.html",
+    "precache-manifest.26187d6ab35b11846b4d5ab1cbcd0989.js": "/potado/precache-manifest.26187d6ab35b11846b4d5ab1cbcd0989.js",
+    "service-worker.js": "/potado/service-worker.js",
+    "static/css/2.86b79581.chunk.css.map": "/potado/static/css/2.86b79581.chunk.css.map",
+    "static/css/main.744a6d52.chunk.css.map": "/potado/static/css/main.744a6d52.chunk.css.map",
+    "static/js/2.2f4065d7.chunk.js.LICENSE": "/potado/static/js/2.2f4065d7.chunk.js.LICENSE"
   },
   "entrypoints": [
-    "static/js/runtime-main.7754890a.js",
+    "static/js/runtime-main.934bb581.js",
     "static/css/2.86b79581.chunk.css",
-    "static/js/2.f590e40a.chunk.js",
+    "static/js/2.2f4065d7.chunk.js",
     "static/css/main.744a6d52.chunk.css",
-    "static/js/main.c28973c4.chunk.js"
+    "static/js/main.1850d7df.chunk.js"
   ]
 }
