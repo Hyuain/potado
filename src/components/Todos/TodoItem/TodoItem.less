@@ -1,46 +1,59 @@
-.todo-item{
+@import "../../../assets/styles/helper.less";
+
+.todo-item {
   display: flex;
   align-items: center;
   padding: 8px;
-  border-bottom: 1px solid #ddd;
-  &:hover{
-    background: #f9f9f9;
+  border-bottom: @border;
+  transition: all .2s;
+
+  &:hover {
+    background: @color-hover;
   }
-  &:first-child{
-    border-top: 1px solid #ddd;
+
+  &:first-child {
+    border-top: @border;
   }
-  &.editing{
-    background: #fff3d2;
+
+  &.editing {
+    background: @color-highlight;
   }
-  &.completed{
-    .text{
+
+  &.completed {
+    .text {
       text-decoration: line-through;
-      color: #a9a9a9;
+      color: @color-text-light;
     }
   }
-  .edit-filed,.text{
+
+  .edit-filed, .text {
     padding-left: 8px;
     flex: 1;
   }
-  .edit-filed{
+
+  .edit-filed {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    input{
+
+    input {
       background: inherit;
       width: 100%;
       border: none;
       outline: none;
     }
-    .icon-wrapper{
+
+    .icon-wrapper {
       flex-shrink: 0;
-      i{
+
+      i {
         margin-left: 4px;
-        color: #a9a9a9;
+        color: @color-text-light;
       }
     }
   }
-  .text{
+
+  .text {
     display: flex;
   }
 }
