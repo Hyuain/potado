@@ -2,7 +2,7 @@ import React from 'react';
 import './CountDown.less'
 
 interface ICountDownProps {
-  wholeTime: number,
+  restTime: number,
   duration: number,
   onFinish: () => void
 }
@@ -18,7 +18,7 @@ class CountDown extends React.Component <ICountDownProps, IContDownStates> {
   constructor(props: ICountDownProps) {
     super(props);
     this.state = {
-      restTime: this.props.wholeTime
+      restTime: this.props.restTime
     };
   }
 

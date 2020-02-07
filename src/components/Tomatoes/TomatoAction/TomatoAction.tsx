@@ -33,27 +33,24 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
     };
   }
 
-  onKeyup = (e: any) => {
-    if (e.keyCode === 13 && this.state.description !== '') {
-      this.addDescription();
-    }
-  };
-
   startTomato = async () => {
     try {
       const response = await axios.post('tomatoes', {duration: 25 * 60 * 1000});
       this.props.addTomato(response.data.resource);
     } catch (e) {
-
+      message.error('网络好像有点不太好哦，一会儿再试吧');
     }
   };
 
-  updateTomato = async (params: any) => {
-    try {
-      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, params);
-      this.props.updateTomato(response.data.resource);
-    } catch (e) {
-    }
+  onClickCancel = () => {
+    confirm({
+      title: '您确定要放弃这个番茄吗？',
+      okText: '确认',
+      cancelText: '关闭',
+      onOk: () => {
+        this.abortTomato();
+      }
+    });
   };
 
   abortTomato = () => {
@@ -63,18 +60,13 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
     document.title = 'Potado - 你的番茄土豆';
   };
 
-  showConfirm = () => {
-    confirm({
-      title: '您确定要放弃这个番茄吗？',
-      okText: '确认',
-      cancelText: '关闭',
-      onOk: () => {
-        this.abortTomato();
-      },
-      onCancel() {
-
-      }
-    });
+  updateTomato = async (params: any) => {
+    try {
+      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, params);
+      this.props.updateTomato(response.data.resource);
+    } catch (e) {
+      message.error('网络好像有点不太好哦，一会儿再试吧');
+    }
   };
 
   onFinish = () => {
@@ -82,9 +74,25 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
     document.title = 'Potado - 你的番茄土豆';
   };
 
+  onKeyUp = (e: any) => {
+    if (e.keyCode === 13) {
+      if (this.inputCheck()) {
+        this.addDescription();
+      }
+    }
+  };
+
+  inputCheck = () => {
+    if (this.state.description === '') {
+      message.warning('还是说点儿什么吧');
+      return false;
+    }
+    return true;
+  };
+
   addDescription = () => {
-    if(this.state.description === ''){
-      this.setState({description: '这是一个没有描述的番茄'})
+    if (this.state.description === '') {
+      this.setState({description: '这是一个没有描述的番茄'});
     }
     this.updateTomato({
       description: this.state.description,
@@ -94,7 +102,7 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
   };
 
   public render() {
-    let html = <div/>;
+    let html: any;
     if (this.props.unfinishedTomato === undefined) {
       html = <Button className="start-button" onClick={this.startTomato}>开始一个番茄</Button>;
     } else {
@@ -110,28 +118,28 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
               onChange={(e) => {
                 this.setState({description: e.target.value});
               }}
-              onKeyUp={this.onKeyup}
+              onKeyUp={this.onKeyUp}
             />
             <Icon
               type="close-circle"
               className="abort"
-              onClick={this.showConfirm}
+              onClick={this.onClickCancel}
             />
           </div>
         );
       } else {
-        const wholeTime = duration - timeNow + startAt;
+        const restTime = duration - timeNow + startAt;
         html = (
           <div className="count-down-wrapper">
             <CountDown
-              wholeTime={wholeTime}
+              restTime={restTime}
               duration={duration}
               onFinish={this.onFinish}
             />
             <Icon
               type="close-circle"
               className="abort"
-              onClick={this.showConfirm}
+              onClick={this.onClickCancel}
             />
           </div>
         );
