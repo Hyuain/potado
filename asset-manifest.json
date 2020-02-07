@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/patado/static/css/main.744a6d52.chunk.css",
+    "main.js": "/patado/static/js/main.c28973c4.chunk.js",
+    "main.js.map": "/patado/static/js/main.c28973c4.chunk.js.map",
+    "runtime-main.js": "/patado/static/js/runtime-main.7754890a.js",
+    "runtime-main.js.map": "/patado/static/js/runtime-main.7754890a.js.map",
+    "static/css/2.86b79581.chunk.css": "/patado/static/css/2.86b79581.chunk.css",
+    "static/js/2.f590e40a.chunk.js": "/patado/static/js/2.f590e40a.chunk.js",
+    "static/js/2.f590e40a.chunk.js.map": "/patado/static/js/2.f590e40a.chunk.js.map",
+    "index.html": "/patado/index.html",
+    "precache-manifest.a8f20cfc3c0f6d6d02e537f5aafccc83.js": "/patado/precache-manifest.a8f20cfc3c0f6d6d02e537f5aafccc83.js",
+    "service-worker.js": "/patado/service-worker.js",
+    "static/css/2.86b79581.chunk.css.map": "/patado/static/css/2.86b79581.chunk.css.map",
+    "static/css/main.744a6d52.chunk.css.map": "/patado/static/css/main.744a6d52.chunk.css.map",
+    "static/js/2.f590e40a.chunk.js.LICENSE": "/patado/static/js/2.f590e40a.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7754890a.js",
+    "static/css/2.86b79581.chunk.css",
+    "static/js/2.f590e40a.chunk.js",
+    "static/css/main.744a6d52.chunk.css",
+    "static/js/main.c28973c4.chunk.js"
+  ]
+}
