@@ -2,19 +2,16 @@ import React from 'react';
 import axios from '../../../config/axios';
 import classNames from 'classnames';
 
-import {connect} from 'react-redux';
-import actions from '../../../redux/actions';
-
 import {Checkbox, Icon, message} from 'antd';
 import './TodoItem.less';
 
 interface ITodoItemProps {
-  id: number;
-  description: string;
-  completed: boolean;
-  editing: boolean;
-  updateTodo: (payload: any) => any;
-  editTodo: (id: number) => any;
+  id: number,
+  description: string,
+  completed: boolean,
+  editing: boolean,
+  updateTodo: (payload: any) => any,
+  editTodo: (id: number) => any
 }
 
 const TodoItem = (props: ITodoItemProps) => {
@@ -102,16 +99,4 @@ const TodoItem = (props: ITodoItemProps) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => ({
-  ...ownProps
-});
-
-const mapDispatchToProps = {
-  editTodo: actions.editTodo,
-  updateTodo: actions.updateTodo
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TodoItem);
+export default TodoItem;

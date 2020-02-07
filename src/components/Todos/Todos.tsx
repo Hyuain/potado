@@ -10,19 +10,26 @@ import TodoItem from './TodoItem/TodoItem';
 import './Todos.less';
 
 interface ITodosProps {
-  incompleteTodos: any
+  incompleteTodos: any,
+  updateTodo: (payload: any) => any,
+  editTodo: (id: number) => any,
+  addTodo: (payload: any) => any
 }
 
 const Todos = (props: ITodosProps) => {
 
   return (
     <div className="todos">
-      <TodoInput/>
+      <TodoInput
+        addTodo={props.addTodo}
+      />
       <div className="todo-list">
         {
           props.incompleteTodos.map((todo: any) => (
             <TodoItem
               key={todo.id} {...todo}
+              updateTodo={props.updateTodo}
+              editTodo={props.editTodo}
             />
           ))
         }
@@ -40,6 +47,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
 };
 
 const mapDispatchToProps = {
+  addTodo: actions.addTodo,
+  editTodo: actions.editTodo,
   updateTodo: actions.updateTodo
 };
 
