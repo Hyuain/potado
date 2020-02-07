@@ -11,9 +11,18 @@ import './Todos.less';
 
 interface ITodosProps {
   incompleteTodos: any,
-  updateTodo: (payload: any) => any,
-  editTodo: (id: number) => any,
-  addTodo: (payload: any) => any
+  updateTodo: (payload: any) => {
+    type: string,
+    payload: any
+  },
+  editTodo: (id: number) => {
+    type: string,
+    payload: any
+  },
+  addTodo: (payload: any) => {
+    type: string,
+    payload: any
+  }
 }
 
 const Todos = (props: ITodosProps) => {

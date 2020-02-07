@@ -13,8 +13,14 @@ import './Home.less';
 import logo from '../../assets/images/logo.png'
 
 interface IHomeProps {
-  initTodos: (payload: any) => any,
-  initTomatoes: (payload: any) => any,
+  initTodos: (payload: any) => {
+    type: string,
+    payload: any
+  },
+  initTomatoes: (payload: any) => {
+    type: string,
+    payload: any
+  },
 }
 
 const Home = (props: IHomeProps) => {

@@ -3,14 +3,20 @@ import axios from '../../../config/axios';
 
 import CountDown from '../CountDown/CountDown';
 
-import {Button, Icon, Input, Modal} from 'antd';
+import {Button, Icon, Input, message, Modal} from 'antd';
 import './TomatoAction.less';
 
 const {confirm} = Modal;
 
 interface ITomatoActionProps {
-  addTomato: (payload: any) => any,
-  updateTomato: (payload: any) => any,
+  addTomato: (payload: any) => {
+    type: string,
+    payload: any
+  },
+  updateTomato: (payload: any) => {
+    type: string,
+    payload: any
+  },
   unfinishedTomato: any
 }
 

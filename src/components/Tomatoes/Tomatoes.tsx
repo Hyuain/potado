@@ -12,8 +12,14 @@ import './Tomatoes.less';
 
 interface ITomatoesProps {
   tomatoes: any[],
-  addTomato: (payload: any) => any,
-  updateTomato: (payload: any) => any,
+  addTomato: (payload: any) => {
+    type: string,
+    payload: any
+  },
+  updateTomato: (payload: any) => {
+    type: string,
+    payload: any
+  },
   unfinishedTomato: any,
   finishedTomatoes: any[],
   finishedTomatoesByDay: any
