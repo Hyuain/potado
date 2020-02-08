@@ -16,6 +16,14 @@ export const getFriendlyDate = (date: string, method: string) => {
     case 'monthAndDay':
       return monthAndDay;
     case 'dayOfWeek':
-      return weekTimeTable[weekTime]
+      return weekTimeTable[weekTime];
   }
+};
+
+export const groupByLength = (array: any[], length: number) => {
+  const result = [];
+  for (let i = 0; i < array.length; i += length) {
+    result.push(array.slice(i, i + length));
+  }
+  return result
 };
