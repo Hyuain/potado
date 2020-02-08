@@ -25,5 +25,5 @@ export const groupByLength = (array: any[], length: number) => {
   for (let i = 0; i < array.length; i += length) {
     result.push(array.slice(i, i + length));
   }
-  return result
+  return result;
 };
