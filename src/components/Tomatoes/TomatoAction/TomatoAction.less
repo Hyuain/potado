@@ -1,22 +1,27 @@
+@import "../../../assets/styles/helper.less";
+
 .tomato-action{
   .start-button{
     width: 100%;
+    font-size: 16px;
   }
   .input-wrapper{
     position: relative;
   }
   .count-down-wrapper{
     position: relative;
-    .count-down{
-    }
   }
   .abort{
     font-size: 1.1em;
     position: absolute;
     right: -6px;
-    background: #fff;
+    background: @color-block;
     top: -6px;
     cursor: pointer;
-    box-shadow: 1px 0 5px #fff;
+    transition: all .2s;
+    &:hover{
+      transform: scale(1.1);
+      color: @color-primary;
+    }
   }
 }

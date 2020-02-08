@@ -30,7 +30,7 @@ class TomatoList extends React.Component<ITomatoListProps, any> {
       const Title = (
         <div className="title">
           <span className="date-time">{format(new Date(date), 'M月dd日')}</span>
-          <span className="finished-count">完成了{tomatoes.length}个番茄</span>
+          <span className="finished-count">完成了 {tomatoes.length} 个番茄</span>
         </div>
       );
       const Details = (

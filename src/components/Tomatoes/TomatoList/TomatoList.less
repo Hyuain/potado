@@ -1,6 +1,8 @@
+@import "../../../assets/styles/helper.less";
+
 .tomato-list {
   margin-top: 16px;
-  border-top: 1px solid #ddd;
+  border-top: @border;
 
   .daily-tomatoes {
     padding-top: 8px;
@@ -13,12 +15,12 @@
       margin-top: 8px;
 
       .date-time {
-        color: #999;
+        color: @color-text-light;
         font-size: 16px;
       }
 
       .finished-count {
-        color: #666;
+        color: @color-text-light;
         font-size: 12px;
       }
     }
@@ -28,12 +30,12 @@
         font-size: 14px;
         margin: 4px 0;
         .time-range {
-          color: #999;
+          color: @color-text-light;
         }
 
         .description {
           margin-left: 8px;
-
+          font-size: 16px;
         }
       }
     }
