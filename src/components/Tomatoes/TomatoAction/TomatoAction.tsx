@@ -102,15 +102,15 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
   };
 
   public render() {
-    let html: any;
+    let Html: any;
     if (this.props.unfinishedTomato === undefined) {
-      html = <Button className="start-button" onClick={this.startTomato}>开始一个番茄</Button>;
+      Html = <Button className="start-button" onClick={this.startTomato}>开始一个番茄</Button>;
     } else {
       const startAt = Date.parse(this.props.unfinishedTomato.started_at);
       const duration = this.props.unfinishedTomato.duration;
       const timeNow = new Date().getTime();
       if (timeNow - startAt > duration) {
-        html = (
+        Html = (
           <div className="input-wrapper">
             <Input
               value={this.state.description}
@@ -128,8 +128,8 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
           </div>
         );
       } else {
-        const restTime = duration - timeNow + startAt;
-        html = (
+        const restTime = duration - (timeNow - startAt);
+        Html = (
           <div className="count-down-wrapper">
             <CountDown
               restTime={restTime}
@@ -147,7 +147,7 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
     }
     return (
       <div className="tomato-action">
-        {html}
+        {Html}
       </div>
     );
   }
