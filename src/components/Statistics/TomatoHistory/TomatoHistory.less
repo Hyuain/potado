@@ -1,66 +1,64 @@
+@import "../../../assets/styles/helper.less";
+
 .add-model-item {
   margin: 0 16px;
   display: flex;
   align-items: center;
-
   + .add-model-item {
     margin-top: 8px;
   }
-
   input {
     flex: 1;
   }
 }
-
 .tomato-history {
+
   .tomato-history-tabs {
     .tomato-history-tab-pane {
       position: relative;
-
       button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
         right: 0;
         top: -52px;
+        font-size: 20px;
       }
-
       .daily-tomatoes {
         padding: 16px;
-        border: 1px solid #ddd;
+        border: @border;
         border-radius: 4px;
         margin-bottom: 8px;
         display: flex;
-
         .title {
           flex-shrink: 0;
           margin-right: 8px;
-
           .date {
             .date-time {
               margin-right: 4px;
-              color: #222;
+              color: @color-text;
             }
-
             .week-time {
-              color: #888;
+              color: @color-text-light;
               font-size: 12px;
             }
           }
-
           .finished-count {
             font-size: 14px;
-            color: #888;
+            color: @color-text-light;
           }
-
           .total-time {
-
+            color: @color-text-light;
           }
         }
-
         .details {
           flex: 1;
-
-
         }
+      }
+      .pagination {
+        margin-top: 16px;
+        text-align: center;
       }
     }
   }

@@ -1,3 +1,5 @@
+@import "../../../assets/styles/helper.less";
+
 .tomato-history-item {
   padding: 8px;
   font-size: 14px;
@@ -10,12 +12,11 @@ align-items: center;
     flex: 1;
     .time {
       flex-shrink: 0;
-      color: #999;
+      color: @color-text-light;
       margin-right: 8px;
     }
-
     .edit-filed {
-      background: #fff;
+      background: @color-block;
       border: 1px solid #ccc;
       border-radius: 4px;
       padding: 6px 4px;
@@ -27,25 +28,21 @@ align-items: center;
         outline: none;
       }
     }
-
     .description {
-      color: #222;
+      color: @color-text;
     }
   }
-
   .action {
     flex-shrink: 0;
     display: none;
-
     span {
-      color: #1890ff;
-
+      color: @color-primary;
       margin-left: 4px;
     }
   }
 
   &:hover, &.editing {
-    background: #f4f4f4;
+    background: @color-hover;
 
     .action {
       display: block;

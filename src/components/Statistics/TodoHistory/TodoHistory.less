@@ -1,40 +1,37 @@
+@import "../../../assets/styles/helper.less";
+
 .todo-history {
   .todo-history-tabs {
     .todo-history-tab-pane {
       .daily-todos {
         padding: 16px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        border: @border;
+        border-radius: @border-radius;
         margin-bottom: 8px;
         display: flex;
-
         .title {
           flex-shrink: 0;
           margin-right: 8px;
-
           .date {
             .date-time {
               margin-right: 4px;
-              color: #222;
+              color: @color-text;
             }
-
             .week-time {
-              color: #888;
+              color: @color-text-light;
               font-size: 12px;
             }
           }
-
           .finished-count {
             font-size: 14px;
-            color: #888;
+            color: @color-text-light;
           }
         }
-
-        .details {
-          flex: 1;
-
-
-        }
+        .details { flex: 1; }
+      }
+      .pagination {
+        margin-top: 16px;
+        text-align: center;
       }
     }
   }

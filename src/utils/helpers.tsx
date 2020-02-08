@@ -10,7 +10,7 @@ const weekTimeTable: IWeekTimeTable = {
 
 export const getFriendlyDate = (date: string, method: string) => {
   const ISODate = parseISO(date);
-  const monthAndDay = format(ISODate, 'M月dd日');
+  const monthAndDay = format(ISODate, 'M月d日');
   const weekTime = format(ISODate, 'i');
   switch (method) {
     case 'monthAndDay':

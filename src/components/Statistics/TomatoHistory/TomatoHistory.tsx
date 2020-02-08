@@ -27,11 +27,11 @@ interface ITomatoHistoryProps {
 const FinishedList = (props: any) => {
   const getFriendlyTime = (time: number) => {
     const seconds = Math.floor(time / 1000);
-    if (seconds < 60) return `${seconds}秒`;
+    if (seconds < 60) return `${seconds} 秒`;
     const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return `${minutes}分钟`;
+    if (minutes < 60) return `${minutes} 分钟`;
     const hours = Math.floor(minutes / 60);
-    return `${hours}小时${Math.floor(minutes % 60)}分钟`;
+    return `${hours} 小时 ${Math.floor(minutes % 60)} 分钟`;
   };
   if (props.dates) {
     return (
@@ -48,7 +48,7 @@ const FinishedList = (props: any) => {
                 <span className="week-time">{getFriendlyDate(date, 'dayOfWeek')}</span>
               </p>
               <p className="finished-count">完成了 {tomatoes.length} 个番茄</p>
-              <p className="total-time">总计{getFriendlyTime(totalTime)}</p>
+              <p className="total-time">总计 {getFriendlyTime(totalTime)}</p>
             </div>
             <div className="details">
               {
@@ -179,6 +179,7 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
             <FinishedList dates={this.props.finishedDatesByPage[this.state.finishedCurrent - 1]}
                           tomatoes={this.props.finishedTomatoesByDay}/>
             <Pagination
+              className="pagination"
               total={this.props.finishedDates.length}
               onChange={(current: number) => {
                 this.setState({finishedCurrent: current});
@@ -189,6 +190,7 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, any> {
           <TabPane className="tomato-history-tab-pane" tab="被打断的番茄" key="2">
             <AbortedList tomatoes={this.props.abortedTomatoesByPage[this.state.abortedCurrent - 1]}/>
             <Pagination
+              className="pagination"
               total={this.props.abortedTomatoes.length}
               onChange={(current: number) => {
                 this.setState({abortedCurrent: current});

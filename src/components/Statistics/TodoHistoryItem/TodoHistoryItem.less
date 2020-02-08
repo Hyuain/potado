@@ -1,35 +1,31 @@
+@import "../../../assets/styles/helper.less";
+
 .todo-history-item {
+  transition: all .2s;
   padding: 8px;
   font-size: 14px;
   display: flex;
   justify-content: space-between;
-
   .text {
     .time {
-      color: #999;
+      color: @color-text-light;
       margin-right: 8px;
     }
-
     .description {
-      color: #222;
+      color: @color-text;
     }
   }
-
   .action {
     display: none;
-
     span {
-      color: #1890ff;
-
+      color: @color-primary;
       &:first-child {
         margin-right: 4px;
       }
     }
   }
-
   &:hover {
-    background: #f4f4f4;
-
+    background: @color-hover;
     .action {
       display: block;
       cursor: pointer;

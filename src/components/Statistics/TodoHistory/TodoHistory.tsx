@@ -83,6 +83,7 @@ class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> 
             <CompletedList dates={this.state.completedDatesEachPage}
                            todos={this.props.completedTodosByDay}></CompletedList>
             <Pagination
+              className="pagination"
               total={this.props.completedDates.length}
               onChange={(current: number) => {
                 this.setState({completedDatesEachPage: this.props.completedDatesByPage[current - 1]});
@@ -93,6 +94,7 @@ class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> 
           <TabPane className="todo-history-tab-pane" tab="已删除的任务" key="2">
             <DeletedList todos={this.state.deletedTodosEachPage}></DeletedList>
             <Pagination
+              className="pagination"
               total={this.props.deletedTodos.length}
               onChange={(current: number) => {
                 this.setState({deletedTodosEachPage: this.props.deletedTodosByPage[current - 1]});
