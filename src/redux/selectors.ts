@@ -40,7 +40,7 @@ export const getTomatoesByFilter = (store: any, tomatoFilter: string) => {
   }
 };
 
-export const groupByDay = (dataBeforeGroup: any, keyOfTime: string) => {
+export const groupByDay = (dataBeforeGroup: any[], keyOfTime: string) => {
   return _.groupBy(dataBeforeGroup, (item) => {
     return (format(parseISO(item[keyOfTime]), 'yyyy-MM-dd'));
   });
