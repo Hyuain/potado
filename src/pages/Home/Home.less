@@ -22,7 +22,12 @@
   > main {
     padding: 16px 0;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    @media(min-width: 500px){
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+    }
   }
 }

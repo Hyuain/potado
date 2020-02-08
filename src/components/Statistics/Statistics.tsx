@@ -10,6 +10,12 @@ import TomatoHistory from './TomatoHistory/TomatoHistory';
 
 import './Statistics.less';
 
+interface IStatisticsState {
+  currentIndex: string,
+  graphWidth: number,
+  graphHeight: number
+}
+
 interface IStatisticsProps {
   todos: any[],
   completedTodos: any[],
@@ -18,14 +24,20 @@ interface IStatisticsProps {
   finishedTomatoesByDay: any
 }
 
-class Statistics extends React.Component<IStatisticsProps, any> {
-
-  private myRef: any;
+class Statistics extends React.Component<IStatisticsProps, IStatisticsState> {
 
   constructor(props: IStatisticsProps) {
     super(props);
+    let graphWidth = 150;
+    let graphHeight = 50;
+    if (document.body.clientWidth >= 500) {
+      graphWidth = 240;
+      graphHeight = 60;
+    }
     this.state = {
-      currentIndex: '1'
+      currentIndex: '1',
+      graphWidth,
+      graphHeight
     };
   }
 
@@ -35,49 +47,59 @@ class Statistics extends React.Component<IStatisticsProps, any> {
 
   public render() {
 
-    let DetailStatistics = null;
+    let HistoryDetails: any;
     switch (this.state.currentIndex) {
       case '1':
-        DetailStatistics = <TomatoHistory/>;
+        HistoryDetails = <TomatoHistory/>;
         break;
       case '2':
-        DetailStatistics = <TodoHistory/>;
+        HistoryDetails = <TodoHistory/>;
     }
+
+
+
+    const HistoryGraphs = (
+      <ul>
+        <li
+          className={`statistics-item ${this.state.currentIndex === '1' ? 'active' : ''}`}
+          onClick={this.onClick}
+          data-index="1">
+          <div className="text">
+            <p>番茄历史</p>
+            <p>累计完成番茄</p>
+            <p>{this.props.finishedTomatoes.length}</p>
+          </div>
+          <Graph
+            data={this.props.finishedTomatoesByDay}
+            totalFinishCount={this.props.finishedTomatoes.length}
+            width={this.state.graphWidth} height={this.state.graphHeight}/>
+        </li>
+        <li
+          className={`statistics-item ${this.state.currentIndex === '2' ? 'active' : ''}`}
+          onClick={this.onClick}
+          data-index="2">
+          <div className="text">
+            <p>任务历史</p>
+            <p>累计完成任务</p>
+            <p>{this.props.completedTodos.length}</p>
+          </div>
+          <Graph
+            data={this.props.completedTodosByDay}
+            totalFinishCount={this.props.completedTodos.length}
+            width={this.state.graphWidth} height={this.state.graphHeight}/>
+        </li>
+      </ul>
+    );
 
     return (
       <div className="statistics">
-        <ul>
-          <li
-            className={`statistics-item ${this.state.currentIndex === '1' ? 'active' : ''}`}
-            onClick={this.onClick}
-            data-index="1">
-            <div className="text">
-              <p>番茄历史</p>
-              <p>累计完成番茄</p>
-              <p>{this.props.finishedTomatoes.length}</p>
-            </div>
-            <Graph
-              data={this.props.finishedTomatoesByDay}
-              totalFinishCount={this.props.finishedTomatoes.length}
-              width={240} height={60}/>
-          </li>
-          <li
-            className={`statistics-item ${this.state.currentIndex === '2' ? 'active' : ''}`}
-            onClick={this.onClick}
-            data-index="2">
-            <div className="text">
-              <p>任务历史</p>
-              <p>累计完成任务</p>
-              <p>{this.props.completedTodos.length}</p>
-            </div>
-            <Graph
-              data={this.props.completedTodosByDay}
-              totalFinishCount={this.props.completedTodos.length} width={240}
-              height={60}/>
-          </li>
-        </ul>
-        <div className="detail-statistics">
-          {DetailStatistics}
+        {
+          HistoryGraphs
+        }
+        <div className="history-details">
+          {
+            HistoryDetails
+          }
         </div>
       </div>
     );

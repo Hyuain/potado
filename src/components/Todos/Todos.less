@@ -2,13 +2,15 @@
 
 .todos {
   padding: 16px;
-  margin: 16px;
+  width: 100%;
   border-radius: @border-radius;
-  width: calc(50% - 8px);
   border: @border;
   box-shadow: @box-shadow;
   background: @color-block;
-
+  @media(min-width: 500px){
+    margin: 16px;
+    width: calc(50% - 8px);
+  }
   > .todo-list {
     margin-top: 16px;
   }

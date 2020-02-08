@@ -34,7 +34,7 @@ const Graph = (props: IGraphProps) => {
   return (
     <div className="graph">
       <svg>
-        <polygon fill="rgba(215,78,78,.1)" stroke="rgba(215,78,78,.5)" strokeWidth="1"
+        <polygon fill="rgba(201,72,91,.1)" stroke="rgba(201,72,91,.5)" strokeWidth="1"
                  points={genPoints(props.width, props.height)}/>
       </svg>
     </div>
