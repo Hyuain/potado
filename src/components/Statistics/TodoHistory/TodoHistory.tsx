@@ -11,53 +11,29 @@ import './TodoHistory.less';
 
 const {TabPane} = Tabs;
 
-const DeletedList = (props: any) => {
-  console.log(props.todos);
-  return (
-    props.todos.map((todo: any) => (
-      <div key={todo.id}>
-        <TodoHistoryItem key={todo.id} todo={todo} type="deleted"/>
+const CompletedList = (props: any) => {
+  props.dates.map((date: string) => {
+    const todos = props.todos[date];
+    return (
+      <div key={date} className="daily-todos">
+        <div className="title">
+          <p className="date">
+            <span className="date-time">{getFriendlyDate(date, 'monthAndDay')}</span>
+            <span className="week-time">{getFriendlyDate(date, 'dayOfWeek')}</span>
+          </p>
+          <span className="finished-count">完成了 {todos.length} 个任务</span>
+        </div>
+        <div className="details">
+          {
+            todos.map((todo: any) => (<TodoHistoryItem key={todo.id} todo={todo} type="completed"/>))
+          }
+        </div>
       </div>
-    ))
-  );
-
-};
-
-interface ITodoHistoryProps {
-  todos: any[],
-  deletedTodos: any[],
-  completedTodos: any[],
-  completedTodosByDay: any
-}
-
-interface ITodoHistoryState {
-  tabIndex: string | undefined,
-  deletedListProps: any
-}
-
-class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> {
-
-  constructor(props: ITodoHistoryProps) {
-    super(props);
-    this.state = {
-      tabIndex: '1',
-      deletedListProps: this.deletedTodosByPage[0]
-    };
-  }
-
-  get completedDates() {
-    const dates = Object.keys(this.props.completedTodosByDay);
-    return dates.sort((a, b) => (Date.parse(b) - Date.parse(a)));
-  }
-
-  get deletedTodosByPage() {
-    return (groupByLength(this.props.deletedTodos, 10));
-  }
-
-  public render() {
-
-    const CompletedList = this.completedDates.map((date) => {
-      const todos = this.props.completedTodosByDay[date];
+    );
+  });
+  return (
+    props.dates.map((date: string) => {
+      const todos = props.todos[date];
       return (
         <div key={date} className="daily-todos">
           <div className="title">
@@ -74,23 +50,84 @@ class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> 
           </div>
         </div>
       );
-    });
+    })
+  );
+};
+
+const DeletedList = (props: any) => {
+  return (
+    props.todos.map((todo: any) => (
+      <div key={todo.id}>
+        <TodoHistoryItem key={todo.id} todo={todo} type="deleted"/>
+      </div>
+    ))
+  );
+};
+
+interface ITodoHistoryProps {
+  todos: any[],
+  deletedTodos: any[],
+  completedTodos: any[],
+  completedTodosByDay: any
+}
+
+interface ITodoHistoryState {
+  tabIndex: string | undefined,
+  deletedListProps: any,
+  completedProps: any
+}
+
+class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> {
+
+  constructor(props: ITodoHistoryProps) {
+    super(props);
+    this.state = {
+      tabIndex: '1',
+      deletedListProps: this.deletedTodosByPage[0],
+      completedProps: this.completedDates[0]
+    };
+  }
+
+  get completedDates() {
+    const dates = Object.keys(this.props.completedTodosByDay);
+    dates.sort((a, b) => (Date.parse(b) - Date.parse(a)));
+    return groupByLength(dates, 1);
+  }
+
+  get deletedTodosByPage() {
+    return groupByLength(this.props.deletedTodos, 10);
+  }
+
+  public render() {
 
     let total: number;
     if (this.state.tabIndex === '1') {
-      total = this.props.completedTodosByDay.length;
+      total = this.completedDates.length;
     } else {
       total = this.props.deletedTodos.length;
     }
 
     const onPageChange = (current: any) => {
-      this.setState({deletedListProps: this.deletedTodosByPage[current - 1]});
+      if (this.state.tabIndex === '1') {
+        this.setState({completedProps: this.completedDates[current - 1]});
+      } else {
+        this.setState({deletedListProps: this.deletedTodosByPage[current - 1]});
+      }
     };
+
+    let pageSize = 10;
+    if (this.state.tabIndex === '1') {
+      pageSize = 1;
+      console.log(total);
+    } else {
+      pageSize = 10;
+    }
 
     const Pages = (
       <Pagination
         total={total}
         onChange={onPageChange}
+        pageSize={pageSize}
       ></Pagination>
     );
 
@@ -104,9 +141,7 @@ class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> 
           onChange={(current: string) => this.setState({tabIndex: current})}
         >
           <TabPane className="todo-history-tab-pane" tab="已完成的任务" key="1">
-            {
-              CompletedList
-            }
+            <CompletedList dates={this.state.completedProps} todos={this.props.completedTodosByDay}></CompletedList>
           </TabPane>
           <TabPane className="todo-history-tab-pane" tab="已删除的任务" key="2">
             <DeletedList todos={this.state.deletedListProps}></DeletedList>
