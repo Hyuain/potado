@@ -1,28 +1,29 @@
 import React from 'react';
+import {groupByLength} from '../../../utils/helpers';
+
 import {connect} from 'react-redux';
 import {getTodosByFilter, groupByDay} from '../../../redux/selectors';
 import {TODO_FILTERS} from '../../../constants';
-import {groupByLength} from '../../../utils/helpers';
+
+import AbortedList from '../AbortedList/AbortedList';
+import CompletedList from '../CompletedList/CompletedList';
 
 import {Tabs, Pagination} from 'antd';
 import './TodoHistory.less';
-import AbortedList from '../AbortedList/AbortedList';
-import CompletedList from '../CompletedList/CompletedList';
 
 const {TabPane} = Tabs;
 
 interface ITodoHistoryProps {
   deletedTodos: any[],
-  completedTodosByDay: any,
-  completedDatesByPage: any[],
   deletedTodosByPage: any[],
+  completedTodosByDay: any[],
+  completedDatesByPage: any[],
   completedDates: any[]
 }
 
 interface ITodoHistoryState {
-  tabIndex: string | undefined,
-  deletedTodosEachPage: any,
-  completedDatesEachPage: any
+  deletedCurrent: number,
+  completedCurrent: number
 }
 
 class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> {
@@ -30,44 +31,41 @@ class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> 
   constructor(props: ITodoHistoryProps) {
     super(props);
     this.state = {
-      tabIndex: '1',
-      deletedTodosEachPage: props.deletedTodosByPage[0],
-      completedDatesEachPage: props.completedDatesByPage[0]
+      deletedCurrent: 1,
+      completedCurrent: 1
     };
   }
 
   public render() {
     return (
       <div className="todo-history">
-        <Tabs
-          className="todo-history-tabs"
-          type="card"
-          activeKey={this.state.tabIndex}
-          onChange={(current: string) => this.setState({tabIndex: current})}
-        >
+        <Tabs className="todo-history-tabs" type="card">
+
           <TabPane className="todo-history-tab-pane" tab="已完成的任务" key="1">
-            <CompletedList dates={this.state.completedDatesEachPage}
+            <CompletedList dates={this.props.completedDatesByPage[this.state.completedCurrent - 1]}
                            todos={this.props.completedTodosByDay}></CompletedList>
             <Pagination
               className="pagination"
               total={this.props.completedDates.length}
               onChange={(current: number) => {
-                this.setState({completedDatesEachPage: this.props.completedDatesByPage[current - 1]});
+                this.setState({completedCurrent: current});
               }}
-              pageSize={1}
+              pageSize={5}
             />
           </TabPane>
+
           <TabPane className="todo-history-tab-pane" tab="已删除的任务" key="2">
-            <AbortedList todos={this.state.deletedTodosEachPage}></AbortedList>
+            <AbortedList todos={this.props.deletedTodosByPage[this.state.deletedCurrent - 1]}></AbortedList>
             <Pagination
               className="pagination"
               total={this.props.deletedTodos.length}
               onChange={(current: number) => {
-                this.setState({deletedTodosEachPage: this.props.deletedTodosByPage[current - 1]});
+                this.setState({deletedCurrent: current});
               }}
               pageSize={10}
             />
           </TabPane>
+
         </Tabs>
       </div>
     );
@@ -76,18 +74,18 @@ class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> 
 
 const mapStateToProps = (state: any, ownProps: any) => {
   const deletedTodos = getTodosByFilter(state, TODO_FILTERS.DELETED);
+  const deletedTodosByPage = groupByLength(deletedTodos, 10);
   const completedTodos = getTodosByFilter(state, TODO_FILTERS.COMPLETED);
   const completedTodosByDay = groupByDay(completedTodos, 'completed_at');
   const completedDates = Object.keys(completedTodosByDay).sort((a, b) => (Date.parse(b) - Date.parse(a)));
-  const completedDatesByPage = groupByLength(completedDates, 1);
-  const deletedTodosByPage = groupByLength(deletedTodos, 10);
+  const completedDatesByPage = groupByLength(completedDates, 5);
 
   return {
+    deletedTodos,
+    deletedTodosByPage,
     completedTodosByDay,
     completedDates,
     completedDatesByPage,
-    deletedTodos,
-    deletedTodosByPage,
     ...ownProps
   };
 };

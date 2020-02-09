@@ -16,12 +16,12 @@ import './TomatoHistory.less';
 const {TabPane} = Tabs;
 
 interface ITomatoHistoryProps {
-  finishedTomatoesByDay: any[],
   abortedTomatoes: any[],
   abortedTomatoesByPage: any[],
-  addTomato: (payload: any) => any,
+  finishedTomatoesByDay: any[],
+  finishedDates: any[],
   finishedDatesByPage: any[],
-  finishedDates: any[]
+  addTomato: (payload: any) => any,
 }
 
 interface ITomatoHistoryState {
@@ -54,7 +54,7 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, ITomatoHistoryS
               onChange={(current: number) => {
                 this.setState({finishedCurrent: current});
               }}
-              pageSize={1}
+              pageSize={5}
             />
           </TabPane>
 
@@ -82,7 +82,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const finishedTomatoes = getTomatoesByFilter(state, TOMATO_FILTERS.FINISHED);
   const finishedTomatoesByDay = groupByDay(finishedTomatoes, 'started_at');
   const finishedDates = Object.keys(finishedTomatoesByDay).sort((a, b) => (Date.parse(b) - Date.parse(a)));
-  const finishedDatesByPage = groupByLength(finishedDates, 1);
+  const finishedDatesByPage = groupByLength(finishedDates, 5);
   return {
     abortedTomatoes,
     abortedTomatoesByPage,
