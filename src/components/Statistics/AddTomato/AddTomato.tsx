@@ -63,9 +63,10 @@ const AddTomato = (props: any) => {
         okText="确认"
         cancelText="取消"
       >
-        <div className="add-model-item">
-          <span>番茄的开始时间：</span>
+        <div className="add-modal-item">
+          <span className="add-modal-label">番茄的开始时间：</span>
           <DatePicker
+            className="date-picker"
             locale={locale}
             placeholder=""
             showTime
@@ -74,8 +75,8 @@ const AddTomato = (props: any) => {
             onChange={(value) => setStartedAt(value)}
           />
         </div>
-        <div className="add-model-item">
-          <span>番茄描述：</span>
+        <div className="add-modal-item">
+          <span className="add-modal-label">番茄描述：</span>
           <Input
             type="text"
             value={description}

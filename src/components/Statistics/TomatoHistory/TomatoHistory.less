@@ -1,18 +1,28 @@
 @import "../../../assets/styles/helper.less";
 
-.add-model-item {
+.add-modal-item {
   margin: 0 16px;
   display: flex;
-  align-items: center;
-  + .add-model-item {
+  flex-direction: column;
+  align-items: flex-start;
+  + .add-modal-item {
     margin-top: 8px;
   }
+  .add-modal-label {
+    flex-shrink: 0;
+  }
+  .date-picker {
+    width: 100%;
+  }
   input {
-    flex: 1;
+    width: 100%;
+  }
+  @media (min-width: 500px) {
+    flex-direction: row;
+    align-items: center;
   }
 }
 .tomato-history {
-
   .tomato-history-tabs {
     .tomato-history-tab-pane {
       position: relative;
@@ -26,22 +36,31 @@
         font-size: 20px;
       }
       .daily-tomatoes {
-        padding: 16px;
+        padding: 8px 16px;
         border: @border;
-        border-radius: 4px;
+        border-radius: @border-radius;
         margin-bottom: 8px;
         display: flex;
+        flex-direction: column;
         .title {
-          flex-shrink: 0;
-          margin-right: 8px;
+          padding: 8px;
           .date {
+            float: left;
+            margin-right: 16px;
+            position: relative;
             .date-time {
-              margin-right: 4px;
+              font-size: 20px;
               color: @color-text;
+              position: relative;
+              display: block;
+              top: -4px;
             }
             .week-time {
-              color: @color-text-light;
               font-size: 12px;
+              color: @color-text-light;
+              position: absolute;
+              right: 2px;
+              bottom: -10px;
             }
           }
           .finished-count {
@@ -51,9 +70,34 @@
           .total-time {
             color: @color-text-light;
           }
+          &::after{
+            content: '';
+            display: block;
+            clear: both;
+          }
         }
         .details {
           flex: 1;
+        }
+        @media (min-width: 500px) {
+          padding: 16px;
+          flex-direction: row;
+          .title {
+            flex-shrink: 0;
+            margin-right: 8px;
+            padding: 0;
+            .date {
+              float: none;
+              .date-time {
+                position: static;
+                margin-right: 4px;
+                display: inline-block;
+              }
+              .week-time {
+                position: static;
+              }
+            }
+          }
         }
       }
       .pagination {

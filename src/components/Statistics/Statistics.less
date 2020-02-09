@@ -12,57 +12,46 @@
       cursor: pointer;
       position: relative;
       background: @color-block;
-
       &:first-child {
         border-radius: @border-radius 0 0 @border-radius;
       }
-
       &:last-child {
         border-radius: 0 @border-radius @border-radius 0;
       }
-
       + li {
         border-left: none;
       }
-
       &.active {
         background: @color-hover;
       }
-
       .text {
-         position: absolute;
          margin: 8px;
-
          p {
            &:first-child {
              font-size: 16px;
            }
 
            &:nth-child(2) {
-             font-size: 8px;
+             font-size: 12px;
              color: @color-text-light;
            }
-
            &:last-child {
              position: absolute;
-             right: -60px;
-             top: 4px;
+             right: 8px;
+             bottom: 0;
              font-size: 40px;
            }
          }
        }
-
       .graph {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 20px;
-
+        margin-top: -40px;
         svg {
-          height: 50px;
-          width: 149px;
+          height: 70px;
+          max-width: 100%;
           margin-left: -1px;
-
         }
       }
     }
@@ -71,49 +60,37 @@
     ul{
       li{
         .text {
-          position: absolute;
-          margin: 8px;
-
           p {
             &:first-child {
-              font-size: 16px;
             }
-
             &:nth-child(2) {
               font-size: 8px;
-              color: @color-text-light;
             }
-
             &:last-child {
               position: relative;
               right: 0;
-              top: -4px;
-              font-size: 40px;
+              top: -8px;
             }
           }
-
         }
         .graph {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-top: 40px;
-
+          margin-top: -78px;
           svg {
             height: 60px;
             width: 239px;
-            margin-left: -1px;
-
           }
         }
       }
     }
   }
   .history-details{
-    margin: 16px;
+    margin: 0;
     padding: 16px;
     border: @border;
     border-radius: @border-radius;
     box-shadow: @box-shadow;
+    @media(min-width: 500px){
+      margin: 16px;
+    }
   }
 }
