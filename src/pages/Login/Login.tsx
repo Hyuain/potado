@@ -20,7 +20,7 @@ export default function () {
       if(e.response.status === 422) {
         message.warning('用户名或密码错误，请重新输入');
       } else {
-        message.warning('网络错误，请稍后再试');
+        message.error('网络好像有点不太好哦，一会儿再试吧');
       }
     }
   };
