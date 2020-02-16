@@ -5,8 +5,8 @@ import {TODO_FILTERS, TOMATO_FILTERS} from '../../constants';
 import {getTodosByFilter, getTomatoesByFilter, groupByDay} from '../../redux/selectors';
 
 import Graph from './Graph/Graph';
-import TodoHistory from './TodoHistory/TodoHistory';
-import TomatoHistory from './TomatoHistory/TomatoHistory';
+import TodoHistory from './History/TodoHistory/TodoHistory';
+import TomatoHistory from './History/TomatoHistory/TomatoHistory';
 
 import './Statistics.less';
 

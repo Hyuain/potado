@@ -1,7 +1,7 @@
 import {getFriendlyDate} from '../../../utils/helpers';
-import TodoHistoryItem from '../TodoHistoryItem/TodoHistoryItem';
+import TodoHistoryItem from './TodoHistory/TodoHistoryItem';
 import React from 'react';
-import TomatoHistoryItem from '../TomatoHistoryItem/TomatoHistoryItem';
+import TomatoHistoryItem from './TomatoHistory/TomatoHistoryItem';
 
 const CompletedList = (props: any) => {
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import TodoHistoryItem from '../TodoHistoryItem/TodoHistoryItem';
-import TomatoHistoryItem from '../TomatoHistoryItem/TomatoHistoryItem';
+import TodoHistoryItem from './TodoHistory/TodoHistoryItem';
+import TomatoHistoryItem from './TomatoHistory/TomatoHistoryItem';
 
 const AbortedList = (props: any) => {
   if (props.todos) {

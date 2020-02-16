@@ -1,14 +1,14 @@
 import React from 'react';
-import {groupByLength} from '../../../utils/helpers';
+import {groupByLength} from '@/utils/helpers';
 
 import {connect} from 'react-redux';
-import actions from '../../../redux/actions';
-import {getTomatoesByFilter, groupByDay} from '../../../redux/selectors';
-import {TOMATO_FILTERS} from '../../../constants';
+import actions from '@/redux/actions';
+import {getTomatoesByFilter, groupByDay} from '@/redux/selectors';
+import {TOMATO_FILTERS} from '@/constants';
 
-import AbortedList from '../AbortedList/AbortedList';
-import CompletedList from '../CompletedList/CompletedList';
-import AddTomato from '../AddTomato/AddTomato';
+import AbortedList from '../AbortedList';
+import CompletedList from '../CompletedList';
+import AddTomato from './AddTomato';
 
 import {Tabs, Pagination} from 'antd';
 import './TomatoHistory.less';
