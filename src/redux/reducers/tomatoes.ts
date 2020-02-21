@@ -1,6 +1,23 @@
 import {ADD_TOMATO, INIT_TOMATOES, UPDATE_TOMATO} from '../actionTypes';
 
-export default function (state: any[] = [], action: any) {
+interface AddTomatoAction {
+  type: typeof ADD_TOMATO
+  payload: Tomato
+}
+
+interface InitTomatoesAction {
+  type: typeof INIT_TOMATOES
+  payload: Tomato[]
+}
+
+interface UpdateTomatoAction {
+  type: typeof UPDATE_TOMATO
+  payload: Tomato
+}
+
+type TomatoesActionTypes = AddTomatoAction | InitTomatoesAction | UpdateTomatoAction
+
+export default function (state: Tomato[] = [], action: TomatoesActionTypes) {
   switch (action.type) {
     case ADD_TOMATO:
       return [action.payload, ...state];

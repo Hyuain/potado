@@ -8,30 +8,25 @@ import Tomatoes from '@/applications/Tomatoes';
 import Statistics from '@/applications/Statisitics';
 import {Dropdown, Menu, Icon, message} from 'antd';
 import './style.less';
-import logo from '@/assets/images/logo.png'
+import logo from '@/assets/images/logo.png';
+import {Dispatch} from 'redux';
+import {RootState} from '@/redux/reducers';
 
 interface IHomeProps {
-  initTodos: (payload: any) => {
-    type: string,
-    payload: any
-  },
-  initTomatoes: (payload: any) => {
-    type: string,
-    payload: any
-  },
 }
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
-const Home = (props: IHomeProps) => {
-  const [user, setUser] = React.useState<any>({});
+const Home = (props: ReduxType) => {
+  const [user, setUser] = React.useState<User>({account: ''});
   let history = useHistory();
 
   React.useEffect(() => {
     const getMe = async () => {
       try {
-        const response = await axios.get('me');
+        const response = await axios.get<User>('me');
         setUser(response.data);
       } catch (e) {
-        if(e.response.status === 401) {
+        if (e.response.status === 401) {
         } else {
           message.error('网络好像有点不太好哦，一会儿再试吧');
         }
@@ -39,11 +34,11 @@ const Home = (props: IHomeProps) => {
     };
     const getTodos = async () => {
       try {
-        const response = await axios.get('todos');
-        const todos = response.data.resources.map((todo: any) => Object.assign({}, todo, {editing: false}));
+        const response = await axios.get<TodoResponse>('todos');
+        const todos = response.data.resources.map((todo) => Object.assign({}, todo, {editing: false}));
         props.initTodos(todos);
       } catch (e) {
-        if(e.response.status === 401) {
+        if (e.response.status === 401) {
         } else {
           message.error('网络好像有点不太好哦，一会儿再试吧');
         }
@@ -51,10 +46,10 @@ const Home = (props: IHomeProps) => {
     };
     const getTomatoes = async () => {
       try {
-        const response = await axios.get('tomatoes');
+        const response = await axios.get<TomatoResponse>('tomatoes');
         props.initTomatoes(response.data.resources);
       } catch (e) {
-        if(e.response.status === 401) {
+        if (e.response.status === 401) {
         } else {
           message.error('网络好像有点不太好哦，一会儿再试吧');
         }
@@ -102,13 +97,13 @@ const Home = (props: IHomeProps) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => ({
+const mapStateToProps = (state: RootState, ownProps: IHomeProps) => ({
   ...ownProps
 });
 
-const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   initTodos: actions.initTodos,
   initTomatoes: actions.initTomatoes
-};
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

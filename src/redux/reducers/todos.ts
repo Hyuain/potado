@@ -1,6 +1,28 @@
 import {ADD_TODO, INIT_TODOS, UPDATE_TODO, EDIT_TODO} from '../actionTypes';
 
-export default function (state: any[] = [], action: any) {
+interface AddTodoAction {
+  type: typeof ADD_TODO
+  payload: Todo
+}
+
+interface InitTodosAction {
+  type: typeof INIT_TODOS
+  payload: Todo[]
+}
+
+interface UpdateTodoAction {
+  type: typeof UPDATE_TODO
+  payload: Todo
+}
+
+interface EditTodoAction {
+  type: typeof EDIT_TODO
+  payload: number
+}
+
+type TodosActionTypes = AddTodoAction | InitTodosAction | UpdateTodoAction | EditTodoAction
+
+export default function (state: Todo[] = [], action: TodosActionTypes) {
   switch (action.type) {
     case ADD_TODO:
       return [action.payload, ...state];

@@ -5,9 +5,9 @@ import {Link, useHistory} from 'react-router-dom';
 import './style.less';
 
 const Login = () => {
-  const [account, setAccount] = React.useState();
-  const [password, setPassword] = React.useState();
-  let history = useHistory();
+  const [account, setAccount] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string>('');
+  const history = useHistory();
 
   const onLogin = async () => {
     try {
@@ -25,8 +25,8 @@ const Login = () => {
     }
   };
 
-  const onKeyUp = (e: any) => {
-    if (e.keyCode === 13) {
+  const onKeyUp = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
       if (inputCheck()) {
         onLogin();
       }
