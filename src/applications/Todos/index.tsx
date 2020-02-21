@@ -1,29 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import actions from '@/redux/actions';
-import {TODO_FILTERS} from '@/constants';
-import {getTodosByFilter} from '@/redux/selectors';
+import {RootState} from '@/redux/reducers';
+import {Dispatch} from 'redux';
+import {getIncompleteTodos} from '@/redux/selectors';
 import TodoInput from '@/components/Todos/TodoInput';
 import TodoItem from '@/components/Todos/TodoItem';
 import './style.less';
 
 interface ITodosProps {
-  incompleteTodos: any,
-  updateTodo: (payload: any) => {
-    type: string,
-    payload: any
-  },
-  editTodo: (id: number) => {
-    type: string,
-    payload: any
-  },
-  addTodo: (payload: any) => {
-    type: string,
-    payload: any
-  }
 }
 
-const Todos = (props: ITodosProps) => {
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
+
+const Todos = (props: ReduxType) => {
 
   return (
     <div className="todos">
@@ -32,7 +22,7 @@ const Todos = (props: ITodosProps) => {
       />
       <div className="todo-list">
         {
-          props.incompleteTodos.map((todo: any) => (
+          props.incompleteTodos.map((todo: Todo) => (
             <TodoItem
               key={todo.id} {...todo}
               updateTodo={props.updateTodo}
@@ -45,18 +35,26 @@ const Todos = (props: ITodosProps) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  const incompleteTodos = getTodosByFilter(state, TODO_FILTERS.INCOMPLETE);
+const mapStateToProps = (state: RootState, ownProps: ITodosProps) => {
+  const incompleteTodos = getIncompleteTodos(state);
   return {
     incompleteTodos,
     ...ownProps
   };
 };
 
-const mapDispatchToProps = {
-  addTodo: actions.addTodo,
-  editTodo: actions.editTodo,
-  updateTodo: actions.updateTodo
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    addTodo(payload: Todo) {
+      dispatch(actions.addTodo(payload));
+    },
+    editTodo(payload: number) {
+      dispatch(actions.editTodo(payload));
+    },
+    updateTodo(payload: Todo) {
+      dispatch(actions.updateTodo(payload));
+    }
+  };
 };
 
 export default connect(

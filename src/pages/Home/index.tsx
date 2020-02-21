@@ -14,6 +14,7 @@ import {RootState} from '@/redux/reducers';
 
 interface IHomeProps {
 }
+
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
 const Home = (props: ReduxType) => {
@@ -34,7 +35,7 @@ const Home = (props: ReduxType) => {
     };
     const getTodos = async () => {
       try {
-        const response = await axios.get<TodoResponse>('todos');
+        const response = await axios.get<TodoGetResponse>('todos');
         const todos = response.data.resources.map((todo) => Object.assign({}, todo, {editing: false}));
         props.initTodos(todos);
       } catch (e) {
@@ -58,7 +59,8 @@ const Home = (props: ReduxType) => {
     getMe();
     getTodos();
     getTomatoes();
-  }, [props]);
+    // eslint-disable-next-line
+  }, []);
 
   const onLogout = () => {
     localStorage.setItem('x-token', '');
@@ -101,9 +103,15 @@ const mapStateToProps = (state: RootState, ownProps: IHomeProps) => ({
   ...ownProps
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  initTodos: actions.initTodos,
-  initTomatoes: actions.initTomatoes
-});
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    initTodos(payload: Todo[]) {
+      dispatch(actions.initTodos(payload))
+    },
+    initTomatoes(payload: Tomato[]) {
+      dispatch(actions.initTomatoes(payload))
+    }
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

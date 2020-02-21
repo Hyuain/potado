@@ -4,13 +4,13 @@ import {Input, Icon, message} from 'antd';
 import './style.less';
 
 interface ITodoInputProps {
-  addTodo: (payload: any) => any
+  addTodo: (payload: Todo) => void
 }
 
 const TodoInput = (props: ITodoInputProps) => {
-  const [description, setDescription] = React.useState('');
+  const [description, setDescription] = React.useState<string>('');
 
-  const onKeyUp = (e: any) => {
+  const onKeyUp = (e: React.KeyboardEvent) => {
     if (e.keyCode === 13) {
       if (inputCheck()) {
         addTodo();
@@ -34,7 +34,7 @@ const TodoInput = (props: ITodoInputProps) => {
 
   const addTodo = async () => {
     try {
-      const response = await axios.post('todos', {description});
+      const response = await axios.post<TodoUpdateResponse>('todos', {description});
       setDescription('');
       props.addTodo(response.data.resource);
     } catch (e) {

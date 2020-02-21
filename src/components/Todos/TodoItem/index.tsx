@@ -5,18 +5,14 @@ import classNames from 'classnames';
 import {Checkbox, Icon, message} from 'antd';
 import './style.less';
 
-interface ITodoItemProps {
-  id: number,
-  description: string,
-  completed: boolean,
-  editing: boolean,
-  updateTodo: (payload: any) => any,
-  editTodo: (id: number) => any
+interface ITodoItemProps extends Todo{
+  updateTodo: (payload: Todo) => void
+  editTodo: (id: number) => void
 }
 
 const TodoItem = (props: ITodoItemProps) => {
 
-  const [textContent, setTextContent] = React.useState(props.description);
+  const [textContent, setTextContent] = React.useState<string>(props.description);
 
   const onClickEnter = () => {
     if (inputCheck()) {
@@ -28,7 +24,7 @@ const TodoItem = (props: ITodoItemProps) => {
     updateTodo({deleted: true});
   };
 
-  const onKeyUp = (e: any) => {
+  const onKeyUp = (e: React.KeyboardEvent) => {
     if (e.keyCode === 13) {
       if (inputCheck()) {
         updateTodo({description: textContent});
@@ -44,12 +40,12 @@ const TodoItem = (props: ITodoItemProps) => {
     return true;
   };
 
-  const updateTodo = async (params: any) => {
+  const updateTodo = async (params: TodoUpdateParams) => {
     if (params.completed) {
       params.completed_at = new Date();
     }
     try {
-      const response = await axios.put(`todos/${props.id}`, params);
+      const response = await axios.put<TodoUpdateResponse>(`todos/${props.id}`, params);
       props.updateTodo(response.data.resource);
     } catch (e) {
       message.error('网络好像有点不太好哦，一会儿再试吧');

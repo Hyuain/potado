@@ -6,15 +6,28 @@ type Tomato = {
   id: number
 }
 
-type Todo = {
-  id: number
-  editing?: boolean
-}
-
 type TomatoResponse = {
   resources: Tomato[]
 }
 
-type TodoResponse = {
+type Todo = {
+  id: number
+  description: string
+  completed: boolean
+  editing?: boolean
+}
+
+type TodoGetResponse = {
   resources: Todo[]
+}
+
+type TodoUpdateResponse = {
+  resource: Todo
+}
+
+type TodoUpdateParams = {
+  description?: string
+  completed?: boolean
+  completed_at?: Date
+  deleted?: boolean
 }

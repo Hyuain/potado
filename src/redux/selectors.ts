@@ -1,17 +1,33 @@
 import _ from 'lodash';
 import {format, parseISO} from 'date-fns';
-import {TODO_FILTERS, TOMATO_FILTERS} from '../constants';
+import {TODO_FILTERS, TOMATO_FILTERS} from '@/constants';
+import {RootState} from '@/redux/reducers';
 
-const getTodos = (store: any) => (store.todos);
+export const getTodos = (state: RootState) => (state.todos);
 
-const getNotDeletedTodos = (store: any) => {
-  const allTodos = getTodos(store);
+export const getNotDeletedTodos = (state: RootState) => {
+  const allTodos = getTodos(state);
   return allTodos.filter((todo: any) => (!todo.deleted));
 };
 
-export const getTodosByFilter = (store: any, todoFilter: string) => {
-  const allTodos = getTodos(store);
-  const notDeletedTodos = getNotDeletedTodos(store);
+export const getDeletedTodos = (state: RootState) => {
+  const allTodos = getTodos(state);
+  return allTodos.filter((todo: any) => (todo.deleted));
+};
+
+export const getCompletedTodos = (state: RootState) => {
+  const notDeletedTodos = getNotDeletedTodos(state);
+  return notDeletedTodos.filter((todo: any) => (todo.completed));
+};
+
+export const getIncompleteTodos = (state: RootState) => {
+  const notDeletedTodos = getNotDeletedTodos(state);
+  return notDeletedTodos.filter((todo: any) => (!todo.completed));
+};
+
+export const getTodosByFilter = (state: any, todoFilter: string) => {
+  const allTodos = getTodos(state);
+  const notDeletedTodos = getNotDeletedTodos(state);
   switch (todoFilter) {
     case TODO_FILTERS.DELETED:
       return allTodos.filter((todo: any) => (todo.deleted));
@@ -24,17 +40,17 @@ export const getTodosByFilter = (store: any, todoFilter: string) => {
   }
 };
 
-const getTomatoes = (store: any) => (store.tomatoes);
+const getTomatoes = (state: any) => (state.tomatoes);
 
-export const getTomatoesByFilter = (store: any, tomatoFilter: string) => {
-  const allTomatoes = getTomatoes(store);
+export const getTomatoesByFilter = (state: any, tomatoFilter: string) => {
+  const allTomatoes = getTomatoes(state);
   switch (tomatoFilter) {
     case TOMATO_FILTERS.FINISHED:
       return allTomatoes.filter((tomato: any) => (tomato.description && tomato.ended_at && !tomato.aborted));
     case TOMATO_FILTERS.UNFINISHED:
       return allTomatoes.filter((tomato: any) => (!tomato.description && !tomato.ended_at && !tomato.aborted))[0];
     case TOMATO_FILTERS.ABORTED:
-      return allTomatoes.filter((tomato: any)=>(!tomato.ended_at && tomato.aborted));
+      return allTomatoes.filter((tomato: any) => (!tomato.ended_at && tomato.aborted));
     default:
       return tomatoFilter;
   }
