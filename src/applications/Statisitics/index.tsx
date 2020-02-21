@@ -1,14 +1,11 @@
 import React from 'react';
-
 import {connect} from 'react-redux';
-import {TODO_FILTERS, TOMATO_FILTERS} from '../../constants';
-import {getTodosByFilter, getTomatoesByFilter, groupByDay} from '../../redux/selectors';
-
-import Graph from './Graph/Graph';
-import TodoHistory from './History/TodoHistory/TodoHistory';
-import TomatoHistory from './History/TomatoHistory/TomatoHistory';
-
-import './Statistics.less';
+import {TODO_FILTERS, TOMATO_FILTERS} from '@/constants';
+import {getTodosByFilter, getTomatoesByFilter, groupByDay} from '@/redux/selectors';
+import Graph from '@/components/Statistics/Graph';
+import TodoHistory from '@/components/Statistics/TodoHistory';
+import TomatoHistory from '@/components/Statistics/TomatoHistory';
+import './style.less';
 
 interface IStatisticsState {
   currentIndex: string,

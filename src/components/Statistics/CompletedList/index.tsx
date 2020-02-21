@@ -1,9 +1,9 @@
-import {getFriendlyDate} from '../../../utils/helpers';
-import TodoHistoryItem from './TodoHistory/TodoHistoryItem';
 import React from 'react';
-import TomatoHistoryItem from './TomatoHistory/TomatoHistoryItem';
+import {getFriendlyDate} from '@/api/utils';
+import TodoHistoryItem from '@/components/Statistics/TodoHistoryItem';
+import TomatoHistoryItem from '@/components/Statistics/TomatoHistoryItem';
 
-const CompletedList = (props: any) => {
+const Index = (props: any) => {
 
   const getFriendlyTime = (time: number) => {
     const seconds = Math.floor(time / 1000);
@@ -75,4 +75,4 @@ const CompletedList = (props: any) => {
   }
 };
 
-export default CompletedList;
+export default Index;

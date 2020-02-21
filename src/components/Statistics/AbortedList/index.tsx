@@ -1,6 +1,6 @@
 import React from 'react';
-import TodoHistoryItem from './TodoHistory/TodoHistoryItem';
-import TomatoHistoryItem from './TomatoHistory/TomatoHistoryItem';
+import TodoHistoryItem from '@/components/Statistics/TodoHistoryItem';
+import TomatoHistoryItem from '@/components/Statistics/TomatoHistoryItem';
 
 const AbortedList = (props: any) => {
   if (props.todos) {
@@ -20,9 +20,7 @@ const AbortedList = (props: any) => {
       ))
     );
   } else {
-    return (
-      <div></div>
-    );
+    return null;
   }
 };
 

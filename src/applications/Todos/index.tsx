@@ -1,13 +1,11 @@
 import React from 'react';
-
 import {connect} from 'react-redux';
-import actions from '../../redux/actions';
-import {TODO_FILTERS} from '../../constants';
-import {getTodosByFilter} from '../../redux/selectors';
-
-import TodoInput from './TodoInput/TodoInput';
-import TodoItem from './TodoItem/TodoItem';
-import './Todos.less';
+import actions from '@/redux/actions';
+import {TODO_FILTERS} from '@/constants';
+import {getTodosByFilter} from '@/redux/selectors';
+import TodoInput from '@/components/Todos/TodoInput';
+import TodoItem from '@/components/Todos/TodoItem';
+import './style.less';
 
 interface ITodosProps {
   incompleteTodos: any,

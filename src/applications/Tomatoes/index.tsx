@@ -1,14 +1,11 @@
 import React from 'react';
-import TomatoAction from './TomatoAction/TomatoAction';
-import TomatoList from './TomatoList/TomatoList';
-
-import actions from '../../redux/actions';
+import TomatoAction from '@/components/Tomatoes/TomatoAction';
+import TomatoList from '@/components/Tomatoes/TomatoList';
+import actions from '@/redux/actions';
 import {connect} from 'react-redux';
-import {TOMATO_FILTERS} from '../../constants';
-import {getTomatoesByFilter, groupByDay} from '../../redux/selectors';
-
-
-import './Tomatoes.less';
+import {TOMATO_FILTERS} from '@/constants';
+import {getTomatoesByFilter, groupByDay} from '@/redux/selectors';
+import './style.less';
 
 interface ITomatoesProps {
   tomatoes: any[],

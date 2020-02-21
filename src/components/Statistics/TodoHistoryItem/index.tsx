@@ -1,12 +1,12 @@
 import React from 'react';
-import axios from '../../../../config/axios';
 import {format, parseISO} from 'date-fns';
-import {getFriendlyDate} from '../../../../utils/helpers';
+import axios from '@/api/axios';
+import {getFriendlyDate} from '@/api/utils';
 
 import {connect} from 'react-redux';
-import actions from '../../../../redux/actions';
+import actions from '../../../redux/actions';
 
-import './TodoHistoryItem.less';
+import './style.less';
 
 
 interface ITodoHistoryItemProps {

@@ -1,10 +1,8 @@
 import React from 'react';
-import axios from '../../../config/axios';
-
-import CountDown from '../CountDown/CountDown';
-
+import axios from '@/api/axios';
+import CountDown from '@/components/Tomatoes/CountDown';
 import {Button, Icon, Input, message, Modal} from 'antd';
-import './TomatoAction.less';
+import './style.less';
 
 const {confirm} = Modal;
 
@@ -24,7 +22,7 @@ interface ITomatoActionState {
   description: string
 }
 
-class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionState> {
+class Index extends React.Component<ITomatoActionProps, ITomatoActionState> {
 
   constructor(props: ITomatoActionProps) {
     super(props);
@@ -153,4 +151,4 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
   }
 }
 
-export default TomatoAction;
+export default Index;

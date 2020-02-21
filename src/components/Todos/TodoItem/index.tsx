@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from '../../../config/axios';
+import axios from '@/api/axios';
 import classNames from 'classnames';
 
 import {Checkbox, Icon, message} from 'antd';
-import './TodoItem.less';
+import './style.less';
 
 interface ITodoItemProps {
   id: number,

@@ -1,17 +1,14 @@
 import React from 'react';
-import {groupByLength} from '@/utils/helpers';
-
+import {groupByLength} from '@/api/utils';
 import {connect} from 'react-redux';
 import actions from '@/redux/actions';
 import {getTomatoesByFilter, groupByDay} from '@/redux/selectors';
 import {TOMATO_FILTERS} from '@/constants';
-
-import AbortedList from '../AbortedList';
-import CompletedList from '../CompletedList';
-import AddTomato from './AddTomato';
-
+import AbortedList from '@/components/Statistics/AbortedList';
+import CompletedList from '@/components/Statistics/CompletedList';
+import AddTomato from '@/components/Statistics/AddTomato';
 import {Tabs, Pagination} from 'antd';
-import './TomatoHistory.less';
+import './style.less';
 
 const {TabPane} = Tabs;
 
@@ -47,7 +44,7 @@ class TomatoHistory extends React.Component<ITomatoHistoryProps, ITomatoHistoryS
           <TabPane className="tomato-history-tab-pane" tab="完成的番茄" key="1">
             <AddTomato addTomato={this.props.addTomato}/>
             <CompletedList dates={this.props.finishedDatesByPage[this.state.finishedCurrent - 1]}
-                           tomatoes={this.props.finishedTomatoesByDay}/>
+                       tomatoes={this.props.finishedTomatoesByDay}/>
             <Pagination
               className="pagination"
               total={this.props.finishedDates.length}

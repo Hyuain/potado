@@ -1,6 +1,6 @@
 import React from 'react';
 import {format, parseISO} from 'date-fns';
-import './TomatoList.less';
+import './style.less';
 
 interface ITomatoListProps {
   finishedTomatoes: any

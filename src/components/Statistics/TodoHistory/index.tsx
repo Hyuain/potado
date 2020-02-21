@@ -1,15 +1,12 @@
 import React from 'react';
-import {groupByLength} from '@/utils/helpers';
-
+import {groupByLength} from '@/api/utils';
 import {connect} from 'react-redux';
 import {getTodosByFilter, groupByDay} from '@/redux/selectors';
 import {TODO_FILTERS} from '@/constants';
-
-import AbortedList from '../AbortedList';
-import CompletedList from '../CompletedList';
-
+import AbortedList from '@/components/Statistics/AbortedList';
+import CompletedList from '@/components/Statistics/CompletedList';
 import {Tabs, Pagination} from 'antd';
-import './TodoHistory.less';
+import './style.less';
 
 const {TabPane} = Tabs;
 

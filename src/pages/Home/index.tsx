@@ -1,16 +1,14 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
 import {connect} from 'react-redux';
-import actions from '../../redux/actions';
-import axios from '../../config/axios';
-
-import Todos from '../../components/Todos/Todos';
-import Tomatoes from '../../components/Tomatoes/Tomatoes';
-import Statistics from '../../components/Statistics/Statistics';
-
+import actions from '@/redux/actions';
+import axios from '@/api/axios';
+import Todos from '@/applications/Todos';
+import Tomatoes from '@/applications/Tomatoes';
+import Statistics from '@/applications/Statisitics';
 import {Dropdown, Menu, Icon, message} from 'antd';
-import './Home.less';
-import logo from '../../assets/images/logo.png'
+import './style.less';
+import logo from '@/assets/images/logo.png'
 
 interface IHomeProps {
   initTodos: (payload: any) => {

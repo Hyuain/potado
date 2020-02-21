@@ -1,12 +1,10 @@
 import React from 'react';
-import axios from '@/config/axios';
+import axios from '@/api/axios';
+import {getFriendlyDate} from '@/api/utils';
 import {format, parseISO} from 'date-fns';
-
 import {connect} from 'react-redux';
 import actions from '@/redux/actions';
-
-import './TomatoHistoryItem.less';
-import {getFriendlyDate} from '@/utils/helpers';
+import './style.less';
 
 interface ITomatoHistoryItemProps {
   type: string,

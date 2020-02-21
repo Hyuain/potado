@@ -1,5 +1,5 @@
 import React from 'react';
-import './CountDown.less';
+import './style.less';
 
 interface ICountDownProps {
   restTime: number,
