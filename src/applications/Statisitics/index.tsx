@@ -3,13 +3,12 @@ import {connect} from 'react-redux';
 import {getCompletedTodos, getFinishedTomatoes} from '@/redux/selectors';
 import {groupByDay} from '@/api/utils';
 import HistoryGraph from '@/components/Statistics/HistoryGraph';
-import TodoHistory from '@/components/Statistics/TodoHistory';
-import TomatoHistory from '@/components/Statistics/TomatoHistory';
+import HistoryDetails from '@/components/Statistics/HistoryDetails';
 import './style.less';
 import {RootState} from '@/redux/reducers';
 
 interface IStatisticsState {
-  currentIndex: string,
+  currentIndex: 'tomato' | 'todo',
   graphWidth: number,
   graphHeight: number
 }
@@ -30,31 +29,23 @@ class Statistics extends React.Component<ReduxType, IStatisticsState> {
       graphHeight = 60;
     }
     this.state = {
-      currentIndex: '1',
+      currentIndex: 'tomato',
       graphWidth,
       graphHeight
     };
   }
 
   onClick = (e: React.MouseEvent) => {
-    this.setState({currentIndex: e.currentTarget.getAttribute('data-index') || this.state.currentIndex});
+    this.setState({currentIndex: e.currentTarget.getAttribute('data-index') as 'tomato' | 'todo'});
   };
 
   public render() {
-    let HistoryDetails = <TomatoHistory/>;
-    switch (this.state.currentIndex) {
-      case '1':
-        HistoryDetails = <TomatoHistory/>;
-        break;
-      case '2':
-        HistoryDetails = <TodoHistory/>;
-    }
     const HistoryGraphs = (
       <ul>
         <li
-          className={`statistics-item ${this.state.currentIndex === '1' ? 'active' : ''}`}
+          className={`statistics-item ${this.state.currentIndex === 'tomato' ? 'active' : ''}`}
           onClick={this.onClick}
-          data-index="1">
+          data-index="tomato">
           <div className="text">
             <p>番茄历史</p>
             <p>累计完成番茄</p>
@@ -66,9 +57,9 @@ class Statistics extends React.Component<ReduxType, IStatisticsState> {
             width={this.state.graphWidth} height={this.state.graphHeight}/>
         </li>
         <li
-          className={`statistics-item ${this.state.currentIndex === '2' ? 'active' : ''}`}
+          className={`statistics-item ${this.state.currentIndex === 'todo' ? 'active' : ''}`}
           onClick={this.onClick}
-          data-index="2">
+          data-index="todo">
           <div className="text">
             <p>任务历史</p>
             <p>累计完成任务</p>
@@ -88,9 +79,7 @@ class Statistics extends React.Component<ReduxType, IStatisticsState> {
           HistoryGraphs
         }
         <div className="history-details">
-          {
-            HistoryDetails
-          }
+          <HistoryDetails type={this.state.currentIndex}/>
         </div>
       </div>
     );
