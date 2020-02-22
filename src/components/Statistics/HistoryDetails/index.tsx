@@ -8,6 +8,7 @@ import AbortedList from '@/components/Statistics/AbortedList';
 import {Tabs, Pagination} from 'antd';
 import {RootState} from '@/redux/reducers';
 import AddTomato from '@/components/Statistics/AddTomato';
+import './sytle.less'
 
 const {TabPane} = Tabs;
 

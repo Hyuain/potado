@@ -22,6 +22,7 @@
     align-items: center;
   }
 }
+
 .tomato-history {
   .tomato-history-tabs {
     .tomato-history-tab-pane {
@@ -95,6 +96,58 @@
               }
               .week-time {
                 position: static;
+              }
+            }
+          }
+        }
+      }
+      .pagination {
+        margin-top: 16px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.todo-history {
+  .todo-history-tabs {
+    .todo-history-tab-pane {
+      .daily-todos {
+        padding: 8px 16px;
+        border: @border;
+        border-radius: @border-radius;
+        margin-bottom: 8px;
+        display: flex;
+        flex-direction: column;
+        .title {
+          padding: 8px;
+          .date {
+            .date-time {
+              font-size: 20px;
+              margin-right: 4px;
+              color: @color-text;
+            }
+            .week-time {
+              color: @color-text-light;
+              font-size: 12px;
+            }
+          }
+          .finished-count {
+            font-size: 14px;
+            color: @color-text-light;
+          }
+        }
+        .details { flex: 1; }
+        @media(min-width: 500px){
+          padding: 16px;
+          flex-direction: row;
+          .title {
+            padding: 0;
+            flex-shrink: 0;
+            margin-right: 8px;
+            .date {
+              .date-time {
+                margin-right: 4px;
               }
             }
           }
