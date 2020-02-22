@@ -27,14 +27,15 @@
   .tomato-history-tabs {
     .tomato-history-tab-pane {
       position: relative;
+      border: 1px solid transparent;
       button {
         display: flex;
         justify-content: center;
         align-items: center;
         position: absolute;
         right: 0;
-        top: -52px;
         font-size: 20px;
+        top: -52px;
         color: @color-text-light;
         &:hover {
           color: @color-primary;
@@ -116,6 +117,7 @@
 .todo-history {
   .todo-history-tabs {
     .todo-history-tab-pane {
+      border: 1px solid transparent;
       .daily-todos {
         padding: 8px 16px;
         border: @border;

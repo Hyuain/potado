@@ -55,7 +55,6 @@ const CompletedList = (props: ICompletedListProps) => {
               </div>
             );
           })
-          })
         }
       </div>
     );
