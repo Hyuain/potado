@@ -35,6 +35,10 @@
         right: 0;
         top: -52px;
         font-size: 20px;
+        color: @color-text-light;
+        &:hover {
+          color: @color-primary;
+        }
       }
       .daily-tomatoes {
         padding: 8px 16px;
@@ -71,7 +75,7 @@
           .total-time {
             color: @color-text-light;
           }
-          &::after{
+          &::after {
             content: '';
             display: block;
             clear: both;
@@ -138,7 +142,7 @@
           }
         }
         .details { flex: 1; }
-        @media(min-width: 500px){
+        @media (min-width: 500px) {
           padding: 16px;
           flex-direction: row;
           .title {

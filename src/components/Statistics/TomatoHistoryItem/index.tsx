@@ -1,20 +1,29 @@
 import React from 'react';
 import axios from '@/api/axios';
 import {getFriendlyDate} from '@/api/utils';
-import {format, parseISO} from 'date-fns';
+import moment from 'moment';
 import {connect} from 'react-redux';
 import actions from '@/redux/actions';
+import {Dispatch} from 'redux';
+import {RootState} from '@/redux/reducers';
+import {message} from 'antd';
 import './style.less';
 
 interface ITomatoHistoryItemProps {
-  type: string,
-  tomato: any,
-  updateTomato: (payload: any) => any,
+  type: 'finished' | 'aborted',
+  tomato: Tomato,
 }
 
-class TomatoHistoryItem extends React.Component<ITomatoHistoryItemProps, any> {
+interface ITomatoHistoryItemState {
+  editing: boolean
+  textContent: string
+}
 
-  constructor(props: ITomatoHistoryItemProps) {
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
+
+class TomatoHistoryItem extends React.Component<ReduxType, ITomatoHistoryItemState> {
+
+  constructor(props: ReduxType) {
     super(props);
     this.state = {
       editing: false,
@@ -22,12 +31,12 @@ class TomatoHistoryItem extends React.Component<ITomatoHistoryItemProps, any> {
     };
   }
 
-  updateTomato = async (params: any) => {
+  updateTomato = async (params: TomatoUpdateParams) => {
     try {
-      const response = await axios.put(`tomatoes/${this.props.tomato.id}`, params);
+      const response = await axios.put<TomatoUpdateResponse>(`tomatoes/${this.props.tomato.id}`, params);
       this.props.updateTomato(response.data.resource);
     } catch (e) {
-
+      message.error('网络好像有点不太好哦，一会儿再试吧');
     }
   };
 
@@ -36,7 +45,7 @@ class TomatoHistoryItem extends React.Component<ITomatoHistoryItemProps, any> {
     this.setState({editing: false});
   };
 
-  onKeyup = (e: any) => {
+  onKeyup = (e: React.KeyboardEvent) => {
     if (e.keyCode === 13 && this.state.textContent !== '') {
       this.submitChange();
     }
@@ -66,12 +75,12 @@ class TomatoHistoryItem extends React.Component<ITomatoHistoryItemProps, any> {
     if (this.props.type === 'finished') {
       Time = (
         <span className="time">
-          {format(parseISO(this.props.tomato.started_at), 'HH:mm')} -
-          {format(parseISO(this.props.tomato.ended_at), 'HH:mm')}
+          {moment(this.props.tomato.started_at).format('HH:mm')} -
+          {moment(this.props.tomato.ended_at).format('HH:mm')}
         </span>)
       ;
     } else if (this.props.type === 'aborted') {
-      Time = (<span className="time">{getFriendlyDate(this.props.tomato.started_at,'monthAndDay')}</span>);
+      Time = (<span className="time">{getFriendlyDate(this.props.tomato.started_at, 'monthAndDay')}</span>);
     }
 
     let Action = null;
@@ -98,11 +107,9 @@ class TomatoHistoryItem extends React.Component<ITomatoHistoryItemProps, any> {
         );
       }
     }
-
-
     return (
       <div>
-        <div className={`tomato-history-item ${this.state.editing ? 'editing' : '' }`}>
+        <div className={`tomato-history-item ${this.state.editing ? 'editing' : ''}`}>
           <div className="text">
             {
               Time
@@ -120,12 +127,16 @@ class TomatoHistoryItem extends React.Component<ITomatoHistoryItemProps, any> {
   }
 }
 
-const mapStateToProps = (state: any, ownProps: any) => ({
+const mapStateToProps = (state: RootState, ownProps: ITomatoHistoryItemProps) => ({
   ...ownProps
 });
 
-const mapDispatchToProps = {
-  updateTomato: actions.updateTomato
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    updateTomato(payload: Tomato) {
+      dispatch(actions.updateTomato(payload));
+    }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TomatoHistoryItem);

@@ -4,12 +4,16 @@ import moment from 'moment';
 import {Button, DatePicker, Input, Modal, Popover, message} from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 
-const AddTomato = (props: any) => {
-  const [description, setDescription] = React.useState('');
-  const [startedAt, setStartedAt] = React.useState<any>(null);
-  const [visible, setVisible] = React.useState(false);
+interface IAddTomatoProps {
+  addTomato: (payload: Tomato) => void
+}
 
-  const onKeyUp = (e: any) => {
+const AddTomato = (props: IAddTomatoProps) => {
+  const [description, setDescription] = React.useState<string>('');
+  const [startedAt, setStartedAt] = React.useState<moment.Moment | null>(null);
+  const [visible, setVisible] = React.useState<boolean>(false);
+
+  const onKeyUp = (e: React.KeyboardEvent) => {
     if (e.keyCode === 13) {
       if (inputCheck()) {
         addTomato();
@@ -18,7 +22,7 @@ const AddTomato = (props: any) => {
   };
 
   const onConfirm = () => {
-    if(inputCheck()){
+    if (inputCheck()) {
       addTomato();
     }
   };
@@ -28,6 +32,10 @@ const AddTomato = (props: any) => {
       message.warning('还是说点儿什么吧');
       return false;
     }
+    if (!startedAt) {
+      message.warning('记得输入时间哦');
+      return false;
+    }
     return true;
   };
 
@@ -35,12 +43,11 @@ const AddTomato = (props: any) => {
     if (description === '') {
       setDescription('这是一个没有描述的番茄');
     }
-    // add 会修改原来的时间
-    const endedAt = moment(startedAt).add(25, 'minutes');
+    const endedAt = startedAt!.clone().add(25, 'minutes');
     try {
-      const response = await axios.post('tomatoes', {
-        started_at: startedAt.format(),
-        ended_at: endedAt.format(),
+      const response = await axios.post<TomatoUpdateResponse>('tomatoes', {
+        started_at: startedAt!.toISOString(),
+        ended_at: endedAt.toISOString(),
         description: description,
         manually_created: true
       });

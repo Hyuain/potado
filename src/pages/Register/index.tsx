@@ -27,7 +27,7 @@ const Register = () => {
     }
   };
 
-  const onKeyUp = (e: any) => {
+  const onKeyUp = (e: React.KeyboardEvent) => {
     if (e.keyCode === 13) {
       if (inputCheck()) {
         onRegister();

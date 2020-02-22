@@ -1,20 +1,20 @@
 import React from 'react';
-import {groupByLength} from '@/api/utils';
+import {groupByLength, groupByDay} from '@/api/utils';
 import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import actions from '@/redux/actions';
 import {getAbortedTomatoes, getCompletedTodos, getDeletedTodos, getFinishedTomatoes} from '@/redux/selectors';
-import {groupByDay} from '@/api/utils';
 import CompletedList from '@/components/Statistics/CompletedList';
 import AbortedList from '@/components/Statistics/AbortedList';
-import {Tabs, Pagination} from 'antd';
 import {RootState} from '@/redux/reducers';
 import AddTomato from '@/components/Statistics/AddTomato';
-import './sytle.less'
+import {Tabs, Pagination} from 'antd';
+import './sytle.less';
 
 const {TabPane} = Tabs;
 
 interface IHistoryDetailsProps {
   type: 'tomato' | 'todo'
-  addTomato?: (payload: Tomato) => void,
 }
 
 interface IHistoryDetailsState {
@@ -24,7 +24,7 @@ interface IHistoryDetailsState {
   todoCompletedCurrent: number
 }
 
-type ReduxType = ReturnType<typeof mapStateToProps>
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
 class HistoryDetails extends React.Component<ReduxType, IHistoryDetailsState> {
 
@@ -162,4 +162,12 @@ const mapStateToProps = (state: RootState, ownProps: IHistoryDetailsProps) => {
   };
 };
 
-export default connect(mapStateToProps)(HistoryDetails);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    addTomato(payload: Tomato) {
+      dispatch(actions.addTomato(payload));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HistoryDetails);

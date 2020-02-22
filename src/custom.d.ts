@@ -27,6 +27,7 @@ type TomatoUpdateParams = {
   aborted?: boolean
   description?: string
   ended_at?: string
+  manually_created?: boolean
 }
 
 
@@ -34,7 +35,10 @@ type Todo = {
   id: number
   description: string
   completed: boolean
+  completed_at: string
+  created_at: string
   editing?: boolean
+  deleted: boolean
 }
 
 type TodosGroup = {

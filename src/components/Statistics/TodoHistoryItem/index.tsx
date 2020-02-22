@@ -1,50 +1,51 @@
 import React from 'react';
-import {format, parseISO} from 'date-fns';
+import moment from 'moment';
 import axios from '@/api/axios';
 import {getFriendlyDate} from '@/api/utils';
-
 import {connect} from 'react-redux';
-import actions from '../../../redux/actions';
-
+import actions from '@/redux/actions';
+import {RootState} from '@/redux/reducers';
+import {Dispatch} from 'redux';
 import './style.less';
+import {message} from 'antd';
 
 
 interface ITodoHistoryItemProps {
-  todo: any,
-  type: string,
-  updateTodo: (payload: any) => void
+  todo: Todo
+  type: 'completed' | 'deleted'
 }
 
-class TodoHistoryItem extends React.Component<ITodoHistoryItemProps, any> {
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
+class TodoHistoryItem extends React.Component<ReduxType> {
 
-  updateTodo = async (params: any) => {
+  updateTodo = async (params: TodoUpdateParams) => {
     try {
-      const response = await axios.put(`todos/${this.props.todo.id}`, params);
+      const response = await axios.put<TodoUpdateResponse>(`todos/${this.props.todo.id}`, params);
       this.props.updateTodo(response.data.resource);
     } catch (e) {
-
+      message.error('网络好像有点不太好哦，一会儿再试吧');
     }
   };
 
   render() {
-    let time = null;
+    let Time = null;
     if (this.props.type === 'completed') {
-      time = (<span className="time">{format(parseISO(this.props.todo.completed_at), 'HH:mm')}</span>);
+      Time = (<span className="time">{moment(this.props.todo.completed_at).format('HH:mm')}</span>);
     } else if (this.props.type === 'deleted') {
-      time = (<span className="time">{getFriendlyDate(this.props.todo.created_at,'monthAndDay')}</span>);
+      Time = (<span className="time">{getFriendlyDate(this.props.todo.created_at, 'monthAndDay')}</span>);
     }
 
-    let action = null;
+    let Action = null;
     if (this.props.type === 'completed') {
-      action = (
+      Action = (
         <div className="action">
           <span onClick={() => this.updateTodo({completed: false})}>恢复</span>
           <span onClick={() => this.updateTodo({deleted: true})}>删除</span>
         </div>
       );
     } else if (this.props.type === 'deleted') {
-      action = (
+      Action = (
         <div className="action">
           <span onClick={() => this.updateTodo({deleted: false})}>恢复</span>
         </div>
@@ -56,12 +57,12 @@ class TodoHistoryItem extends React.Component<ITodoHistoryItemProps, any> {
         <div className="todo-history-item">
           <div className="text">
             {
-              time
+              Time
             }
             <span className="description">{this.props.todo.description}</span>
           </div>
           {
-            action
+            Action
           }
         </div>
       </div>
@@ -69,12 +70,16 @@ class TodoHistoryItem extends React.Component<ITodoHistoryItemProps, any> {
   }
 }
 
-const mapStateToProps = (state: any, ownProps: any) => ({
+const mapStateToProps = (state: RootState, ownProps: ITodoHistoryItemProps) => ({
   ...ownProps
 });
 
-const mapDispatchToProps = {
-  updateTodo: actions.updateTodo
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    updateTodo(payload: Todo) {
+      dispatch(actions.updateTodo(payload));
+    }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoHistoryItem);

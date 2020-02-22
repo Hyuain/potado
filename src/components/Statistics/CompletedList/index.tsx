@@ -33,7 +33,7 @@ const CompletedList = (props: ICompletedListProps) => {
         {
           dates.map((date) => {
             const tomatoes = tomatoesGroup[date];
-            const totalTime = tomatoes.reduce((totalTime: number, tomato: any) => {
+            const totalTime = tomatoes.reduce((totalTime: number, tomato: Tomato) => {
               return totalTime + Date.parse(tomato.ended_at) - Date.parse(tomato.started_at);
             }, 0);
             return (
@@ -48,7 +48,7 @@ const CompletedList = (props: ICompletedListProps) => {
                 </div>
                 <div className="details">
                   {
-                    tomatoes.map((tomato: any) => (
+                    tomatoes.map((tomato) => (
                       <TomatoHistoryItem key={tomato.id} tomato={tomato} type="finished"/>))
                   }
                 </div>
@@ -77,7 +77,7 @@ const CompletedList = (props: ICompletedListProps) => {
                 </div>
                 <div className="details">
                   {
-                    todos.map((todo: any) => (<TodoHistoryItem key={todo.id} todo={todo} type="completed"/>))
+                    todos.map((todo) => (<TodoHistoryItem key={todo.id} todo={todo} type="completed"/>))
                   }
                 </div>
               </div>

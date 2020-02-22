@@ -94,7 +94,7 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
   };
 
   public render() {
-    let Html: any;
+    let Html: JSX.Element;
     if (this.props.unfinishedTomato === undefined) {
       Html = <Button className="start-button" onClick={this.startTomato}>开始一个番茄</Button>;
     } else {
