@@ -2,22 +2,35 @@ import React from 'react';
 import TodoHistoryItem from '@/components/Statistics/TodoHistoryItem';
 import TomatoHistoryItem from '@/components/Statistics/TomatoHistoryItem';
 
-const AbortedList = (props: any) => {
+interface IAbortedListProps {
+  tomatoes?: Tomato[]
+  todos?: Todo[]
+}
+
+const AbortedList = (props: IAbortedListProps) => {
   if (props.todos) {
     return (
-      props.todos.map((todo: any) => (
-        <div key={todo.id}>
-          <TodoHistoryItem key={todo.id} todo={todo} type="deleted"/>
-        </div>
-      ))
+      <div>
+        {
+          props.todos.map((todo) => (
+            <div key={todo.id}>
+              <TodoHistoryItem key={todo.id} todo={todo} type="deleted"/>
+            </div>
+          ))
+        }
+      </div>
     );
   } else if (props.tomatoes) {
     return (
-      props.tomatoes.map((tomato: any) => (
-        <div key={tomato.id}>
-          <TomatoHistoryItem key={tomato.id} tomato={tomato} type="aborted"/>
-        </div>
-      ))
+      <div>
+        {
+          props.tomatoes.map((tomato) => (
+            <div key={tomato.id}>
+              <TomatoHistoryItem key={tomato.id} tomato={tomato} type="aborted"/>
+            </div>
+          ))
+        }
+      </div>
     );
   } else {
     return null;
