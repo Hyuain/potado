@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/potado/precache-manifest.c52109987d87fbf3d28e6b08f7be20de.js"
+  "/potado/precache-manifest.a98c47d038eb71a825c88a3e8ea86c09.js"
 );
 
 self.addEventListener('message', (event) => {
