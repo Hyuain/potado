@@ -40,7 +40,22 @@ export const getTodosByFilter = (state: any, todoFilter: string) => {
   }
 };
 
-const getTomatoes = (state: any) => (state.tomatoes);
+export const getTomatoes = (state: RootState) => (state.tomatoes);
+
+export const getFinishedTomatoes = (state: RootState) => {
+  const allTomatoes = getTomatoes(state);
+  return allTomatoes.filter((tomato: Tomato) => (tomato.description && tomato.ended_at && !tomato.aborted));
+};
+
+export const getUnfinishedTomato = (state: RootState) => {
+  const allTomatoes = getTomatoes(state);
+  return allTomatoes.filter((tomato: Tomato) => (!tomato.description && !tomato.ended_at && !tomato.aborted))[0];
+};
+
+export const getAbortedTomatoes = (state: RootState) => {
+  const allTomatoes = getTomatoes(state);
+  return allTomatoes.filter((tomato: Tomato) => (!tomato.ended_at && tomato.aborted));
+};
 
 export const getTomatoesByFilter = (state: any, tomatoFilter: string) => {
   const allTomatoes = getTomatoes(state);
@@ -56,8 +71,3 @@ export const getTomatoesByFilter = (state: any, tomatoFilter: string) => {
   }
 };
 
-export const groupByDay = (dataBeforeGroup: any[], keyOfTime: string) => {
-  return _.groupBy(dataBeforeGroup, (item) => {
-    return (format(parseISO(item[keyOfTime]), 'yyyy-MM-dd'));
-  });
-};

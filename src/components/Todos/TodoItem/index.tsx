@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import {Checkbox, Icon, message} from 'antd';
 import './style.less';
 
-interface ITodoItemProps extends Todo{
+interface ITodoItemProps extends Todo {
   updateTodo: (payload: Todo) => void
   editTodo: (id: number) => void
 }
@@ -42,7 +42,7 @@ const TodoItem = (props: ITodoItemProps) => {
 
   const updateTodo = async (params: TodoUpdateParams) => {
     if (params.completed) {
-      params.completed_at = new Date();
+      params.completed_at = new Date().toISOString();
     }
     try {
       const response = await axios.put<TodoUpdateResponse>(`todos/${props.id}`, params);

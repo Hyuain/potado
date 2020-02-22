@@ -1,4 +1,5 @@
-import {format, parseISO} from 'date-fns';
+import moment from 'moment';
+import _ from 'lodash';
 
 interface IWeekTimeTable {
   [key: string]: string
@@ -9,9 +10,9 @@ const weekTimeTable: IWeekTimeTable = {
 };
 
 export const getFriendlyDate = (date: string, method: string) => {
-  const ISODate = parseISO(date);
-  const monthAndDay = format(ISODate, 'M月d日');
-  const weekTime = format(ISODate, 'i');
+  const momentDate = moment(date);
+  const monthAndDay = momentDate.format('M月D日');
+  const weekTime = momentDate.format('i');
   switch (method) {
     case 'monthAndDay':
       return monthAndDay;
@@ -26,4 +27,10 @@ export const groupByLength = (array: any[], length: number) => {
     result.push(array.slice(i, i + length));
   }
   return result;
+};
+
+export const groupByDay = (dataBeforeGroup: any[], keyOfTime: string) => {
+  return _.groupBy(dataBeforeGroup, (item: any) => {
+    return moment(item[keyOfTime]).format('YYYY-MM-DD');
+  });
 };

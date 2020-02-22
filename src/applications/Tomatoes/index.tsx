@@ -3,27 +3,18 @@ import TomatoAction from '@/components/Tomatoes/TomatoAction';
 import TomatoList from '@/components/Tomatoes/TomatoList';
 import actions from '@/redux/actions';
 import {connect} from 'react-redux';
-import {TOMATO_FILTERS} from '@/constants';
-import {getTomatoesByFilter, groupByDay} from '@/redux/selectors';
+import {getFinishedTomatoes, getUnfinishedTomato} from '@/redux/selectors';
+import {groupByDay} from '@/api/utils';
 import './style.less';
+import {RootState} from '@/redux/reducers';
+import {Dispatch} from 'redux';
 
 interface ITomatoesProps {
-  tomatoes: any[],
-  addTomato: (payload: any) => {
-    type: string,
-    payload: any
-  },
-  updateTomato: (payload: any) => {
-    type: string,
-    payload: any
-  },
-  unfinishedTomato: any,
-  finishedTomatoes: any[],
-  finishedTomatoesByDay: any
 }
 
-const Tomatoes = (props: ITomatoesProps) => {
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
+const Tomatoes = (props: ReduxType) => {
   return (
     <div className="tomatoes">
       <TomatoAction
@@ -38,22 +29,29 @@ const Tomatoes = (props: ITomatoesProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: RootState, ownProps: ITomatoesProps) => {
   const tomatoes = state.tomatoes;
-  const finishedTomatoes = getTomatoesByFilter(state, TOMATO_FILTERS.FINISHED);
-  const unfinishedTomato = getTomatoesByFilter(state, TOMATO_FILTERS.UNFINISHED);
-  const finishedTomatoesByDay = groupByDay(finishedTomatoes, 'started_at');
+  const finishedTomatoes = getFinishedTomatoes(state);
+  const unfinishedTomato = getUnfinishedTomato(state);
+  const finishedTomatoesByDay: TomatoesGroup = groupByDay(finishedTomatoes, 'started_at');
   return {
     tomatoes,
     finishedTomatoes,
     unfinishedTomato,
-    finishedTomatoesByDay
+    finishedTomatoesByDay,
+    ...ownProps
   };
 };
 
-const mapDispatchToProps = {
-  addTomato: actions.addTomato,
-  updateTomato: actions.updateTomato,
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    addTomato(payload: Tomato) {
+      dispatch(actions.addTomato(payload));
+    },
+    updateTomato(payload: Tomato) {
+      dispatch(actions.updateTomato(payload));
+    }
+  };
 };
 
 export default connect(

@@ -1,11 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {TODO_FILTERS, TOMATO_FILTERS} from '@/constants';
-import {getTodosByFilter, getTomatoesByFilter, groupByDay} from '@/redux/selectors';
-import Graph from '@/components/Statistics/Graph';
+import {getCompletedTodos, getFinishedTomatoes} from '@/redux/selectors';
+import {groupByDay} from '@/api/utils';
+import HistoryGraph from '@/components/Statistics/HistoryGraph';
 import TodoHistory from '@/components/Statistics/TodoHistory';
 import TomatoHistory from '@/components/Statistics/TomatoHistory';
 import './style.less';
+import {RootState} from '@/redux/reducers';
 
 interface IStatisticsState {
   currentIndex: string,
@@ -14,16 +15,13 @@ interface IStatisticsState {
 }
 
 interface IStatisticsProps {
-  todos: any[],
-  completedTodos: any[],
-  completedTodosByDay: any,
-  finishedTomatoes: any[],
-  finishedTomatoesByDay: any
 }
 
-class Statistics extends React.Component<IStatisticsProps, IStatisticsState> {
+type ReduxType = ReturnType<typeof mapStateToProps>
 
-  constructor(props: IStatisticsProps) {
+class Statistics extends React.Component<ReduxType, IStatisticsState> {
+
+  constructor(props: ReduxType) {
     super(props);
     let graphWidth = (document.body.clientWidth - 32) / 2;
     let graphHeight = 70;
@@ -38,13 +36,12 @@ class Statistics extends React.Component<IStatisticsProps, IStatisticsState> {
     };
   }
 
-  onClick = (e: any) => {
-    this.setState({currentIndex: e.currentTarget.getAttribute('data-index')});
+  onClick = (e: React.MouseEvent) => {
+    this.setState({currentIndex: e.currentTarget.getAttribute('data-index') || this.state.currentIndex});
   };
 
   public render() {
-
-    let HistoryDetails: any;
+    let HistoryDetails = <TomatoHistory/>;
     switch (this.state.currentIndex) {
       case '1':
         HistoryDetails = <TomatoHistory/>;
@@ -52,7 +49,6 @@ class Statistics extends React.Component<IStatisticsProps, IStatisticsState> {
       case '2':
         HistoryDetails = <TodoHistory/>;
     }
-
     const HistoryGraphs = (
       <ul>
         <li
@@ -64,7 +60,7 @@ class Statistics extends React.Component<IStatisticsProps, IStatisticsState> {
             <p>累计完成番茄</p>
             <p>{this.props.finishedTomatoes.length}</p>
           </div>
-          <Graph
+          <HistoryGraph
             data={this.props.finishedTomatoesByDay}
             totalFinishCount={this.props.finishedTomatoes.length}
             width={this.state.graphWidth} height={this.state.graphHeight}/>
@@ -78,7 +74,7 @@ class Statistics extends React.Component<IStatisticsProps, IStatisticsState> {
             <p>累计完成任务</p>
             <p>{this.props.completedTodos.length}</p>
           </div>
-          <Graph
+          <HistoryGraph
             data={this.props.completedTodosByDay}
             totalFinishCount={this.props.completedTodos.length}
             width={this.state.graphWidth} height={this.state.graphHeight}/>
@@ -101,12 +97,12 @@ class Statistics extends React.Component<IStatisticsProps, IStatisticsState> {
   }
 }
 
-const mapStateToProps = (state: any, ownProps: any) => {
+const mapStateToProps = (state: RootState, ownProps: IStatisticsProps) => {
   const todos = state.todos;
-  const completedTodos = getTodosByFilter(state, TODO_FILTERS.COMPLETED);
-  const completedTodosByDay = groupByDay(completedTodos, 'completed_at');
-  const finishedTomatoes = getTomatoesByFilter(state, TOMATO_FILTERS.FINISHED);
-  const finishedTomatoesByDay = groupByDay(finishedTomatoes, 'ended_at');
+  const completedTodos = getCompletedTodos(state);
+  const completedTodosByDay: TodosGroup = groupByDay(completedTodos, 'completed_at');
+  const finishedTomatoes = getFinishedTomatoes(state);
+  const finishedTomatoesByDay: TomatoesGroup = groupByDay(finishedTomatoes, 'ended_at');
   return {
     todos,
     completedTodos,

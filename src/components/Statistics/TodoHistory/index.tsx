@@ -1,21 +1,17 @@
 import React from 'react';
 import {groupByLength} from '@/api/utils';
 import {connect} from 'react-redux';
-import {getTodosByFilter, groupByDay} from '@/redux/selectors';
-import {TODO_FILTERS} from '@/constants';
+import {getCompletedTodos, getDeletedTodos} from '@/redux/selectors';
+import {groupByDay} from '@/api/utils';
 import AbortedList from '@/components/Statistics/AbortedList';
 import CompletedList from '@/components/Statistics/CompletedList';
 import {Tabs, Pagination} from 'antd';
 import './style.less';
+import {RootState} from '@/redux/reducers';
 
 const {TabPane} = Tabs;
 
 interface ITodoHistoryProps {
-  deletedTodos: any[],
-  deletedTodosByPage: any[],
-  completedTodosByDay: any[],
-  completedDatesByPage: any[],
-  completedDates: any[]
 }
 
 interface ITodoHistoryState {
@@ -23,9 +19,11 @@ interface ITodoHistoryState {
   completedCurrent: number
 }
 
-class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> {
+type ReduxType = ReturnType<typeof mapStateToProps>
 
-  constructor(props: ITodoHistoryProps) {
+class TodoHistory extends React.Component<ReduxType, ITodoHistoryState> {
+
+  constructor(props: ReduxType) {
     super(props);
     this.state = {
       deletedCurrent: 1,
@@ -33,17 +31,25 @@ class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> 
     };
   }
 
+  get completedDates(): string[] {
+    return Object.keys(this.props.completedTodosByDay).sort((a, b) => (Date.parse(b) - Date.parse(a)));
+  };
+
+  get completedDatesByPage(): string[][] {
+    return groupByLength(this.completedDates, 5);
+  };
+
   public render() {
     return (
       <div className="todo-history">
         <Tabs className="todo-history-tabs" type="card">
 
           <TabPane className="todo-history-tab-pane" tab="已完成的任务" key="1">
-            <CompletedList dates={this.props.completedDatesByPage[this.state.completedCurrent - 1]}
+            <CompletedList dates={this.completedDatesByPage[this.state.completedCurrent - 1]}
                            todos={this.props.completedTodosByDay}></CompletedList>
             <Pagination
               className="pagination"
-              total={this.props.completedDates.length}
+              total={this.completedDates.length}
               onChange={(current: number) => {
                 this.setState({completedCurrent: current});
               }}
@@ -69,20 +75,16 @@ class TodoHistory extends React.Component<ITodoHistoryProps, ITodoHistoryState> 
   }
 }
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  const deletedTodos = getTodosByFilter(state, TODO_FILTERS.DELETED);
-  const deletedTodosByPage = groupByLength(deletedTodos, 10);
-  const completedTodos = getTodosByFilter(state, TODO_FILTERS.COMPLETED);
-  const completedTodosByDay = groupByDay(completedTodos, 'completed_at');
-  const completedDates = Object.keys(completedTodosByDay).sort((a, b) => (Date.parse(b) - Date.parse(a)));
-  const completedDatesByPage = groupByLength(completedDates, 5);
+const mapStateToProps = (state: RootState, ownProps: ITodoHistoryProps) => {
+  const deletedTodos = getDeletedTodos(state);
+  const deletedTodosByPage: Todo[][] = groupByLength(deletedTodos, 10);
+  const completedTodos = getCompletedTodos(state);
+  const completedTodosByDay: TodosGroup = groupByDay(completedTodos, 'completed_at');
 
   return {
     deletedTodos,
     deletedTodosByPage,
     completedTodosByDay,
-    completedDates,
-    completedDatesByPage,
     ...ownProps
   };
 };

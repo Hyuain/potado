@@ -7,22 +7,16 @@ import './style.less';
 const {confirm} = Modal;
 
 interface ITomatoActionProps {
-  addTomato: (payload: any) => {
-    type: string,
-    payload: any
-  },
-  updateTomato: (payload: any) => {
-    type: string,
-    payload: any
-  },
-  unfinishedTomato: any
+  addTomato: (payload:Tomato) => void
+  updateTomato: (payload:Tomato)=>void
+  unfinishedTomato: Tomato
 }
 
 interface ITomatoActionState {
   description: string
 }
 
-class Index extends React.Component<ITomatoActionProps, ITomatoActionState> {
+class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionState> {
 
   constructor(props: ITomatoActionProps) {
     super(props);
@@ -33,7 +27,7 @@ class Index extends React.Component<ITomatoActionProps, ITomatoActionState> {
 
   startTomato = async () => {
     try {
-      const response = await axios.post('tomatoes', {duration: 25 * 60 * 1000});
+      const response = await axios.post<TomatoUpdateResponse>('tomatoes', {duration: 25 * 60 * 1000});
       this.props.addTomato(response.data.resource);
     } catch (e) {
       message.error('网络好像有点不太好哦，一会儿再试吧');
@@ -58,9 +52,9 @@ class Index extends React.Component<ITomatoActionProps, ITomatoActionState> {
     document.title = 'Potado - 你的番茄土豆';
   };
 
-  updateTomato = async (params: any) => {
+  updateTomato = async (params: TomatoUpdateParams) => {
     try {
-      const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`, params);
+      const response = await axios.put<TomatoUpdateResponse>(`tomatoes/${this.props.unfinishedTomato.id}`, params);
       this.props.updateTomato(response.data.resource);
     } catch (e) {
       message.error('网络好像有点不太好哦，一会儿再试吧');
@@ -72,7 +66,7 @@ class Index extends React.Component<ITomatoActionProps, ITomatoActionState> {
     document.title = 'Potado - 你的番茄土豆';
   };
 
-  onKeyUp = (e: any) => {
+  onKeyUp = (e: React.KeyboardEvent) => {
     if (e.keyCode === 13) {
       if (this.inputCheck()) {
         this.addDescription();
@@ -94,7 +88,7 @@ class Index extends React.Component<ITomatoActionProps, ITomatoActionState> {
     }
     this.updateTomato({
       description: this.state.description,
-      ended_at: new Date()
+      ended_at: new Date().toISOString()
     });
     this.setState({description: ''});
   };
@@ -151,4 +145,4 @@ class Index extends React.Component<ITomatoActionProps, ITomatoActionState> {
   }
 }
 
-export default Index;
+export default TomatoAction;

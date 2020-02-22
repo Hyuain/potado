@@ -1,22 +1,22 @@
 import React from 'react';
-import {format, parseISO} from 'date-fns';
+import moment from 'moment';
 import './style.less';
 
-interface ITomatoListProps {
-  finishedTomatoes: any
-}
-
-const TomatoItem = (props: any) => {
+const TomatoItem = (props: Tomato) => {
   return (
     <div className="tomato-item">
       <span
-        className="time-range">{format(parseISO(props.started_at), 'HH:mm')} - {format(parseISO(props.ended_at), 'HH:mm')}</span>
+        className="time-range">{moment(props.started_at).format('HH:mm')} - {moment(props.ended_at).format('HH:mm')}</span>
       <span className="description">{props.description}</span>
     </div>
   );
 };
 
-class TomatoList extends React.Component<ITomatoListProps, any> {
+interface ITomatoListProps {
+  finishedTomatoes: TomatoesGroup
+}
+
+class TomatoList extends React.Component<ITomatoListProps> {
 
   get dates() {
     const dates = Object.keys(this.props.finishedTomatoes);
@@ -24,18 +24,17 @@ class TomatoList extends React.Component<ITomatoListProps, any> {
   }
 
   public render() {
-
     const List = this.dates.map(date => {
       const tomatoes = this.props.finishedTomatoes[date];
       const Title = (
         <div className="title">
-          <span className="date-time">{format(new Date(date), 'M月d日')}</span>
+          <span className="date-time">{moment(date).format('M月D日')}</span>
           <span className="finished-count">完成了 {tomatoes.length} 个番茄</span>
         </div>
       );
       const Details = (
         <div className="details">
-          {tomatoes.map((tomato: any) => (<TomatoItem key={tomato.id} {...tomato}/>))}
+          {tomatoes.map((tomato: Tomato) => (<TomatoItem key={tomato.id} {...tomato}/>))}
         </div>
       );
       return (

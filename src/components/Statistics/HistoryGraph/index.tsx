@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface IGraphProps {
-  data: any,
+  data: TomatoesGroup | TodosGroup,
   totalFinishCount: number,
   width: number,
   height: number

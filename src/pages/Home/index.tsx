@@ -47,7 +47,7 @@ const Home = (props: ReduxType) => {
     };
     const getTomatoes = async () => {
       try {
-        const response = await axios.get<TomatoResponse>('tomatoes');
+        const response = await axios.get<TomatoGetResponse>('tomatoes');
         props.initTomatoes(response.data.resources);
       } catch (e) {
         if (e.response.status === 401) {
